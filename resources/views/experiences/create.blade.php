@@ -1,0 +1,387 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <h5 class="card-header text-black">
+                    <i class="bx bx-briefcase"></i> Add Work Experience
+                    <small class="text-muted">for {{ $employee->employee_name }} ({{ $employee->file_number }})</small>
+                </h5>
+                <div class="card-body">
+                    <form action="{{ route('experiences.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+
+                        {{-- Hidden field for employee_id --}}
+                        <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+
+                        <!-- Basic Information Section -->
+                        <h6 class="text-primary mt-2 mb-3">
+                            <i class="bx bx-info-circle"></i> Basic Information
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="job_title" class="form-label">Job Title <span class="text-danger">*</span></label>
+                                            <input type="text"
+                                                   class="form-control @error('job_title') is-invalid @enderror"
+                                                   id="job_title"
+                                                   name="job_title"
+                                                   value="{{ old('job_title') }}"
+                                                   placeholder="Enter job title"
+                                                   required>
+                                            @error('job_title')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="institution" class="form-label">Institution/Company <span class="text-danger">*</span></label>
+                                            <input type="text"
+                                                   class="form-control @error('institution') is-invalid @enderror"
+                                                   id="institution"
+                                                   name="institution"
+                                                   value="{{ old('institution') }}"
+                                                   placeholder="Enter institution name"
+                                                   required>
+                                            @error('institution')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="experience_type" class="form-label">Experience Type</label>
+                                            <select class="form-control @error('experience_type') is-invalid @enderror"
+                                                    id="experience_type"
+                                                    name="experience_type">
+                                                <option value="previous" {{ old('experience_type') == 'previous' ? 'selected' : '' }}>Previous Experience</option>
+                                                <option value="current" {{ old('experience_type') == 'current' ? 'selected' : '' }}>Current Experience</option>
+                                            </select>
+                                            @error('experience_type')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="employment_type" class="form-label">Employment Type</label>
+                                            <select class="form-control @error('employment_type') is-invalid @enderror"
+                                                    id="employment_type"
+                                                    name="employment_type">
+                                                <option value="">Select Employment Type</option>
+                                                <option value="full-time" {{ old('employment_type') == 'full-time' ? 'selected' : '' }}>Full Time</option>
+                                                <option value="part-time" {{ old('employment_type') == 'part-time' ? 'selected' : '' }}>Part Time</option>
+                                                <option value="contract" {{ old('employment_type') == 'contract' ? 'selected' : '' }}>Contract</option>
+                                                <option value="temporary" {{ old('employment_type') == 'temporary' ? 'selected' : '' }}>Temporary</option>
+                                                <option value="internship" {{ old('employment_type') == 'internship' ? 'selected' : '' }}>Internship</option>
+                                                <option value="volunteer" {{ old('employment_type') == 'volunteer' ? 'selected' : '' }}>Volunteer</option>
+                                            </select>
+                                            @error('employment_type')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="location" class="form-label">Location</label>
+                                            <input type="text"
+                                                   class="form-control @error('location') is-invalid @enderror"
+                                                   id="location"
+                                                   name="location"
+                                                   value="{{ old('location') }}"
+                                                   placeholder="City, Country">
+                                            @error('location')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date Information Section -->
+                        <h6 class="text-primary mt-2 mb-3">
+                            <i class="bx bx-calendar"></i> Date Information
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="from_date" class="form-label">From Date <span class="text-danger">*</span></label>
+                                            <input type="date"
+                                                   class="form-control @error('from_date') is-invalid @enderror"
+                                                   id="from_date"
+                                                   name="from_date"
+                                                   value="{{ old('from_date') }}"
+                                                   required>
+                                            @error('from_date')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="to_date" class="form-label">To Date</label>
+                                            <input type="date"
+                                                   class="form-control @error('to_date') is-invalid @enderror"
+                                                   id="to_date"
+                                                   name="to_date"
+                                                   value="{{ old('to_date') }}">
+                                            <small class="form-text text-muted">
+                                                <i class="bx bx-info-circle"></i> Leave blank if currently working here
+                                            </small>
+                                            @error('to_date')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-check mt-2">
+                                            <input type="checkbox"
+                                                   class="form-check-input"
+                                                   id="is_current"
+                                                   name="is_current"
+                                                   value="1"
+                                                   {{ old('is_current') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="is_current">
+                                                I currently work here
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description Section -->
+                        <h6 class="text-primary mt-2 mb-3">
+                            <i class="bx bx-detail"></i> Job Description
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Job Description</label>
+                                            <textarea class="form-control @error('description') is-invalid @enderror"
+                                                      id="description"
+                                                      name="description"
+                                                      rows="3"
+                                                      placeholder="Describe the main responsibilities and duties">{{ old('description') }}</textarea>
+                                            @error('description')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="responsibilities" class="form-label">Key Responsibilities</label>
+                                            <textarea class="form-control @error('responsibilities') is-invalid @enderror"
+                                                      id="responsibilities"
+                                                      name="responsibilities"
+                                                      rows="4"
+                                                      placeholder="List key responsibilities (one per line)">{{ old('responsibilities') }}</textarea>
+                                            <small class="form-text text-muted">
+                                                <i class="bx bx-bulb"></i> Enter each responsibility on a new line
+                                            </small>
+                                            @error('responsibilities')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="achievements" class="form-label">Key Achievements</label>
+                                            <textarea class="form-control @error('achievements') is-invalid @enderror"
+                                                      id="achievements"
+                                                      name="achievements"
+                                                      rows="3"
+                                                      placeholder="List notable achievements (one per line)">{{ old('achievements') }}</textarea>
+                                            @error('achievements')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compensation Section (Optional) -->
+                        <h6 class="text-primary mt-2 mb-3">
+                            <i class="bx bx-money"></i> Compensation (Optional)
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="salary" class="form-label">Monthly Salary</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">ETB</span>
+                                                <input type="number"
+                                                       class="form-control @error('salary') is-invalid @enderror"
+                                                       id="salary"
+                                                       name="salary"
+                                                       value="{{ old('salary') }}"
+                                                       placeholder="0.00"
+                                                       step="0.01">
+                                            </div>
+                                            @error('salary')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="currency" class="form-label">Currency</label>
+                                            <select class="form-control @error('currency') is-invalid @enderror"
+                                                    id="currency"
+                                                    name="currency">
+                                                <option value="ETB" {{ old('currency') == 'ETB' ? 'selected' : '' }}>ETB - Ethiopian Birr</option>
+                                                <option value="USD" {{ old('currency') == 'USD' ? 'selected' : '' }}>USD - US Dollar</option>
+                                                <option value="EUR" {{ old('currency') == 'EUR' ? 'selected' : '' }}>EUR - Euro</option>
+                                                <option value="GBP" {{ old('currency') == 'GBP' ? 'selected' : '' }}>GBP - British Pound</option>
+                                            </select>
+                                            @error('currency')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Information -->
+                        <h6 class="text-primary mt-2 mb-3">
+                            <i class="bx bx-info-square"></i> Additional Information
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="supervisor_name" class="form-label">Supervisor Name</label>
+                                            <input type="text"
+                                                   class="form-control @error('supervisor_name') is-invalid @enderror"
+                                                   id="supervisor_name"
+                                                   name="supervisor_name"
+                                                   value="{{ old('supervisor_name') }}"
+                                                   placeholder="Name of direct supervisor">
+                                            @error('supervisor_name')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="display_order" class="form-label">Display Order</label>
+                                            <input type="number"
+                                                   class="form-control @error('display_order') is-invalid @enderror"
+                                                   id="display_order"
+                                                   name="display_order"
+                                                   value="{{ old('display_order', $employee->experiences->count() + 1) }}"
+                                                   placeholder="Order in which to display">
+                                            <small class="form-text text-muted">
+                                                <i class="bx bx-sort"></i> Lower numbers appear first
+                                            </small>
+                                            @error('display_order')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bx bx-save"></i> Save Experience
+                                </button>
+                                <a href="{{ route('employees.show', $employee->id) }}" class="btn btn-secondary">
+                                    <i class="bx bx-x"></i> Cancel
+                                </a>
+                                @if($employee->experiences->count() > 0)
+                                    <a href="{{ route('experiences.index', $employee->id) }}" class="btn btn-info">
+                                        <i class="bx bx-list-ul"></i> View All Experiences
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    // Auto-handle current checkbox
+    document.getElementById('is_current').addEventListener('change', function() {
+        const toDateField = document.getElementById('to_date');
+        if (this.checked) {
+            toDateField.value = '';
+            toDateField.disabled = true;
+            toDateField.placeholder = 'Currently working here';
+        } else {
+            toDateField.disabled = false;
+            toDateField.placeholder = '';
+        }
+    });
+
+    // Trigger on page load
+    if (document.getElementById('is_current').checked) {
+        document.getElementById('to_date').disabled = true;
+    }
+
+    // Experience type change handler
+    document.getElementById('experience_type').addEventListener('change', function() {
+        const isCurrentCheckbox = document.getElementById('is_current');
+        if (this.value === 'current') {
+            isCurrentCheckbox.checked = true;
+            isCurrentCheckbox.dispatchEvent(new Event('change'));
+        } else {
+            isCurrentCheckbox.checked = false;
+            isCurrentCheckbox.dispatchEvent(new Event('change'));
+        }
+    });
+</script>
+@endpush
+
+@push('styles')
+<style>
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border: none;
+    }
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+    }
+    .form-label {
+        font-weight: 500;
+    }
+    .text-primary {
+        color: #0d6efd !important;
+    }
+    .bx {
+        margin-right: 5px;
+    }
+</style>
+@endpush
+@endsection
