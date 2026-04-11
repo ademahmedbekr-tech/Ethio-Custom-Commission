@@ -17,7 +17,7 @@ class ProfileController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('front.news');
+        return redirect()->route('login');
     }
     public function passwordUpdate(Request $request)
     {
@@ -36,7 +36,7 @@ class ProfileController extends Controller
             $user->save();
 
             // Auth::logout();
-            return redirect()->route('front.news')->with('success', 'Password Changed Succesfully');
+            return redirect()->route('login')->with('success', 'Password Changed Succesfully');
         } else {
             return redirect()->back()->with('error', 'Current Password is Incorrect');
         }

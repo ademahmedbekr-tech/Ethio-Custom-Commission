@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\EmployeeExport;
 use App\Imports\EmployeesImport;
+use App\Models\Department;
 use App\Models\Employee;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -20,6 +21,21 @@ use Mpdf\Mpdf;
 
 class EmployeeController extends Controller
 {
+
+
+
+  public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('permission:profile-list|profile-create|profile-edit|profile-delete', ['only' => ['index', 'store']]);
+
+        $this->middleware('permission:profile-create', ['only' => ['create', 'store']]);
+
+        $this->middleware('permission:profile-edit', ['only' => ['edit', 'update']]);
+
+        $this->middleware('permission:profile-delete', ['only' => ['destroy']]);
+    }
     /**
      * Dashboard/Summary page
      */
@@ -64,10 +80,10 @@ class EmployeeController extends Controller
             ->limit(10)
             ->get();
 
-        // Recent employees
+
         $recentEmployees = Employee::latest()->take(5)->get();
 
-        // Salary statistics
+
         $avgSalary = Employee::whereNull('deleted_at')->avg('salary');
         $totalPayroll = Employee::whereNull('deleted_at')->sum(DB::raw('COALESCE(salary, 0) + COALESCE(allowance, 0) + COALESCE(housing_allowance, 0)'));
 
@@ -210,14 +226,14 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        $department = Department::get();
         // Predefined lists
         $genders = ['ወ', 'ሴ'];
         $maritalStatuses = ['Single', 'Married', 'Divorced', 'Widowed'];
         $educationLevels = ['High School', 'Diploma', 'Bachelor', 'Master', 'PhD', 'Certificate', 'Other'];
         $educationTypes = ['Formal', 'Informal', 'Technical', 'Vocational', 'Religious', 'Other'];
-        $religions = ['Christian', 'Muslim', 'Traditional', 'Other'];
+        $religions = ['ኦርቶዶክስ', 'ፕሮቴስታንት', 'ሙስሊም', 'Waaqeeffannaa', 'Other'];
         $ethnicities = ['Oromo', 'Amhara', 'Tigray', 'Somali', 'Gurage', 'Sidama', 'Wolayta', 'Afar', 'Other'];
-        $jobLevels = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
         $disabilityTypes = ['Physical', 'Visual', 'Hearing', 'Speech', 'Intellectual', 'Mental', 'None'];
 
         // Regions of Ethiopia
@@ -244,9 +260,9 @@ class EmployeeController extends Controller
             'educationTypes',
             'religions',
             'ethnicities',
-            'jobLevels',
             'regions',
-            'disabilityTypes'
+            'disabilityTypes',
+            'department'
         ));
     }
 
@@ -288,6 +304,8 @@ class EmployeeController extends Controller
             'house_number' => 'nullable|string|max:50',
             'phone_number' => 'nullable|string|max:20',
             'email' => 'nullable|email|unique:employees,email',
+            'fan_number' => 'nullable|string|max:100,',
+
 
             // Education
             'education_type' => 'nullable|string|max:100',
@@ -318,6 +336,7 @@ class EmployeeController extends Controller
             // Files
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'document' => 'nullable|mimes:pdf,doc,docx,txt|max:5120',
+            'department_id' => 'nullable'
         ]);
 
         // Handle photo upload
@@ -356,11 +375,18 @@ class EmployeeController extends Controller
         }
 
         // Set boolean fields
+
         $validated['coc_certificate'] = $request->has('coc_certificate');
         $validated['higher_ed_verified'] = $request->has('higher_ed_verified');
 
         // Create employee
-        $employee = Employee::create($validated);
+        // $employee = Employee::create($validated);
+        Employee::create([
+            'employee_name' => $request->employee_name,
+            'department_id' =>$request->department,
+        ]);
+
+
 
         return redirect()->route('employees.index')
             ->with('success', 'Employee created successfully.');
@@ -455,6 +481,7 @@ class EmployeeController extends Controller
             'house_number' => 'nullable|string|max:50',
             'phone_number' => 'nullable|string|max:20',
             'email' => 'nullable|email|unique:employees,email,'.$id,
+            'fan_number' => 'nullable|string|max:100,',
             'education_type' => 'nullable|string|max:100',
             'education_level' => 'nullable|string|max:100',
             'cgpa' => 'nullable|numeric|min:0|max:4',
@@ -472,6 +499,7 @@ class EmployeeController extends Controller
             'previous_to' => 'nullable|date',
             'column_40' => 'nullable|string|max:255',
             'diagnosis' => 'nullable|string',
+            'diroctorates' => 'nullable|string|max:255',
             'disability_type' => 'nullable|string|max:255',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'document' => 'nullable|mimes:pdf,doc,docx,txt|max:5120',

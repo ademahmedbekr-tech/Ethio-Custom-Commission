@@ -125,7 +125,10 @@
                                     <td>{{ $dept->name }}</td>
                                     <td>{{ $dept->code }}</td>
                                     <td>{{ $dept->description }}</td>
-                                    <td>{{ $dept->head_id }}</td>
+                                    <td>{{ $dept->manage?->name }}</td>
+
+
+
                                     <td>
                                         <div class="d-flex gap-2">
                                             <!-- View Button -->

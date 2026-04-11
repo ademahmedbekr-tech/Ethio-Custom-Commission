@@ -106,6 +106,7 @@
 
                             <?php echo $__env->make('users.create', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
+
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="text-primary">
@@ -122,7 +123,8 @@
                                             <tr>
                                                 <td><?php echo e(++$i); ?></td>
                                                 <td>
-                                                        <img src="<?php echo e($user->profile_photo_path); ?>" class="w-px-40 h-auto rounded-circle"> <?php echo e($user->name); ?>
+                                                    <img src="<?php echo e($user->profile_photo_path); ?>"
+                                                        class="w-px-40 h-auto rounded-circle"> <?php echo e($user->name); ?>
 
                                                 </td>
                                                 <td><?php echo e($user->email); ?></td>
@@ -133,23 +135,54 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user-edit')): ?>
-                                                        <a href="<?php echo e(route('users.edit', $user->id)); ?>"
-                                                            class="btn btn-primary btn-sm">
-                                                            Edit
-                                                        </a>
+                                                        <button class="btn btn-icon me-1" data-bs-target="#editUser<?php echo e($user->id); ?>"
+                                                            data-bs-toggle="modal" data-bs-dismiss="modal">
+                                                            <i class="icon-base bx bx-edit icon-md"></i>
+                                                        </button>
                                                     <?php endif; ?>
+                                                    <?php echo $__env->make('_partials._modals.modal-edit-user', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
 
                                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user-delete')): ?>
-                                                        <?php echo Form::open([
-                                                            'method' => 'DELETE',
-                                                            'route' => ['users.destroy', $user->id],
-                                                            'style' => 'display:inline',
-                                                        ]); ?>
+                                                        <button type="button" class="btn btn-sm btn-danger"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#deleteAdmin<?php echo e($user->id); ?>"
+                                                            title="Delete User">
+                                                            <i class="bx bx-trash"></i>
+                                                        </button>
 
-                                                        <?php echo Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']); ?>
 
-                                                        <?php echo Form::close(); ?>
-
+                                                        <!-- Delete Confirmation Modal -->
+                                                        <div class="modal fade" id="deleteAdmin<?php echo e($user->id); ?>"
+                                                            tabindex="-1" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Confirm Delete</h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Are you sure you want to delete Admin
+                                                                        <strong>"<?php echo e($user->name); ?>"</strong>?
+                                                                        <br>
+                                                                        <small class="text-danger">This action cannot be
+                                                                            undone.</small>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Cancel</button>
+                                                                        <form action="<?php echo e(route('users.destroy', $user->id)); ?>"
+                                                                            method="POST" class="d-inline">
+                                                                            <?php echo csrf_field(); ?>
+                                                                            <?php echo method_field('DELETE'); ?>
+                                                                            <button type="submit"
+                                                                                class="btn btn-danger">Delete</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>

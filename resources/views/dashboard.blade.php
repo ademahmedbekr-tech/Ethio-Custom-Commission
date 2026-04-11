@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
                         <div class="card-body pb-0 px-0 px-md-4">
-                            <img src="{{ asset('Photo/Picture1.jpg') }}" height="140" alt="View Badge User"
+                            <img src="{{ Auth::user()->profile_photo_path }}" height="140" width="auto" alt="View Badge User"
                                 />
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <span class="fw-semibold d-block mb-1">Total Workers</span>
-                            <h3 class="card-title mb-2"> {{ $all }} </h3>
+                            <h3 class="card-title mb-2"> {{ $total_employee }} </h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{ __('updates') }}
                             </small>
                         </div>
@@ -100,8 +100,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <span> {{ __('Member officers') }} </span>
-                            <h3 class="card-title text-nowrap mb-1"> {{ $officers }} </h3>
+                            <span> {{ __('Diroctorates') }} </span>
+                            <h3 class="card-title text-nowrap mb-1"> {{ $diroctorates }} </h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{ __('updates') }}
                             </small>
                         </div>
@@ -112,7 +112,7 @@
         {{-- Total Reven --}}
         <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
             <div class="card">
-                <h5 class="card-header m-0 pb-3">Individuals & Organization Members</h5>
+                <h5 class="card-header m-0 pb-3">Total Workers Data Bar</h5>
                 <div id="zoneMembersChart" class="px-2" style="min-height: 200px;"></div>
             </div>
         </div>
@@ -241,7 +241,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
+                {{-- <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex flex-column align-items-center gap-1">
                             <h2 class="mb-2">
@@ -249,7 +249,7 @@
                             </h2>
                             <span>Total Types</span>
                         </div>
-                        <div id="positionPieChart"></div>
+                        <div id=""></div>
                     </div>
                     <ul class="p-0 m-0">
                         <li class="d-flex mb-4 pb-1">
@@ -311,7 +311,7 @@
                             </div>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
         <!--/ Order Statistics -->
@@ -1035,7 +1035,7 @@
         </div>
     </div>
 @endsection
-{{-- @push('Scripts') --}}
+
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -1286,7 +1286,3 @@
     });
 </script>
 
-
-
-
-{{-- @endpush --}}

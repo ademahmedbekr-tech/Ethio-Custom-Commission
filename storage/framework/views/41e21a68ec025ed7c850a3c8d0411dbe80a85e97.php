@@ -22,29 +22,29 @@
     body {
         font-family: 'Abyssinica SIL', 'Nyala', 'Ethiopic', 'DejaVu Sans', sans-serif;
         direction: ltr;
-        font-size: 12px;
+        font-size: 11px;
         line-height: 1.3;
-        margin: 10px 15px;
+        margin: 8px 12px;
         background: #fffcf0;
         color: #2c3e50;
     }
 
     .container {
         background: rgba(255, 255, 255, 0.95);
-        padding: 12px;
+        padding: 10px;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .header {
         text-align: center;
-        margin-bottom: 15px;
-        padding-bottom: 8px;
+        margin-bottom: 12px;
+        padding-bottom: 6px;
         border-bottom: 2px solid #c4a27a;
     }
 
     .header h1 {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
         margin: 0;
         color: #2c1810;
@@ -52,7 +52,7 @@
     }
 
     .header h2 {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
         margin: 3px 0;
         color: #4a3525;
@@ -64,86 +64,120 @@
     .form-table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
 
     .form-table td {
-        padding: 6px 8px;
+        padding: 5px 6px;
+        border: 1px solid #d4c9b7;
         vertical-align: middle;
     }
 
     .form-table td:first-child {
-        width: 40%;
+        width: 35%;
         background-color: #faf5eb;
         font-weight: bold;
     }
 
     .form-table td:last-child {
-        width: 60%;
+        width: 65%;
         background-color: white;
     }
 
     .label {
         font-weight: bold;
         color: #5c3e2d;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .value {
         border-bottom: 1px dotted #8b6b4d;
-        padding: 3px 5px;
-        min-height: 25px;
-        display: flex;
-        align-items: center;
+        padding: 2px 5px;
+        min-height: 22px;
+        display: inline-block;
     }
 
     .value:empty::before {
-        content: '________';
+        content: '_______________';
         color: #c4a27a;
         opacity: 0.5;
     }
 
     .experience-section {
-        margin: 15px 0 10px;
-        padding: 10px;
-        border: 0px solid #ffffff;
+        margin: 10px 0 8px;
+        padding: 8px;
+        border: 1px solid #e8ddcc;
         border-radius: 6px;
+        background: white;
+        overflow-x: auto;
     }
 
     .experience-section h3 {
-        font-size: 15px;
+        font-size: 13px;
         font-weight: bold;
         text-align: center;
-        margin: -18px auto 10px;
+        margin: -14px auto 8px;
         width: fit-content;
         padding: 0 10px;
         background: #fffcf0;
         color: #2c1810;
+        display: inline-block;
+        left: 50%;
+        position: relative;
+        transform: translateX(-50%);
     }
 
     .experience-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 11px;
-    }
-
-    .experience-table th,
-    .experience-table td {
-        border: 1px solid #b8a990;
-        padding: 4px 3px;
+        font-size: 10px;
         text-align: center;
+        min-width: 900px;
     }
 
-    .experience-table th {
+    /* Common header styling */
+    .experience-table th.common-header {
+        background-color: #5c3e2d;
+        color: white;
+        font-size: 11px;
+        padding: 6px 4px;
+        text-align: center;
+        border: 1px solid #4a3022;
+        font-weight: bold;
+    }
+
+    /* Regular column headers */
+    .experience-table th.col-header {
         background-color: #8b6b4d;
         color: white;
         font-weight: bold;
-        font-size: 11px;
-        padding: 5px 3px;
+        font-size: 10px;
+        padding: 5px 2px;
+        text-align: center;
+        border: 1px solid #b8a990;
+    }
+
+    /* Sub-header for split columns */
+    .experience-table th.sub-header {
+        background-color: #a07d5a;
+        color: white;
+        font-weight: bold;
+        font-size: 9px;
+        padding: 4px 2px;
+        text-align: center;
+        border: 1px solid #b8a990;
     }
 
     .experience-table td {
+        border: 1px solid #b8a990;
+        padding: 4px 2px;
+        text-align: center;
         background-color: white;
+        vertical-align: middle;
+    }
+
+    .experience-table tr:hover td {
+        background-color: #faf5eb;
     }
 
     .total-row td {
@@ -153,8 +187,8 @@
     }
 
     .signature-section {
-        margin-top: 15px;
-        padding: 10px;
+        margin-top: 12px;
+        padding: 8px;
         border-top: 2px dashed #c4a27a;
     }
 
@@ -164,33 +198,44 @@
     }
 
     .signature-table td {
-        padding: 8px 10px;
+        padding: 6px 8px;
         vertical-align: bottom;
-        width: 50%;
     }
 
     .signature-line {
         margin-top: 5px;
         border-top: 1px solid #8b6b4d;
-        width: 180px;
-        height: 15px;
+        width: 160px;
+        height: 12px;
     }
 
     .employee-signature {
-        margin-top: 5px;
+        margin-top: 8px;
         text-align: center;
+        padding-top: 8px;
+        border-top: 1px dashed #c4a27a;
     }
 
     .employee-signature .line {
         border-top: 1px solid #8b6b4d;
-        width: 180px;
+        width: 200px;
         margin: 0 auto 5px;
     }
 
     .dots {
         letter-spacing: 2px;
-        font-size: 14px;
+        font-size: 12px;
         color: #8b6b4d;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .logo img {
+        max-height: 120px;
+        width: 120px;
+        border-radius: 50%;
     }
 
     @media print {
@@ -202,12 +247,15 @@
             box-shadow: none;
             padding: 5px;
         }
+        .experience-section {
+            overflow-x: visible;
+        }
     }
 
     .footer-note {
         text-align: center;
-        margin-top: 8px;
-        font-size: 9px;
+        margin-top: 6px;
+        font-size: 8px;
         color: #8b6b4d;
     }
 </style>
@@ -215,13 +263,12 @@
 
 <body>
     <!-- Header -->
-    <div class="header" style="text-align: center; padding: 20px;">
-        <div class="logo" style="margin-bottom: 15px;">
-            <img src="<?php echo e(public_path('Photo/p.png')); ?>" alt="የጉምሩክ ኮሚሽን ሎጎ"
-                style="max-height: 170px; width: 170px; border-radius: 50%;">
+    <div class="header" style="text-align: center;">
+        <div class="logo">
+            <img src="<?php echo e(public_path('Photo/p.png')); ?>" alt="የጉምሩክ ኮሚሽን ሎጎ" style="max-height: 120px; width: 120px; border-radius: 50%;">
         </div>
-        <h1 style="margin: 0; color: #003366;">የጉምሩክ ኮሚሽን</h1>
-        <h2 style="margin: 5px 0 0 0; color: #0066cc;">የሠራተኛ የግል ሁኔታ መግለጫ</h2>
+        <h1>የጉምሩክ ኮሚሽን</h1>
+        <h2>የሠራተኛ የግል ሁኔታ መግለጫ</h2>
     </div>
 
     <!-- Main Form -->
@@ -254,7 +301,7 @@
             <td><span class="label">የትምህርት አይነት:-</span></td>
             <td><span class="value"><?php echo e($employee->education_type ?? '_________________'); ?></span></td>
             <td><span class="label">ደመወዝ፡-</span></td>
-            <td><span class="value"><?php echo e($employee->salary ? number_format($employee->salary, 2) : '___________'); ?>/<?php echo e($employee->allowance ? number_format($employee->allowance, 2) : '___________'); ?>/</span></td>
+            <td><span class="value"><?php echo e($employee->salary ? number_format($employee->salary, 2) : '___________'); ?>/<?php echo e($employee->allowance ? number_format($employee->allowance, 2) : '___________'); ?></span></td>
         </tr>
         <tr>
             <td><span class="label">የተመረቁበት ቀን፡-</span></td>
@@ -270,7 +317,7 @@
         </tr>
     </table>
 
-    <!-- Experience Section -->
+    <!-- Experience Section with New Structure -->
     <div class="experience-section">
         <h3>ኃላፊነቶችና ጠቅላላ አገልግሎት</h3>
 
@@ -282,14 +329,30 @@
 
         <table class="experience-table">
             <thead>
+                <!-- Common Headers Row -->
                 <tr>
-                    <th>ከ</th>
-                    <th>እስከ</th>
-                    <th>ዓመት</th>
-                    <th>ወር</th>
-                    <th>ቀን</th>
-                    <th>የሥራ ኃላፊነት</th>
-                    <th>የሚሠሩበት የሥራ ክፍል</th>
+                    <th class="common-header" colspan="2">የቀጣሪ ዘመን</th>
+                    <th class="common-header" colspan="3">ጠቅላላ የስራ ዘመን</th>
+                    <th class="common-header" rowspan="2">የስራ መጠሪያ</th>
+                    <th class="common-header" colspan="2">ያገለገሉበት ተቋም</th>
+                </tr>
+
+                <!-- Column Headers Row -->
+                <tr>
+                    <!-- Under "የቀጣሪ ዘመን" -->
+                    <th class="col-header">ከወር/ዓመት</th>
+                    <th class="col-header">እስከ ወር/ዓመት</th>
+
+                    <!-- Under "ጠቅላላ የስራ ዘመን" -->
+                    <th class="col-header">ዓመት</th>
+                    <th class="col-header">ወር</th>
+                    <th class="col-header">ቀን</th>
+
+                    <!-- "የስራ መጠሪያ" column header already above -->
+
+                    <!-- Under "ያገለገሉበት ተቋም" -->
+                    <th class="sub-header">የአሁን ተቋም</th>
+                    <th class="sub-header">የቀድሞ ተቋም</th>
                 </tr>
             </thead>
             <tbody>
@@ -309,6 +372,10 @@
                         $totalMonths += $months;
                         $totalDays += $days;
                     }
+
+                    // Determine if current or previous institution
+                    $currentInstitution = ($exp->experience_type == 'current') ? ($exp->institution ?? '') : '';
+                    $previousInstitution = ($exp->experience_type != 'current') ? ($exp->institution ?? '') : '';
                 ?>
                 <tr>
                     <td><?php echo e($exp->from_date ? \Carbon\Carbon::parse($exp->from_date)->format('d/m/Y') : '__________'); ?></td>
@@ -326,9 +393,11 @@
                     <td><?php echo e($months); ?></td>
                     <td><?php echo e($days); ?></td>
                     <td><?php echo e($exp->job_title ?? '____________________'); ?></td>
-                    <td><?php echo e($exp->institution ?? '____________________'); ?></td>
+                    <td><?php echo e($exp->current_institution ?: '__________'); ?></td>
+                    <td><?php echo e($exp->previous_institution ?: '__________'); ?></td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                <!-- Sample empty row -->
                 <tr>
                     <td>__________</td>
                     <td>__________</td>
@@ -336,16 +405,8 @@
                     <td>__</td>
                     <td>__</td>
                     <td>____________________</td>
-                    <td>____________________</td>
-                </tr>
-                <tr>
                     <td>__________</td>
                     <td>__________</td>
-                    <td>__</td>
-                    <td>__</td>
-                    <td>__</td>
-                    <td>____________________</td>
-                    <td>____________________</td>
                 </tr>
                 <?php endif; ?>
 
@@ -367,24 +428,27 @@
                     <td style="font-weight: bold;"><?php echo e($totalYears); ?></td>
                     <td style="font-weight: bold;"><?php echo e($totalMonths); ?></td>
                     <td style="font-weight: bold;"><?php echo e($totalDays); ?></td>
-                    <td colspan="2"></td>
+                    <td colspan="3"></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <!-- Signature Section -->
-    <table class="signature-table align-items-right">
+    <table class="signature-table">
         <tr>
             <td style="width: 33%;">
                 <div>ያዘጋጀው _______________</div>
-                <div style="margin-top: 10px;">ፈርማ _______________</div>
+                <div style="margin-top: 8px;">ፈርማ _______________</div>
             </td>
             <td style="width: 33%;">
                 <div>ያረጋገጠው _______________</div>
-                <div style="margin-top: 10px;">ፈርማ _______________</div>
+                <div style="margin-top: 8px;">ፈርማ _______________</div>
             </td>
-            <td style="width: 34%;"></td>
+            <td style="width: 34%;">
+                <div>ቀን _______________</div>
+                <div style="margin-top: 8px;">ማህተም _______________</div>
+            </td>
         </tr>
     </table>
 

@@ -1,3 +1,7 @@
+ @php
+     $notification = \Spatie\Activitylog\Models\Activity::latest()->with('subject')->first();
+
+ @endphp
  <nav class="layout-navbar container-xxl navbar-detached navbar navbar-expand-xl align-items-center bg-navbar-theme"
           id="layout-navbar">
           <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
@@ -120,7 +124,33 @@
                       </div>
                     </div>
                   </li>
+ <li class="dropdown-notifications-list scrollable-container">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                          <div class="d-flex">
+                            <div class="flex-shrink-0 me-3">
+                              <div class="avatar">
+                                <img src="../../assets/img/avatars/1.png" alt class="rounded-circle" />
+                              </div>
+                            </div>
+                            <div class="flex-grow-1">
+                              <h6 class="small mb-0">{{ Auth::user()->name}}</h6>
+                              <small class="mb-1 d-block text-body">{{ $notification->description }} {{ $notification->subject?->employee_name }}  </small>
+                              <small class="text-body-secondary"> at {{ $notification->created_at }} </small>
+                            </div>
+                            <div class="flex-shrink-0 dropdown-notifications-actions">
+                              <a href="javascript:void(0)" class="dropdown-notifications-read"
+                                ><span class="badge badge-dot"></span
+                              ></a>
+                              <a href="javascript:void(0)" class="dropdown-notifications-archive"
+                                ><span class="icon-base bx bx-x"></span
+                              ></a>
+                            </div>
+                          </div>
+                        </li>
 
+                      </ul>
+                    </li>
                   <li class="border-top">
                     <div class="d-grid p-4">
                       <a class="btn btn-primary btn-sm d-flex" href="javascript:void(0);">

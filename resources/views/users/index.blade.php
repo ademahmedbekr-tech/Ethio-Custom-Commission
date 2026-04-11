@@ -111,6 +111,7 @@
 
                             @include('users.create')
 
+
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="text-primary">
@@ -127,7 +128,8 @@
                                             <tr>
                                                 <td>{{ ++$i }}</td>
                                                 <td>
-                                                        <img src="{{ $user->profile_photo_path }}" class="w-px-40 h-auto rounded-circle"> {{ $user->name }}
+                                                    <img src="{{ $user->profile_photo_path }}"
+                                                        class="w-px-40 h-auto rounded-circle"> {{ $user->name }}
                                                 </td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>
@@ -137,20 +139,54 @@
                                                 </td>
                                                 <td class="text-end">
                                                     @can('user-edit')
-                                                        <a href="{{ route('users.edit', $user->id) }}"
-                                                            class="btn btn-primary btn-sm">
-                                                            Edit
-                                                        </a>
+                                                        <button class="btn btn-icon me-1" data-bs-target="#editUser{{$user->id}}"
+                                                            data-bs-toggle="modal" data-bs-dismiss="modal">
+                                                            <i class="icon-base bx bx-edit icon-md"></i>
+                                                        </button>
                                                     @endcan
+                                                    @include('_partials._modals.modal-edit-user')
+
 
                                                     @can('user-delete')
-                                                        {!! Form::open([
-                                                            'method' => 'DELETE',
-                                                            'route' => ['users.destroy', $user->id],
-                                                            'style' => 'display:inline',
-                                                        ]) !!}
-                                                        {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
-                                                        {!! Form::close() !!}
+                                                        <button type="button" class="btn btn-sm btn-danger"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#deleteAdmin{{ $user->id }}"
+                                                            title="Delete User">
+                                                            <i class="bx bx-trash"></i>
+                                                        </button>
+
+
+                                                        <!-- Delete Confirmation Modal -->
+                                                        <div class="modal fade" id="deleteAdmin{{ $user->id }}"
+                                                            tabindex="-1" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Confirm Delete</h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Are you sure you want to delete Admin
+                                                                        <strong>"{{ $user->name }}"</strong>?
+                                                                        <br>
+                                                                        <small class="text-danger">This action cannot be
+                                                                            undone.</small>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Cancel</button>
+                                                                        <form action="{{ route('users.destroy', $user->id) }}"
+                                                                            method="POST" class="d-inline">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <button type="submit"
+                                                                                class="btn btn-danger">Delete</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     @endcan
                                                 </td>
                                             </tr>

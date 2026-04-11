@@ -48,8 +48,8 @@
     {{-- <script src="{{ asset('dash/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script> --}}
 
     <!-- Main JS -->
-
+{{--
 <script src="{{ asset('dash/assets/js/modal-edit-permission.js') }}" >  </script>
 <script src="{{ asset('dash/assets/js/app-access-permission.js') }}" >  </script>
     <!-- Page JS -->
-    <script src="{{ asset('dash/assets/js/tables-datatables-extensions.js') }}"></script>
+    <script src="{{ asset('dash/assets/js/tables-datatables-extensions.js') }}"></script> --}}

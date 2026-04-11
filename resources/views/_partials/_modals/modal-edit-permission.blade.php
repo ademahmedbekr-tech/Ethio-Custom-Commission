@@ -1,5 +1,5 @@
 <!-- Edit Permission Modal -->
-<div class="modal fade" id="editPermissionModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="editPermissionModal{{ $permissions->id }}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-simple">
     <div class="modal-content">
       <div class="modal-body">
@@ -10,12 +10,18 @@
         </div>
         <div class="alert alert-warning" role="alert">
           <h6 class="alert-heading mb-2">Warning</h6>
-          <p class="mb-0">By editing the permission name, you might break the system permissions functionality. Please ensure you're absolutely certain before proceeding.</p>
+          <p class="mb-0">By editing the permission name, you might break <br> the system permissions functionality. Please ensure <br> you're absolutely certain before proceeding.</p>
         </div>
-        <form id="editPermissionForm" class="row" onsubmit="return false">
+        <form id="editPermissionForm" action="{{ route('permission.update',$permissions->id) }}" method="POST" class="row" onsubmit="return true">
+            @csrf
+            @method('PUT')
           <div class="col-sm-9 form-control-validation">
             <label class="form-label" for="editPermissionName">Permission Name</label>
-            <input type="text" id="editPermissionName" name="editPermissionName" class="form-control" placeholder="Permission Name" tabindex="-1" />
+            <input type="text" id="editPermissionName" name="name" value="{{ old('name', $permissions->name) }}" class="form-control" placeholder="Permission Name" tabindex="-1" />
+          </div>
+          <div class="col-sm-9 form-control-validation">
+            <label class="form-label" for="editPermissionName">Permission Guard Name</label>
+            <input type="text" id="editPermissionName" name="guard_name" value="{{ old('name', $permissions->guard_name) }}" class="form-control" placeholder="Permission Guard Name" tabindex="-1" />
           </div>
           <div class="col-sm-3 mb-4">
             <label class="form-label invisible d-none d-sm-inline-block">Button</label>

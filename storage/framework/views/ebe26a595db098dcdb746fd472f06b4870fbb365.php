@@ -120,10 +120,23 @@
                     <h5 class="card-title mb-0">Work Experiences</h5>
                     <div class="d-flex justify-content-between align-items-center row pt-4 gap-md-0 g-6">
                         <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bx bx-search"></i></span>
-                                <input type="text" id="searchInput" class="form-control" placeholder="Search by employee, job title or institution...">
-                            </div>
+                            <form method="GET" action="<?php echo e(route('experiences.index')); ?>" class="d-flex gap-2">
+                                <?php if(isset($employee)): ?>
+                                    <input type="hidden" name="employee_id" value="<?php echo e($employee->id); ?>">
+                                <?php endif; ?>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bx bx-search"></i></span>
+                                    <input type="text" name="search" class="form-control" placeholder="Search by employee, job title or institution..." value="<?php echo e(request('search')); ?>">
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bx bx-search"></i> Search
+                                </button>
+                                <?php if(request('search')): ?>
+                                    <a href="<?php echo e(route('experiences.index', isset($employee) ? ['employee_id' => $employee->id] : [])); ?>" class="btn btn-secondary">
+                                        <i class="bx bx-reset"></i> Reset
+                                    </a>
+                                <?php endif; ?>
+                            </form>
                         </div>
                         <div class="col-md-6 text-end">
                             <?php if(isset($employee)): ?>
@@ -287,32 +300,7 @@
     </div>
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startPush('scripts'); ?>
 <script>
-    // Search functionality
-    document.getElementById('searchInput')?.addEventListener('keyup', function() {
-        let searchText = this.value.toLowerCase();
-        let table = document.getElementById('experiencesTable');
-        let rows = table.getElementsByTagName('tr');
-
-        for (let i = 1; i < rows.length; i++) {
-            let row = rows[i];
-            let employeeName = row.cells[1]?.textContent.toLowerCase() || '';
-            let fileNumber = row.cells[2]?.textContent.toLowerCase() || '';
-            let jobTitle = row.cells[<?php echo e(isset($employee) ? '1' : '3'); ?>]?.textContent.toLowerCase() || '';
-            let institution = row.cells[<?php echo e(isset($employee) ? '2' : '4'); ?>]?.textContent.toLowerCase() || '';
-
-            if (employeeName.includes(searchText) ||
-                fileNumber.includes(searchText) ||
-                jobTitle.includes(searchText) ||
-                institution.includes(searchText)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        }
-    });
-
     // Export functionality
     document.getElementById('exportBtn')?.addEventListener('click', function() {
         let table = document.getElementById('experiencesTable');
@@ -348,7 +336,6 @@
         link.click();
     });
 </script>
-<?php $__env->stopPush(); ?>
 
 <?php $__env->startPush('styles'); ?>
 <style>

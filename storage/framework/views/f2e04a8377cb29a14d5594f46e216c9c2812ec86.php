@@ -6,7 +6,7 @@
                     style="border-radius: 50%">
                 
             </span>
-            <span class="app-brand-text demo menu-text fw-bolder text-capitalize ms-2">ECC(GK)</span>
+            <span class="app-brand-text demo menu-text fw-bolder text-capitalize ms-2">ECC</span></span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -53,24 +53,31 @@
 
 
 
-               <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base bx bx-check-shield"></i>
-                <div data-i18n="Roles & Permissions">Roles & Permissions</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="<?php echo e(route('roles.index')); ?>" class="menu-link">
-                    <div data-i18n="Roles">Roles</div>
-                  </a>
+                <div data-i18n="Roles & Permissions">Access Control</div>
+            </a>
+            <ul class="menu-sub">
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-list')): ?>
+                      <li class="menu-item">
+                    <a href="<?php echo e(route('roles.index')); ?>" class="menu-link">
+                        <div data-i18n="Roles">Roles</div>
+                    </a>
                 </li>
-                <li class="menu-item">
-                  <a href="<?php echo e(route('permission.index')); ?>" class="menu-link">
-                    <div data-i18n="Permission">Permission</div>
-                  </a>
+                <?php endif; ?>
+
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('permission-list')): ?>
+                    <li class="menu-item">
+                    <a href="<?php echo e(route('permission.index')); ?>" class="menu-link">
+                        <div data-i18n="Permission">Permission</div>
+                    </a>
                 </li>
-              </ul>
-            </li>
+                <?php endif; ?>
+
+
+            </ul>
+        </li>
 
         <!-- Layouts -->
         <li class="menu-item">
@@ -87,11 +94,16 @@
                         </a>
                     </li>
                 <?php endif; ?>
-                <li class="menu-item  <?php echo e(Request::is('zone1') ? 'active' : ''); ?>">
-                    <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
-                        <div data-i18n="Without menu">profiles</div>
-                    </a>
-                </li>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('profile-list')): ?>
+                    <li class="menu-item  <?php echo e(Request::is('zone1') ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
+                            <div data-i18n="Without menu">profiles</div>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+
+
 
 
 
@@ -134,10 +146,16 @@
         </li>
 
 
-          <li class="menu-item <?php echo e(Request::is('experiences') ? 'active' : ''); ?> open">
+        <li class="menu-item <?php echo e(Request::is('experiences') ? 'active' : ''); ?> open">
             <a href="<?php echo e(route('experiences.index')); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Expriences</div>
+            </a>
+        </li>
+        <li class="menu-item <?php echo e(Request::is('Managers') ? 'active' : ''); ?> open">
+            <a href="<?php echo e(route('managers.index')); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                <div data-i18n="Analytics">Managers</div>
             </a>
         </li>
 

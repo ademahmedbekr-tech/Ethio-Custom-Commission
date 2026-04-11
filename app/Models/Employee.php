@@ -6,13 +6,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Traits\LogsActivity;
+
 
 class Employee extends Model
 {
     use HasFactory, SoftDeletes;
+    use LogsActivity;
 
     /**
      * The table associated with the model.
@@ -76,6 +81,7 @@ class Employee extends Model
         'house_number',
         'phone_number',
         'email',
+        'fan_number',
 
         // Education
         'education_type',
@@ -103,9 +109,11 @@ class Employee extends Model
         'diagnosis',
         'disability_type',
 
+
         // File Uploads
         'photo',
         'document',
+        'department_id'
     ];
 
     /**
@@ -573,4 +581,28 @@ class Employee extends Model
             // Add any update logic here
         });
     }
+
+   protected static $logAttributes = ['*'];
+
+    protected static $logOnlyDirty = true;
+
+   public function getDescriptionForEvent(string $eventName): string
+{
+    $user = Auth::user()->name;
+    $modelName = strtolower(class_basename($this)); // returns 'employee'
+
+    return "{$user} has {$eventName} {$modelName} {$this->name}";
+}
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->useLogName("Employee");
+    }
+public function department(): BelongsTo
+ {
+        return $this->belongsTo(Department::class,'department_id','id');
+
+}
+
 }

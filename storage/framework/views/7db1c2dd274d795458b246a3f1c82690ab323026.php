@@ -6,7 +6,7 @@
           document.write(new Date().getFullYear());
         </script>
         , made  by
-        <a href="https://github.com/ademahmed23" target="_blank" class="footer-link fw-bolder">ECC IT Group Under Supervision of Gemmachu Kebede</a>
+        <a href="https://github.com/ademahmed23" target="_blank" class="footer-link fw-bolder">ECC HRM Group Under Supervision of Gemmachu Kenea Tufa</a>
       </div>
 
     </div>

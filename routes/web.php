@@ -96,6 +96,7 @@ use App\Http\Controllers\WeeklyReportController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Branches\JigJigaController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\ManagersController;
 use App\Http\Controllers\PermissionController;
 
 /*
@@ -141,6 +142,7 @@ Route::resource('jigjiga', JigjigaController::class);
     Route::resource('zone1', Zone1Controller::class);
     Route::resource('permission', PermissionController::class);
     Route::resource('experiences', ExperienceController::class);
+    Route::resource('managers',ManagersController::class);
 
 
     //
@@ -204,6 +206,6 @@ Route::get('employees/card-pdf/{id}', [EmployeeController::class, 'printCard'])-
 
 
 // Dashboard/Home route (if needed)
-Route::get('/', [EmployeeController::class, 'dashboard'])->name('dashboard');
+// Route::get('/', [EmployeeController::class, 'dashboard'])->name('dashboard');
 Route::resource('departments', DepartmentController::class);
 });

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use App\Models\Zone1;
 use App\Models\Announcement;
+use App\Models\Department;
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController
@@ -27,7 +29,7 @@ $officers = \DB::table('w_officers')->count();
 $all = collect($zones)->sum(fn($z) => \DB::table($z)->count());
 $allcity = collect($city)->sum(fn($c) => \DB::table($c)->count());
 $woreda = \DB::table('woreda')->count();
-
+$total_employee = Employee::count();
 
 // Optional: return or dd
 // dd($total);
@@ -36,6 +38,7 @@ $woreda = \DB::table('woreda')->count();
         $count = Zone1::count();
         $announcement = Announcement::count();
         $members = Zone1::count();
+        $diroctorates = Department::count();
 
 
 
@@ -159,10 +162,11 @@ $zoneCounter = \DB::table('w_officers')
                 // convert collection → array
 
 $ethinicity = Employee::where('ethnicity','ኦሮሞ')->count();
+$user = User::whereNotNull('profile_photo_path')->get();
 
 
 
-        return view('dashboard',  compact('news', 'announcement', 'members','count','all','woreda','allcity','roles','officers','zoneCounts','ethinicity','orgacount','positionCounts','zonesposition','zoneCounter'),
+        return view('dashboard',  compact('news', 'announcement', 'members','count','all','woreda','allcity','roles','officers','user','zoneCounts','ethinicity','orgacount','positionCounts','zonesposition','zoneCounter','total_employee','diroctorates'),
         ['positionCounts' => $positionCounts],['zoneCounts' => $zoneCounts],['zoneCounter' => $zoneCounter]);
     }
 

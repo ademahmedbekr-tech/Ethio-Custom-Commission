@@ -49,8 +49,4 @@
 
     <!-- Main JS -->
 
-<script src="<?php echo e(asset('dash/assets/js/modal-edit-permission.js')); ?>" >  </script>
-<script src="<?php echo e(asset('dash/assets/js/app-access-permission.js')); ?>" >  </script>
-    <!-- Page JS -->
-    <script src="<?php echo e(asset('dash/assets/js/tables-datatables-extensions.js')); ?>"></script>
 <?php /**PATH C:\Users\ODA-IT\Documents\GitHub\ECC\ecc-profiles\resources\views/layouts/scripts.blade.php ENDPATH**/ ?>

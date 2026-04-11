@@ -2,18 +2,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Managers;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
   public function index()
 {
-    $departments = Department::latest()->paginate(7);
+    $departments = Department::with('manage')->paginate(7);
+    // dd($departments->all());
 
     // Statistics for dashboard cards
     $totalDepartments = Department::count();
-    $departmentsWithHeads = Department::whereNotNull('head_id')->count();
-    $departmentsWithoutHeads = Department::whereNull('head_id')->count();
+    $departmentsWithHeads = Department::whereNotNull('managers_id')->count();
+    $departmentsWithoutHeads = Department::whereNull('managers_id')->count();
     $recentDepartments = Department::whereMonth('created_at', now()->month)->count();
 
     return view('departments.index', compact(
@@ -27,13 +29,18 @@ class DepartmentController extends Controller
 
     public function create()
     {
-        return view('departments.create');
+        $manager = Managers::select('name')
+            ->distinct()
+            ->whereNotNull('name')
+            ->orderBy('name', 'ASC')
+            ->pluck('name');
+        return view('departments.create',compact('manager'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:departments,name',
             'code' => 'required|unique:departments,code',
         ]);
 
@@ -43,8 +50,10 @@ class DepartmentController extends Controller
             ->with('success', 'Department created successfully');
     }
 
-    public function edit(Department $department)
+    public function edit($id)
     {
+        $department = Department::findOrFail($id);
+
         return view('departments.edit', compact('department'));
     }
 
@@ -67,4 +76,9 @@ class DepartmentController extends Controller
 
         return back()->with('success', 'Department deleted');
     }
+
+    public function show(){
+return view('departments.show');
+    }
+
 }

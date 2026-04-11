@@ -124,7 +124,10 @@
                                     <td><?php echo e($dept->name); ?></td>
                                     <td><?php echo e($dept->code); ?></td>
                                     <td><?php echo e($dept->description); ?></td>
-                                    <td><?php echo e($dept->head_id); ?></td>
+                                    <td><?php echo e($dept->manage?->name); ?></td>
+
+
+
                                     <td>
                                         <div class="d-flex gap-2">
                                             <!-- View Button -->

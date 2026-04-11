@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
                         <div class="card-body pb-0 px-0 px-md-4">
-                            <img src="<?php echo e(asset('Photo/Picture1.jpg')); ?>" height="140" alt="View Badge User"
+                            <img src="<?php echo e(Auth::user()->profile_photo_path); ?>" height="140" width="auto" alt="View Badge User"
                                 />
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <span class="fw-semibold d-block mb-1">Total Workers</span>
-                            <h3 class="card-title mb-2"> <?php echo e($all); ?> </h3>
+                            <h3 class="card-title mb-2"> <?php echo e($total_employee); ?> </h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> <?php echo e(__('updates')); ?>
 
                             </small>
@@ -75,8 +75,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <span> <?php echo e(__('Member officers')); ?> </span>
-                            <h3 class="card-title text-nowrap mb-1"> <?php echo e($officers); ?> </h3>
+                            <span> <?php echo e(__('Diroctorates')); ?> </span>
+                            <h3 class="card-title text-nowrap mb-1"> <?php echo e($diroctorates); ?> </h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> <?php echo e(__('updates')); ?>
 
                             </small>
@@ -88,7 +88,7 @@
         
         <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
             <div class="card">
-                <h5 class="card-header m-0 pb-3">Individuals & Organization Members</h5>
+                <h5 class="card-header m-0 pb-3">Total Workers Data Bar</h5>
                 <div id="zoneMembersChart" class="px-2" style="min-height: 200px;"></div>
             </div>
         </div>
@@ -213,78 +213,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="d-flex flex-column align-items-center gap-1">
-                            <h2 class="mb-2">
-                                <?php echo e($positionCounts['Qonnaan Bulaa'] + $positionCounts['Daldala-C'] + $positionCounts['Daldala-B'] + $positionCounts['Daldala-A'] + $positionCounts['Hojjeta Motummaa']); ?>
-
-                            </h2>
-                            <span>Total Types</span>
-                        </div>
-                        <div id="positionPieChart"></div>
-                    </div>
-                    <ul class="p-0 m-0">
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <span class="avatar-initial rounded bg-label-primary"><i class="bx bxs-group"></i></span>
-                            </div>
-                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <h6 class="mb-0">Qonnaan Bulaa</h6>
-                                    <small class="text-muted">Farmers, Pastoralists</small>
-                                </div>
-                                <div class="user-progress">
-                                    <small class="fw-semibold"> <?php echo e($positionCounts['Qonnaan Bulaa']); ?> </small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <span class="avatar-initial rounded bg-label-success"><i class="bx bxs-group"></i></span>
-                            </div>
-                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <h6 class="mb-0">Daldalaa-C</h6>
-                                    <small class="text-muted">C-Level Merchants</small>
-                                </div>
-                                <div class="user-progress">
-                                    <small class="fw-semibold"> <?php echo e($positionCounts['Daldala-C']); ?> </small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex mb-4 pb-1">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <span class="avatar-initial rounded bg-label-info"><i class="bx bxs-group"></i></span>
-                            </div>
-                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <h6 class="mb-0">Daldalaa-B + A</h6>
-                                    <small class="text-muted">A+B</small>
-                                </div>
-                                <div class="user-progress">
-                                    <small class="fw-semibold">
-                                        <?php echo e($positionCounts['Daldala-A'] + $positionCounts['Daldala-B']); ?> </small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="d-flex">
-                            <div class="avatar flex-shrink-0 me-3">
-                                <span class="avatar-initial rounded bg-label-secondary"><i
-                                        class="bx bxs-group"></i></span>
-                            </div>
-                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                    <h6 class="mb-0">Hojjeta Motummaa</h6>
-                                    <small class="text-muted">Government Workers</small>
-                                </div>
-                                <div class="user-progress">
-                                    <small class="fw-semibold"> <?php echo e($positionCounts['Hojjeta Motummaa']); ?> </small>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                
             </div>
         </div>
         <!--/ Order Statistics -->
@@ -1217,10 +1146,6 @@
 
     });
 </script>
-
-
-
-
 
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ODA-IT\Documents\GitHub\ECC\ecc-profiles\resources\views/dashboard.blade.php ENDPATH**/ ?>

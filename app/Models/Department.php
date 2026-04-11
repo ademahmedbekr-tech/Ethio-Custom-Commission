@@ -2,29 +2,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Department extends Model
 {
+    protected $table = 'departments';
     protected $fillable = [
         'name',
         'code',
         'description',
-        'head_id', // ✅ added
+        'managers_id', // ✅ added
     ];
 
     /**
      * One Department → Many Employees
      */
-    public function employees()
-    {
-        return $this->hasMany(Employee::class);
-    }
+
 
     /**
      * Department Head (belongs to Employee)
      */
-    public function head()
+  public function manage(): BelongsTo
     {
-        return $this->belongsTo(Employee::class, 'head_id');
+        return $this->belongsTo(Managers::class,'managers_id','id');
     }
+
+
+
 }
