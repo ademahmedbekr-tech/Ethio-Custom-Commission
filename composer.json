@@ -6,8 +6,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "andegna/calender": "^2.4",
         "barryvdh/laravel-dompdf": "*",
         "dompdf/dompdf": "^1.2",
+        "fayda/fayda-php-sdk": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.2",

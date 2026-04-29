@@ -1,4 +1,6 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+{{-- <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme"> --}}
+<aside id="layout-menu" class="layout-menu menu-vertical menu">
+
     <div class="app-brand demo">
         <a href="#" class="app-brand-link">
             <span class="app-brand-logo demo">
@@ -37,7 +39,7 @@
                     </g>
                 </svg> --}}
             </span>
-            <span class="app-brand-text demo menu-text fw-bolder text-capitalize ms-2">ECC</span></span>
+            <span class="app-brand-text demo menu-text fw-bolder text-capitalize ms-2">ECC</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -49,21 +51,19 @@
 
     <ul class="menu-inner py-1">
 
-
-
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('admin') ? 'active' : '' }} {{ Request::is('admin') ? 'open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base bx bx-home-smile"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
                 {{-- <div class="badge text-bg-danger rounded-pill ms-auto">5</div> --}}
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ Request::is('admin') ? 'active' : '' }} ">
                     <a href="{{ route('dashboard') }}" class="menu-link">
-                        <div data-i18n="Analytics">Analytics-1</div>
+                        <div data-i18n="Analytics">Analytics</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {{ Request::is('dashboard2') ? 'active' : '' }}">
                     <a href="{{ route('dashboard2.index') }}" class="menu-link">
                         <div data-i18n="CRM">CRM</div>
                     </a>
@@ -76,68 +76,60 @@
         @can('user-list')
             <li class="menu-item {{ Request::is('users') ? 'active' : '' }}">
                 <a href="{{ route('users.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-user"></i>
-                    <div data-i18n="Analytics">Users</div>
+                    <i class="menu-icon tf-icons bx bx-user-voice"></i>
+                    <div data-i18n="Users">Users</div>
                 </a>
             </li>
         @endcan
 
 
 
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('roles') ? 'active' : '' }} {{ Request::is('permission') ? 'active' : '' }} {{ Request::is('roles') ? 'open' : '' }} {{ Request::is('permission') ? 'open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base bx bx-check-shield"></i>
-                <div data-i18n="Roles & Permissions">Access Control</div>
+                <div data-i18n="Roles & Permissions">Roles & Permissions</div>
             </a>
             <ul class="menu-sub">
                 @can('role-list')
-                      <li class="menu-item">
-                    <a href="{{ route('roles.index') }}" class="menu-link">
-                        <div data-i18n="Roles">Roles</div>
-                    </a>
-                </li>
+                    <li class="menu-item  {{ Request::is('roles') ? 'active' : '' }}">
+                        <a href="{{ route('roles.index') }}" class="menu-link">
+                            <div data-i18n="Roles">Roles</div>
+                        </a>
+                    </li>
                 @endcan
 
                 @can('permission-list')
-                    <li class="menu-item">
-                    <a href="{{ route('permission.index') }}" class="menu-link">
-                        <div data-i18n="Permission">Permission</div>
-                    </a>
-                </li>
+                    <li class="menu-item {{ Request::is('permission') ? 'active' : '' }}">
+                        <a href="{{ route('permission.index') }}" class="menu-link">
+                            <div data-i18n="Permissions">Permissions</div>
+                        </a>
+                    </li>
                 @endcan
-
-
             </ul>
         </li>
 
         <!-- Layouts -->
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('employees') ? 'active':  '' }} {{ Request::is('employees') ? 'open':  '' }} ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Head-Office</div>
+                <div data-i18n="Head-Office">Head-Office</div>
             </a>
 
             <ul class="menu-sub">
                 @can('zone1-list')
-                    <li class="menu-item  {{ Request::is('zone1') ? 'active' : '' }}">
+                    <li class="menu-item  active open">
                         <a href="{{ route('zone1.index') }}" class="menu-link">
                             <div data-i18n="Without menu">Old</div>
                         </a>
                     </li>
                 @endcan
                 @can('profile-list')
-                    <li class="menu-item  {{ Request::is('zone1') ? 'active' : '' }}">
+                    <li class="menu-item  {{ Request::is('employees') ? 'active' : '' }}">
                         <a href="{{ route('employees.index') }}" class="menu-link">
-                            <div data-i18n="Without menu">profiles</div>
+                            <div data-i18n="profiles">profiles</div>
                         </a>
                     </li>
                 @endcan
-
-
-
-
-
-
 
             </ul>
 
@@ -145,14 +137,14 @@
         </li>
 
 
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('jigjiga') ? 'active' : '' }} {{ Request::is('jigjiga') ? 'open':  '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Branches</div>
+                <div data-i18n="Branches">Branches</div>
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item  {{ Request::is('zone1') ? 'active' : '' }}">
+                <li class="menu-item  {{ Request::is('jigjiga') ? 'active' : '' }}">
                     <a href="{{ route('jigjiga.index') }}" class="menu-link">
                         <div data-i18n="Without menu">Jigjiga</div>
                     </a>
@@ -172,7 +164,7 @@
         <li class="menu-item {{ Request::is('departments') ? 'active' : '' }} open">
             <a href="{{ route('departments.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Departments</div>
+                <div data-i18n="Departments">Departments</div>
             </a>
         </li>
 
@@ -180,13 +172,26 @@
         <li class="menu-item {{ Request::is('experiences') ? 'active' : '' }} open">
             <a href="{{ route('experiences.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Expriences</div>
+                <div data-i18n="Expriences">Expriences</div>
             </a>
         </li>
-        <li class="menu-item {{ Request::is('Managers') ? 'active' : '' }} open">
+
+        <li class="menu-item {{ Request::is('document') ? 'active' : '' }} open">
+            <a href="{{ route('document.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-folder"></i>
+                <div data-i18n="Document">Documents</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Request::is('managers') ? 'active' : '' }} open">
             <a href="{{ route('managers.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user-circle"></i>
-                <div data-i18n="Analytics">Managers</div>
+                <div data-i18n="Managers">Managers</div>
+            </a>
+        </li>
+         <li class="menu-item {{ Request::is('notification') ? 'active' : '' }}">
+            <a href="{{ route('notification.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons icon-base bx bx-bell icon-md"></i>
+                <div data-i18n="Notifications">Notifications</div>
             </a>
         </li>
 

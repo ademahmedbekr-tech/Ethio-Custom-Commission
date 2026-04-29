@@ -1,6 +1,7 @@
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
-    data-assets-path="../assets/" data-template="vertical-menu-template-free">
-<?php echo $__env->make('layouts.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<!DOCTYPE html>
+<html lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default"
+    data-assets-path="../../assets/" data-template="vertical-menu-template" data-bs-theme="light">
+   <?php echo $__env->make('layouts.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <body>
     <!-- Layout wrapper -->
@@ -40,6 +41,7 @@
                     <!-- / Footer -->
 
                     <div class="content-backdrop fade"></div>
+
                 </div>
                 <!-- Content wrapper -->
             </div>
@@ -48,6 +50,7 @@
 
         <!-- Overlay -->
         <div class="layout-overlay layout-menu-toggle"></div>
+
     </div>
     <!-- / Layout wrapper -->
 

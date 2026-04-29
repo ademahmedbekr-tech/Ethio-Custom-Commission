@@ -43,7 +43,7 @@ class ExperienceController extends Controller
                 $totalExperiences = EmployeeExperience::count();
                 $currentExperiences = EmployeeExperience::where('experience_type', 'current')->count();
                 $previousExperiences = EmployeeExperience::where('experience_type', 'previous')->count();
-                $totalYears = 0; // Calculate if needed
+                $totalYears = 0;
 
                 return view('experiences.index', compact('experiences', 'totalExperiences', 'currentExperiences', 'previousExperiences', 'totalYears'));
             }
@@ -126,6 +126,7 @@ class ExperienceController extends Controller
                 'from_date' => 'required|date',
                 'to_date' => 'nullable|date|after_or_equal:from_date',
                 'experience_type' => 'required|in:current,previous',
+                'in_outside' => 'required|in:inside,outside',
                 'is_current' => 'nullable|boolean',
                 'description' => 'nullable|string',
                 'responsibilities' => 'nullable|string',
@@ -178,6 +179,7 @@ class ExperienceController extends Controller
                     'from_date' => $request->from_date,
                     'to_date' => $request->is_current ? null : $request->to_date,
                     'experience_type' => $request->experience_type,
+                    'in_outside' => $request->in_outside,
                     'is_current' => $request->is_current ?? ($request->experience_type === 'current'),
                     'display_order' => $displayOrder,
                     'description' => $request->description,

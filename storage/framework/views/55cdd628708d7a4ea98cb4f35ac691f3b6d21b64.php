@@ -130,12 +130,12 @@
                           <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                               <div class="avatar">
-                                <img src="../../assets/img/avatars/1.png" alt class="rounded-circle" />
+                                <img src="<?php echo e(Auth::user()->profile_photo_path); ?>" alt class="rounded-circle" />
                               </div>
                             </div>
                             <div class="flex-grow-1">
                               <h6 class="small mb-0"><?php echo e(Auth::user()->name); ?></h6>
-                              <small class="mb-1 d-block text-body"><?php echo e($notification->description); ?> <?php echo e($notification->subject?->employee_name); ?>  </small>
+                              <small class="mb-1 d-block text-body"><?php echo e($notification->description); ?> </small>
                               <small class="text-body-secondary"> at <?php echo e($notification->created_at); ?> </small>
                             </div>
                             <div class="flex-shrink-0 dropdown-notifications-actions">

@@ -20,8 +20,9 @@
 
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/pickr/pickr-themes.css') }}" />
+
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/css/core.css')}}" class="template-customizer-core-css" />
 
     {{-- <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" /> --}}
     <link rel="stylesheet" href="{{ asset('dash/assets/css/demo.css')}}" />
@@ -30,16 +31,26 @@
     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
 
     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/apex-charts/apex-charts.css')}}" />
-     <link rel="stylesheet" href="{{ asset('dash/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
-    <link rel="stylesheet" href="{{ asset('dash/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
-    <link rel="stylesheet" href="{{ asset('dash/libs/datatables-select-bs5/select.bootstrap5.css') }}" />
+     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/datatables-select-bs5/select.bootstrap5.css') }}" />
   <link rel="stylesheet" href="{{ asset('dash/assets/vendor/fonts/flag-icons.css') }}" />
 
-    <link rel="stylesheet" href="{{ asset('dash/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css') }}" />
-    <link rel="stylesheet" href="{{ asset('dash/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css') }}" />
+
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/css/pages/page-profile.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/dropzone/dropzone.css') }}" />
+
+
 
 
     <!-- Page CSS -->
+
+
+    <!-- Page CSS -->
+<link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/app-logistics-dashboard.css') }}" />
+
 
     <!-- Helpers -->
     <script src="{{ asset('dash/assets/vendor/js/helpers.js')}}"></script>

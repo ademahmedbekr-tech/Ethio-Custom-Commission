@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="fw-semibold d-block mb-1">Total Workers</span>
+                            <span class="fw-semibold d-block mb-1">Total Employees</span>
                             <h3 class="card-title mb-2"> {{ $total_employee }} </h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{ __('updates') }}
                             </small>
@@ -112,7 +112,7 @@
         {{-- Total Reven --}}
         <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
             <div class="card">
-                <h5 class="card-header m-0 pb-3">Total Workers Data Bar</h5>
+                <h5 class="card-header m-0 pb-3">Summarized Employee's Data</h5>
                 <div id="zoneMembersChart" class="px-2" style="min-height: 200px;"></div>
             </div>
         </div>
@@ -144,8 +144,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="d-block mb-1">Districts</span>
-                            <h3 class="card-title text-nowrap mb-2"> {{ $woreda }} </h3>
+                            <span class="d-block mb-1">Branches</span>
+                            <h3 class="card-title text-nowrap mb-2"> 18 </h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
                                 {{ __('live updates') }}</small>
                         </div>
@@ -187,13 +187,13 @@
                             <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                                 <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
                                     <div class="card-title">
-                                        <h5 class="text-nowrap mb-2">Galii </h5>
+                                        <h5 class="text-nowrap mb-2">Profiles Report </h5>
                                         <span class="badge bg-label-warning rounded-pill">Year 2025</span>
                                     </div>
                                     <div class="mt-sm-auto">
                                         <small class="text-success text-nowrap fw-semibold"><i
-                                                class="bx bx-chevron-up"></i>galii</small>
-                                        <h3 class="mb-0"> ETB1.5B</h3>
+                                                class="bx bx-chevron-up"></i>Reported</small>
+                                        <h3 class="mb-0">2</h3>
                                     </div>
                                 </div>
                                 <div id="profileReportChart"></div>
@@ -355,7 +355,7 @@
                                 </div>
                             </div>
 
-                            <div id="zoneBarChart"></div>
+                            <div id="incomeChart"></div>
                             {{-- <div class="d-flex justify-content-center pt-4 gap-2">
                                 <div class="flex-shrink-0">
                                     <div id="expensesOfWeek"></div>
@@ -400,7 +400,7 @@
                                     <img src="../assets/img/icons/unicons/wallet.png" alt="User" />
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">Organization Members</small>
+                                    <small class="text-muted d-block"></small>
                                     <div class="d-flex align-items-center">
                                         <h6 class="mb-0 me-1"> {{ $officers }} </h6>
                                         <small class="text-success fw-semibold">
@@ -1043,7 +1043,7 @@
             chart: {
                 height: 350,
                 stacked: false,
-                type: 'bar',
+                type: 'area',
                 toolbar: {
                     show: true
                 }
@@ -1071,6 +1071,13 @@
                     radius: 12,
                     offsetX: -3
                 },
+                fontSize: '13px',
+        fontFamily: config.fontFamily,
+        fontWeight: 400,
+         labels: {
+          colors: config.colors.bodyColor,
+        //   useSeriesColors: false
+        },
                 itemMargin: {
                     horizontal: 10
                 }
@@ -1081,7 +1088,8 @@
                     name: 'Male Workers',
                     data: @json(array_column($zoneCounts, 'members')),
                     yAxisIndex: 0
-                },
+                }
+                ,
                 {
                     name: 'Female Wokers',
                     data: @json(array_column($orgacount, 'adem')),
@@ -1095,27 +1103,55 @@
                         text: "Male Workers"
                     },
                     labels: {
-                        formatter: val => val.toLocaleString()
+                        formatter: val => val.toLocaleString(),
+                          style: {
+            fontSize: '13px',
+            fontFamily: [config.fontFamily],
+            colors: [config.colors.bodyColor]
+          }
                     }
                 },
                 {
                     opposite: true,
                     title: {
-                        text: "Female Workes"
+                        text: "Female Workes",
+            colors: config.colors.bodyColor
+
                     },
                     labels: {
-                        formatter: val => val.toLocaleString()
+                        formatter: val => val.toLocaleString(),
+                           style: {
+            fontSize: '13px',
+            fontFamily: [config.fontFamily],
+            colors: [config.colors.bodyColor]
+          }
                     }
                 }
             ],
 
             xaxis: {
-                categories: @json(array_column($zoneCounts, 'zone'))
+                categories: @json(array_column($zoneCounts, 'zone')),
+
+                labels:{
+             style: {
+            fontSize: '13px',
+            fontFamily: [config.fontFamily],
+            colors: [config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor]
+          }
+                }
+
             },
+
 
             title: {
                 text: 'Summarized Employee Data',
-                align: 'center'
+                align: 'center',
+                 style: {
+            fontSize: '13px',
+            fontFamily: [config.fontFamily],
+            colors: [config.colors.bodyColor]
+          }
+
             }
         };
 
@@ -1175,7 +1211,7 @@
                 enabled: false
             },
             title: {
-                text: 'Organization Members',
+                text: 'Summarized Employees Data',
                 align: 'center'
             }
         };

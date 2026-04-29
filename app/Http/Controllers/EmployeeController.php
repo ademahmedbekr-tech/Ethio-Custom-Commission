@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/EmployeeController.php
-
 namespace App\Http\Controllers;
 
 use App\Exports\EmployeeExport;
@@ -269,128 +267,136 @@ class EmployeeController extends Controller
     /**
      * Store new employee
      */
-    public function store(Request $request)
-    {
-        // Validate request
-        $validated = $request->validate([
-            // Required fields
-            'file_number' => 'nullable|string|unique:employees,file_number',
-            'employee_name' => 'required|string|max:255',
+   public function store(Request $request)
+{
+    // Validate request
+    $validated = $request->validate([
+        // Required fields
+        'file_number' => 'nullable|string|unique:employees,file_number',
+        'employee_name' => 'required|string|max:255',
 
-            // Employee Information
-            'job_title' => 'nullable|string|max:255',
-            'gender' => 'nullable|string|in:ወ,ሴ',
-            'job_level' => 'nullable|string|max:50',
-            'branch_name' => 'nullable|string|max:50',
-            'ethnicity' => 'nullable|string|max:100',
-            'religion' => 'nullable|string|max:100',
-            'date_of_birth' => 'nullable|date',
-            'hire_date' => 'nullable|date',
+        // Employee Information
+        'job_title' => 'nullable|string|max:255',
+        'gender' => 'nullable|string|in:ወ,ሴ',
+        'job_level' => 'nullable|string|max:50',
+        'branch_name' => 'nullable|string|max:50',
+        'ethnicity' => 'nullable|string|max:100',
+        'religion' => 'nullable|string|max:100',
+        'date_of_birth' => 'nullable|date',
+        'hire_date' => 'nullable|date',
 
-            // Job and Compensation
-            'step' => 'nullable|integer|min:1|max:20',
-            'salary' => 'nullable|numeric|min:0',
-            'allowance' => 'nullable|numeric|min:0',
-            'assignment_date' => 'nullable|date',
-            'housing_allowance' => 'nullable|numeric|min:0',
+        // Job and Compensation
+        'step' => 'nullable|integer|min:1|max:20',
+        'salary' => 'nullable|numeric|min:0',
+        'allowance' => 'nullable|numeric|min:0',
+        'assignment_date' => 'nullable|date',
+        'housing_allowance' => 'nullable|numeric|min:0',
 
-            // Personal & Contact
-            'pension_id' => 'nullable|string|max:50',
-            'marital_status' => 'nullable|string|in:Single,Married,Divorced,Widowed',
-            'region' => 'nullable|string|max:100',
-            'zone' => 'nullable|string|max:100',
-            'district' => 'nullable|string|max:100',
-            'specific_location' => 'nullable|string|max:255',
-            'house_number' => 'nullable|string|max:50',
-            'phone_number' => 'nullable|string|max:20',
-            'email' => 'nullable|email|unique:employees,email',
-            'fan_number' => 'nullable|string|max:100,',
+        // Personal & Contact
+        'pension_id' => 'nullable|string|max:50',
+        'marital_status' => 'nullable|string|in:Single,Married,Divorced,Widowed',
+        'region' => 'nullable|string|max:100',
+        'zone' => 'nullable|string|max:100',
+        'district' => 'nullable|string|max:100',
+        'specific_location' => 'nullable|string|max:255',
+        'house_number' => 'nullable|string|max:50',
+        'phone_number' => 'nullable|string|max:20',
+        'email' => 'nullable|email|unique:employees,email',
+        'fan_number' => 'nullable|string|max:100,',
 
 
-            // Education
-            'education_type' => 'nullable|string|max:100',
-            'education_level' => 'nullable|string|max:100',
-            'cgpa' => 'nullable|numeric|min:0|max:4',
-            'institution' => 'nullable|string|max:255',
-            'graduation_date' => 'nullable|date',
-            'coc_certificate' => 'nullable|boolean',
-            'higher_ed_verified' => 'nullable|boolean',
+        // Education
+        'education_type' => 'nullable|string|max:100',
+        'education_level' => 'nullable|string|max:100',
+        'cgpa' => 'nullable|numeric|min:0|max:4',
+        'institution' => 'nullable|string|max:255',
+        'graduation_date' => 'nullable|date',
+        'coc_certificate' => 'nullable|boolean',
+        'higher_ed_verified' => 'nullable|boolean',
 
-            // Work Experience (Current)
-            'current_job_title' => 'nullable|string|max:255',
-            'current_institution' => 'nullable|string|max:255',
-            'experience_from' => 'nullable|date',
-            'experience_to' => 'nullable|date',
+        // Work Experience (Current)
+        'current_job_title' => 'nullable|string|max:255',
+        'current_institution' => 'nullable|string|max:255',
+        'experience_from' => 'nullable|date',
+        'experience_to' => 'nullable|date',
 
-            // Work Experience (Previous)
-            'previous_job_title' => 'nullable|string|max:255',
-            'previous_institution' => 'nullable|string|max:255',
-            'previous_from' => 'nullable|date',
-            'previous_to' => 'nullable|date',
+        // Work Experience (Previous)
+        'previous_job_title' => 'nullable|string|max:255',
+        'previous_institution' => 'nullable|string|max:255',
+        'previous_from' => 'nullable|date',
+        'previous_to' => 'nullable|date',
 
-            // Additional Info
-            'column_40' => 'nullable|string|max:255',
-            'diagnosis' => 'nullable|string',
-            'disability_type' => 'nullable|string|max:255',
+        // Additional Info
+        'column_40' => 'nullable|string|max:255',
+        'diagnosis' => 'nullable|string',
+        'disability_type' => 'nullable|string|max:255',
 
-            // Files
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'document' => 'nullable|mimes:pdf,doc,docx,txt|max:5120',
-            'department_id' => 'nullable'
-        ]);
+        // Files
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'document' => 'nullable|mimes:pdf,doc,docx,txt',
+        'fayda' => 'nullable|mimes:pdf,doc,docx,txt|max:5120',
+        'department_id' => 'nullable|integer'
+    ]);
 
-        // Handle photo upload
-        if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+    // Handle photo upload
+    if ($request->hasFile('photo')) {
+        $image = $request->file('photo');
+        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
 
-            // Create directory if it doesn't exist
-            if (! file_exists(public_path('uploads/employees/photos'))) {
-                mkdir(public_path('uploads/employees/photos'), 0777, true);
-            }
-
-            // Resize and save image
-            $img = Image::make($image);
-            $img->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $img->save(public_path('uploads/employees/photos/'.$name_gen));
-
-            $validated['photo'] = 'uploads/employees/photos/'.$name_gen;
+        // Create directory if it doesn't exist
+        if (! file_exists(public_path('uploads/employees/photos'))) {
+            mkdir(public_path('uploads/employees/photos'), 0777, true);
         }
 
-        // Handle document upload
-        if ($request->hasFile('document')) {
-            $document = $request->file('document');
-            $documentName = time().'_'.$document->getClientOriginalName();
+        // Resize and save image
+        $img = Image::make($image);
+        $img->resize(300, 300, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        $img->save(public_path('uploads/employees/photos/'.$name_gen));
 
-            // Create directory if it doesn't exist
-            if (! file_exists(public_path('uploads/employees/documents'))) {
-                mkdir(public_path('uploads/employees/documents'), 0777, true);
-            }
-
-            $document->move(public_path('uploads/employees/documents'), $documentName);
-            $validated['document'] = 'uploads/employees/documents/'.$documentName;
-        }
-
-        // Set boolean fields
-
-        $validated['coc_certificate'] = $request->has('coc_certificate');
-        $validated['higher_ed_verified'] = $request->has('higher_ed_verified');
-
-        // Create employee
-        // $employee = Employee::create($validated);
-        Employee::create([
-            'employee_name' => $request->employee_name,
-            'department_id' =>$request->department,
-        ]);
-
-
-
-        return redirect()->route('employees.index')
-            ->with('success', 'Employee created successfully.');
+        $validated['photo'] = 'uploads/employees/photos/'.$name_gen;
     }
+
+    // Handle document upload
+    if ($request->hasFile('document')) {
+        $document = $request->file('document');
+        $documentName = time().'_'.$document->getClientOriginalName();
+
+        // Create directory if it doesn't exist
+        if (! file_exists(public_path('uploads/employees/documents'))) {
+            mkdir(public_path('uploads/employees/documents'), 0777, true);
+        }
+
+        $document->move(public_path('uploads/employees/documents'), $documentName);
+        $validated['document'] = 'uploads/employees/documents/'.$documentName;
+    }
+
+    if ($request->hasFile('fayda')) {
+        $fayda = $request->file('fayda');
+        $faydaName = time().'_'.$fayda->getClientOriginalName();
+
+        // Create directory if it doesn't exist
+        if (! file_exists(public_path('uploads/employees/fayda'))) {
+            mkdir(public_path('uploads/employees/fayda'), 0777, true);
+        }
+
+        $fayda->move(public_path('uploads/employees/fayda'), $faydaName);
+        $validated['fayda'] = 'uploads/employees/fayda/'.$faydaName;
+    }
+    // Set boolean fields
+
+    $validated['coc_certificate'] = $request->has('coc_certificate');
+    $validated['higher_ed_verified'] = $request->has('higher_ed_verified');
+
+    $validated['department_id'] = $request->department;
+
+    Employee::create($validated);
+
+    return redirect()->route('employees.index')
+        ->with('success', 'Employee created successfully.');
+}
 
     /**
      * Display employee details
@@ -408,6 +414,8 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
+        $department = Department::get();
+
 
         // Predefined lists
         $genders = ['ወ', 'ሴ'];
@@ -445,7 +453,8 @@ class EmployeeController extends Controller
             'ethnicities',
             'jobLevels',
             'regions',
-            'disabilityTypes'
+            'disabilityTypes',
+            'department'
         ));
     }
 
@@ -501,8 +510,9 @@ class EmployeeController extends Controller
             'diagnosis' => 'nullable|string',
             'diroctorates' => 'nullable|string|max:255',
             'disability_type' => 'nullable|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'document' => 'nullable|mimes:pdf,doc,docx,txt|max:5120',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
+            'document' => 'nullable|mimes:pdf,doc,docx,txt',
+            'fayda' => 'nullable|mimes:pdf,doc,docx,txt|max:5120'
         ]);
 
         // Handle photo upload
@@ -549,6 +559,23 @@ class EmployeeController extends Controller
             $document->move(public_path('uploads/employees/documents'), $documentName);
             $validated['document'] = 'uploads/employees/documents/'.$documentName;
         }
+          if ($request->hasFile('fayda')) {
+            // Delete old document
+            if ($employee->fayda && file_exists(public_path($employee->fayda))) {
+                unlink(public_path($employee->fayda));
+            }
+
+            $fayda = $request->file('fayda');
+            $faydaName = time().'_'.$fayda->getClientOriginalName();
+
+            // Create directory if it doesn't exist
+            if (! file_exists(public_path('uploads/employees/fayda'))) {
+                mkdir(public_path('uploads/employees/fayda'), 0777, true);
+            }
+
+            $fayda->move(public_path('uploads/employees/fayda'), $faydaName);
+            $validated['fayda'] = 'uploads/employees/fayda/'.$faydaName;
+        }
 
         // Set boolean fields
         $validated['coc_certificate'] = $request->has('coc_certificate');
@@ -556,6 +583,7 @@ class EmployeeController extends Controller
 
         // Update employee
         $employee->update($validated);
+
 
         return redirect()->route('employees.index')
             ->with('success', 'Employee updated successfully.');

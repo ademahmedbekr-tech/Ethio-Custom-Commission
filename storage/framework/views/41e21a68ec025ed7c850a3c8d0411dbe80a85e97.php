@@ -374,8 +374,8 @@
                     }
 
                     // Determine if current or previous institution
-                    $currentInstitution = ($exp->experience_type == 'current') ? ($exp->institution ?? '') : '';
-                    $previousInstitution = ($exp->experience_type != 'current') ? ($exp->institution ?? '') : '';
+                    $currentInstitution = ($exp->in_outside == 'inside') ? ($exp->institution ?? '') : '';
+                    $previousInstitution = ($exp->in_outside != 'inside') ? ($exp->institution ?? '') : '';
                 ?>
                 <tr>
                     <td><?php echo e($exp->from_date ? \Carbon\Carbon::parse($exp->from_date)->format('d/m/Y') : '__________'); ?></td>
@@ -393,8 +393,8 @@
                     <td><?php echo e($months); ?></td>
                     <td><?php echo e($days); ?></td>
                     <td><?php echo e($exp->job_title ?? '____________________'); ?></td>
-                    <td><?php echo e($exp->current_institution ?: '__________'); ?></td>
-                    <td><?php echo e($exp->previous_institution ?: '__________'); ?></td>
+                    <td><?php echo e($currentInstitution ?: '__________'); ?></td>
+                    <td><?php echo e($previousInstitution ?: '__________'); ?></td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <!-- Sample empty row -->

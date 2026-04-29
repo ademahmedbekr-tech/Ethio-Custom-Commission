@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -63,10 +64,21 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+   protected static $logAttributes = ['*'];
+
+    protected static $logOnlyDirty = false;
+
+   public function getDescriptionForEvent(string $eventName): string
+{
+    $user = Auth::user()->name;
+    $modelName = strtolower(class_basename($this)); // returns 'employee'
+
+    return "{$user} has {$eventName} {$modelName} {$this->name}";
+}
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'text', 'email']);
-        // Chain fluent methods for configuration options
+            ->logOnly(['*'])
+            ->useLogName("User");
     }
 }

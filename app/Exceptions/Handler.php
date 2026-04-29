@@ -36,7 +36,7 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Exception $e)
          {
-            //
+
         });
     }
 }

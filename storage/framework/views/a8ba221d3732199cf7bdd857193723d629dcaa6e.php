@@ -231,13 +231,19 @@ endif;
 unset($__errorArgs, $__bag); ?>" id="religion"
                                             name="religion">
                                             <option value="">ሃይማኖት ይምረጡ</option>
-                                            <option value="ኦርቶዶክስ" <?php echo e(old('religion',$employee->religion) == 'ኦርቶዶክስ' ? 'selected' : ''); ?>>
+                                            <option value="ኦርቶዶክስ"
+                                                <?php echo e(old('religion', $employee->religion) == 'ኦርቶዶክስ' ? 'selected' : ''); ?>>
                                                 Orthodox</option>
-                                            <option value="ፕሮቴስታንት" <?php echo e(old('religion',$employee->religion) == 'ፕሮቴስታንት' ? 'selected' : ''); ?>>
+                                            <option value="ፕሮቴስታንት"
+                                                <?php echo e(old('religion', $employee->religion) == 'ፕሮቴስታንት' ? 'selected' : ''); ?>>
                                                 Protestant</option>
-                                            <option value="ሙስሊም" <?php echo e(old('religion',$employee->religion) == 'ሙስሊም' ? 'selected' : ''); ?>>Muslim
+                                            <option value="ሙስሊም"
+                                                <?php echo e(old('religion', $employee->religion) == 'ሙስሊም' ? 'selected' : ''); ?>>
+                                                Muslim
                                             </option>
-                                            <option value="Waaqeeffannaa" <?php echo e(old('religion',$employee->religion) == 'Waaqeeffannaa' ? 'selected' : ''); ?>>Waaqeeffannaa
+                                            <option value="Waaqeeffannaa"
+                                                <?php echo e(old('religion', $employee->religion) == 'Waaqeeffannaa' ? 'selected' : ''); ?>>
+                                                Waaqeeffannaa
                                             </option>
                                             <option value="Other" <?php echo e(old('religion') == 'Other' ? 'selected' : ''); ?>>Other
                                             </option>
@@ -456,8 +462,8 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="mb-3">
                                         <label for="job_level" class="form-label">የአገልግሎት ደረጃ / Job Level</label>
                                         <input type="number" class="form-control" id="job_level" name="job_level"
-                                            value="<?php echo e(old('job_level',$employee->job_level)); ?>" min="1" max="100"
-                                            placeholder="1-20">
+                                            value="<?php echo e(old('job_level', $employee->job_level)); ?>" min="1"
+                                            max="100" placeholder="1-20">
 
                                     </div>
                                 </div>
@@ -728,10 +734,10 @@ unset($__errorArgs, $__bag); ?>
                             </div>
 
                             <!-- Current Files -->
-                            <?php if($employee->photo || $employee->document): ?>
+                            <?php if($employee->photo || $employee->document || $employee->fayda): ?>
                                 <div class="row mt-3">
                                     <div class="col-12">
-                                        <h6 class="text-info">አሁን ያሉ ፋይሎች / Current Files</h6>
+                                        <h6 class="text-info text-center">አሁን ያሉ ፋይሎች / Current Files</h6>
                                     </div>
                                     <?php if($employee->photo): ?>
                                         <div class="col-md-3">
@@ -748,10 +754,27 @@ unset($__errorArgs, $__bag); ?>
                                         <div class="col-md-3">
                                             <div class="card">
                                                 <div class="card-body text-center">
-                                                    <i class="bx bx-file bx-lg"></i>
+                                                    
                                                     <p class="mt-2">የአሁን ሰነድ / Current Document</p>
-                                                    <a href="<?php echo e(asset($employee->document)); ?>" target="_blank"
-                                                        class="btn btn-sm btn-info">View</a>
+                                                    
+                                                    <object class="magnific" data="<?php echo e(asset($employee->document)); ?>"
+                                                        type="application/pdf" width="100%" height="100%">
+                                                    </object>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+
+                                      <?php if($employee->fayda): ?>
+                                        <div class="col-md-3">
+                                            <div class="card">
+                                                <div class="card-body text-center">
+                                                    
+                                                    <p class="mt-2">Other Document</p>
+                                                    
+                                                    <object class="magnific" data="<?php echo e(asset($employee->fayda)); ?>"
+                                                        type="application/pdf" width="100%" height="100%">
+                                                    </object>
                                                 </div>
                                             </div>
                                         </div>
@@ -761,7 +784,7 @@ unset($__errorArgs, $__bag); ?>
 
                             <!-- File Uploads -->
                             <div class="row mt-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="photo" class="form-label">አዲስ ፎቶ / New Photo (ካስፈለገ /
                                             Optional)</label>
@@ -770,7 +793,7 @@ unset($__errorArgs, $__bag); ?>
                                         <small class="text-muted">ፎቶ ከሆነ (JPG, PNG, max 2MB)</small>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="document" class="form-label">አዲስ ሰነድ / New Document (ካስፈለገ /
                                             Optional)</label>
@@ -779,24 +802,34 @@ unset($__errorArgs, $__bag); ?>
                                         <small class="text-muted">ሰነድ ከሆነ (PDF, DOC, max 5MB)</small>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Submit Buttons -->
-                            <div class="row mt-4">
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-warning">
-                                        <i class="bx bx-save"></i> አስተካክል / Update Employee
-                                    </button>
-                                    <a href="<?php echo e(route('employees.index')); ?>" class="btn btn-secondary">
-                                        <i class="bx bx-x"></i> ሰርዝ / Cancel
-                                    </a>
+                                <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="fayda" class="form-label">አዲስ ሰነድ / Fayda NationalID</label>
+                                    <input type="file" class="form-control" id="fayda" name="fayda"
+                                        accept=".pdf,.doc,.docx">
+                                    <small class="text-muted">ሰነድ ከሆነ (PDF, DOC, max 5MB)</small>
                                 </div>
                             </div>
-                        </form>
+                            </div>
+
                     </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bx bx-save"></i> አስተካክል / Update Employee
+                            </button>
+                            <a href="<?php echo e(route('employees.index')); ?>" class="btn btn-secondary">
+                                <i class="bx bx-x"></i> ሰርዝ / Cancel
+                            </a>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 <?php $__env->stopSection(); ?>
 

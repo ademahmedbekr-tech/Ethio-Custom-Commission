@@ -105,7 +105,7 @@
 
                     </div>
                 </div>
-                <div class="card-datatable">
+                <div class="card-datatable table-responsive">
                     <table class="datatables-users table border-top table-striped">
                         <thead>
                             <tr>

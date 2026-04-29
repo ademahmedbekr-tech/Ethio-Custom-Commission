@@ -374,8 +374,8 @@
                     }
 
                     // Determine if current or previous institution
-                    $currentInstitution = ($exp->experience_type == 'current') ? ($exp->institution ?? '') : '';
-                    $previousInstitution = ($exp->experience_type != 'current') ? ($exp->institution ?? '') : '';
+                    $currentInstitution = ($exp->in_outside == 'inside') ? ($exp->institution ?? '') : '';
+                    $previousInstitution = ($exp->in_outside != 'inside') ? ($exp->institution ?? '') : '';
                 @endphp
                 <tr>
                     <td>{{ $exp->from_date ? \Carbon\Carbon::parse($exp->from_date)->format('d/m/Y') : '__________' }}</td>
@@ -392,8 +392,8 @@
                     <td>{{ $months }}</td>
                     <td>{{ $days }}</td>
                     <td>{{ $exp->job_title ?? '____________________' }}</td>
-                    <td>{{ $exp->current_institution ?: '__________' }}</td>
-                    <td>{{ $exp->previous_institution ?: '__________' }}</td>
+                    <td>{{ $currentInstitution ?: '__________' }}</td>
+                    <td>{{ $previousInstitution ?: '__________' }}</td>
                 </tr>
                 @empty
                 <!-- Sample empty row -->

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Dom\Document;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -113,7 +114,9 @@ class Employee extends Model
         // File Uploads
         'photo',
         'document',
-        'department_id'
+        'department_id',
+        'fayda',
+
     ];
 
     /**
@@ -244,6 +247,7 @@ class Employee extends Model
                     ->orderBy('from_date', 'desc')
                     ->orderBy('display_order');
     }
+
 
     /**
      * Get current experience (the one with no end date or marked as current)
@@ -563,6 +567,54 @@ class Employee extends Model
         return 'EMP' . $year . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
+
+
+
+// Add to app/Models/Employee.php
+
+// In app/Models/Employee.php
+public function documents()
+{
+    return $this->hasMany(EmployeeDocument::class, 'employeeid', 'id');
+}
+
+public function documentTypes()
+{
+    return $this->belongsToMany(DocumentType::class, 'employee_documents')
+        ->withPivot('id', 'file_path', 'is_verified', 'expiry_date')
+        ->withTimestamps();
+}
+
+public function getDocumentStatusAttribute()
+{
+    $requiredTypes = DocumentType::required()->pluck('id');
+    $uploadedTypes = $this->documents()->whereIn('document_type_id', $requiredTypes)
+        ->where('is_active', true)
+        ->pluck('document_type_id')
+        ->unique();
+
+    $missingTypes = $requiredTypes->diff($uploadedTypes);
+
+    $expiredDocs = $this->documents()->expired()->count();
+    $expiringDocs = $this->documents()->expiringSoon()->count();
+
+    return [
+        'total_required' => $requiredTypes->count(),
+        'uploaded' => $uploadedTypes->count(),
+        'missing' => $missingTypes->count(),
+        'missing_types' => DocumentType::whereIn('id', $missingTypes)->pluck('name'),
+        'expired' => $expiredDocs,
+        'expiring_soon' => $expiringDocs,
+        'completion_percentage' => $requiredTypes->count() > 0
+            ? round(($uploadedTypes->count() / $requiredTypes->count()) * 100, 2)
+            : 100,
+    ];
+}
+
+
+
+
+
     // ==================== BOOT METHOD ====================
 
     /**
@@ -584,14 +636,14 @@ class Employee extends Model
 
    protected static $logAttributes = ['*'];
 
-    protected static $logOnlyDirty = true;
+    protected static $logOnlyDirty = false;
 
    public function getDescriptionForEvent(string $eventName): string
 {
     $user = Auth::user()->name;
     $modelName = strtolower(class_basename($this)); // returns 'employee'
 
-    return "{$user} has {$eventName} {$modelName} {$this->name}";
+    return "{$user} has {$eventName} {$modelName} {$this->employee_name}";
 }
     public function getActivitylogOptions(): LogOptions
     {

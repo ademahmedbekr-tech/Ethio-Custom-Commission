@@ -130,12 +130,12 @@
                           <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                               <div class="avatar">
-                                <img src="../../assets/img/avatars/1.png" alt class="rounded-circle" />
+                                <img src="{{ Auth::user()->profile_photo_path }}" alt class="rounded-circle" />
                               </div>
                             </div>
                             <div class="flex-grow-1">
                               <h6 class="small mb-0">{{ Auth::user()->name}}</h6>
-                              <small class="mb-1 d-block text-body">{{ $notification->description }} {{ $notification->subject?->employee_name }}  </small>
+                              <small class="mb-1 d-block text-body">{{ $notification->description }} </small>
                               <small class="text-body-secondary"> at {{ $notification->created_at }} </small>
                             </div>
                             <div class="flex-shrink-0 dropdown-notifications-actions">

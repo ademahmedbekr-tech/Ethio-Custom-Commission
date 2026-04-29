@@ -134,7 +134,7 @@ class RoleController extends Controller
 
             ->get();
 
-        return view('acceess_control.roles.show', compact('role', 'rolePermissions'));
+        return view('access_control.roles.show', compact('role', 'rolePermissions'));
     }
 
     /**

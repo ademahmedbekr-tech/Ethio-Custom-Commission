@@ -11,7 +11,6 @@
                     <div class="card-body">
                         <form action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-
                             <!-- Personal Information Section -->
                             <h6 class="text-primary mb-3">📋 የግል መረጃ / Personal Information</h6>
                             <div class="row">
@@ -53,7 +52,7 @@
                                             </option>
                                             <option value="ሴ" {{ old('gender') == 'ሴ' ? 'selected' : '' }}>ሴት / Female
                                             </option>
-                                            <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>ሌላ /
+                                            <option value="ሌላ" {{ old('gender') == 'ሌላ' ? 'selected' : '' }}>ሌላ /
                                                 Other</option>
                                         </select>
                                         @error('gender')
@@ -319,19 +318,19 @@
                             <div class="row">
 
 
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                                <label for="department" class="form-label">Manager Department</label>
-                                                <select class="form-select" id="department" name="department">
-                                                    <option value="">Select Manager</option>
-                                                    @if (!empty($department))
-                                                        @foreach ($department as $dept)
-                                                            <option value="{{ $dept->id }}">{{ $dept->name }}</option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                </div>
+                               <div class="col-md-4">
+    <div class="mb-3">
+        <label for="department_id" class="form-label">Department</label>
+        <select class="form-select" id="department" name="department">
+            <option value="">Select Department</option>
+            @if (!empty($department))
+                @foreach ($department as $dept)
+                    <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                @endforeach
+            @endif
+        </select>
+    </div>
+</div>
 
                             </div>
 
@@ -570,6 +569,14 @@
                                         <small class="text-muted">ሰነድ ከሆነ (PDF, DOC, max 5MB)</small>
                                     </div>
                                 </div>
+                                 <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="fayda" class="form-label">አዲስ ሰነድ / Fayda NationalID</label>
+                                    <input type="file" class="form-control" id="fayda" name="fayda"
+                                        accept=".pdf,.doc,.docx">
+                                    <small class="text-muted">ሰነድ ከሆነ (PDF, DOC, max 5MB)</small>
+                                </div>
+                            </div>
                             </div>
 
                             <!-- Submit Buttons -->

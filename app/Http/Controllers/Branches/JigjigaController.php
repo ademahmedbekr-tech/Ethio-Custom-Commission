@@ -28,6 +28,7 @@ class JigjigaController extends Controller
     {
         $name = 'Jigjiga Dashboard';
 
+
         // Statistics
         $totalEmployees = Jigjiga::count();
         $activeEmployees = Jigjiga::whereNull('deleted_at')->count();
@@ -83,7 +84,8 @@ class JigjigaController extends Controller
             'regionStats',
             'recentEmployees',
             'avgSalary',
-            'totalPayroll'
+            'totalPayroll',
+            'zone'
         ));
     }
 
@@ -93,6 +95,8 @@ class JigjigaController extends Controller
     public function index(Request $request)
     {
         $name = 'Employees List';
+    $zone   = 'employees';
+
     $count = Jigjiga::count();
 
 
@@ -200,7 +204,8 @@ $employees->getCollection()->transform(function ($item, $key) use ($employees) {
             'withDisability',
             'count',
             'regionCount',
-            'rcount'
+            'rcount',
+            'zone'
         ));
     }
 

@@ -171,7 +171,5 @@ $user = User::whereNotNull('profile_photo_path')->get();
     }
 
 
-    public function index2(){
-        return view('dashboard2');
-    }
+
 }

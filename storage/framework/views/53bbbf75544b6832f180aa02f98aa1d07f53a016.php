@@ -9,7 +9,6 @@
                     <div class="card-body">
                         <form action="<?php echo e(route('employees.store')); ?>" method="POST" enctype="multipart/form-data">
                             <?php echo csrf_field(); ?>
-
                             <!-- Personal Information Section -->
                             <h6 class="text-primary mb-3">📋 የግል መረጃ / Personal Information</h6>
                             <div class="row">
@@ -86,7 +85,7 @@ unset($__errorArgs, $__bag); ?>" id="gender"
                                             </option>
                                             <option value="ሴ" <?php echo e(old('gender') == 'ሴ' ? 'selected' : ''); ?>>ሴት / Female
                                             </option>
-                                            <option value="Other" <?php echo e(old('gender') == 'Other' ? 'selected' : ''); ?>>ሌላ /
+                                            <option value="ሌላ" <?php echo e(old('gender') == 'ሌላ' ? 'selected' : ''); ?>>ሌላ /
                                                 Other</option>
                                         </select>
                                         <?php $__errorArgs = ['gender'];
@@ -471,19 +470,19 @@ unset($__errorArgs, $__bag); ?>
                             <div class="row">
 
 
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                                <label for="department" class="form-label">Manager Department</label>
-                                                <select class="form-select" id="department" name="department">
-                                                    <option value="">Select Manager</option>
-                                                    <?php if(!empty($department)): ?>
-                                                        <?php $__currentLoopData = $department; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $dept): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <option value="<?php echo e($dept->id); ?>"><?php echo e($dept->name); ?></option>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    <?php endif; ?>
-                                                </select>
-                                            </div>
-                                </div>
+                               <div class="col-md-4">
+    <div class="mb-3">
+        <label for="department_id" class="form-label">Department</label>
+        <select class="form-select" id="department" name="department">
+            <option value="">Select Department</option>
+            <?php if(!empty($department)): ?>
+                <?php $__currentLoopData = $department; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $dept): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($dept->id); ?>"><?php echo e($dept->name); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php endif; ?>
+        </select>
+    </div>
+</div>
 
                             </div>
 
@@ -722,6 +721,14 @@ unset($__errorArgs, $__bag); ?>
                                         <small class="text-muted">ሰነድ ከሆነ (PDF, DOC, max 5MB)</small>
                                     </div>
                                 </div>
+                                 <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="fayda" class="form-label">አዲስ ሰነድ / Fayda NationalID</label>
+                                    <input type="file" class="form-control" id="fayda" name="fayda"
+                                        accept=".pdf,.doc,.docx">
+                                    <small class="text-muted">ሰነድ ከሆነ (PDF, DOC, max 5MB)</small>
+                                </div>
+                            </div>
                             </div>
 
                             <!-- Submit Buttons -->

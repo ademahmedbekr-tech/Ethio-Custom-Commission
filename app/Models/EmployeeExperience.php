@@ -25,7 +25,8 @@ protected $fillable = [
             'location',
             'employment_type',
             'salary',
-            'display_order'
+            'display_order',
+            'in_outside'
 ];
   public function employee(): BelongsTo
     {

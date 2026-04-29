@@ -95,17 +95,34 @@
             <!-- Users List Table -->
             <div class="card">
                 <div class="card-header border-bottom">
-                    <h5 class="card-title mb-0">Search Filters</h5>
-                    <div class="d-flex justify-content-between align-items-center row pt-4 gap-md-0 g-6">
-                        <div class="col-mb-4 align-content-end text-end">
-                            <a href="{{ route('departments.create') }}" class="btn btn-sm btn-primary">
-                                <i class="bx bx-plus"></i> Add New Department
-                            </a>
-                        </div>
+    <h5 class="card-title mb-0">Department Management</h5>
+    <p class="card-category mb-0">Here you can manage Departments</p>
 
-                    </div>
-                </div>
-                <div class="card-datatable">
+    <!-- Search and Add Button -->
+    <div class="d-flex justify-content-between align-items-center row pt-4 gap-md-0 g-6">
+        <div class="col-md-6">
+            <form method="GET" action="{{ route('departments.index') }}" class="d-flex">
+                <input type="text" name="search" class="form-control" placeholder="Search by department name, code or manager..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary ms-2">
+                    <i class="bx bx-search"></i> Search
+                </button>
+                @if(request('search'))
+                    <a href="{{ route('departments.index') }}" class="btn btn-secondary ms-2">
+                        <i class="bx bx-reset"></i> Reset
+                    </a>
+                @endif
+            </form>
+        </div>
+        <div class="col-md-6 align-content-end text-end">
+
+                <a href="{{ route('departments.create') }}" class="btn btn-sm btn-primary">
+                    <i class="bx bx-plus"></i> Add New Department
+                </a>
+
+        </div>
+    </div>
+</div>
+                <div class="card-datatable table-responsive">
                     <table class="datatables-users table border-top table-striped">
                         <thead>
                             <tr>

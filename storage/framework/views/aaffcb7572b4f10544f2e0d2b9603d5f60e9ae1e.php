@@ -2,8 +2,8 @@
 
 <?php $__env->startSection('content'); ?>
     <div class="content">
-        <div class="content-wrapper">
-            <div class="container-xxl flex-grow-1 container-p-y">
+
+
 
 
                 
@@ -198,8 +198,8 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
+
+
     </div>
 <?php $__env->stopSection(); ?>
 

@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
-  public function index()
+  public function index(Request $request)
 {
     $departments = Department::with('manage')->paginate(7);
     // dd($departments->all());
+     $search = $request->input('search');
+
+    $departments = Department::with('manage')
+        ->when($search, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        })
+        ->paginate(7)
+        ->appends(['search' => $search]);
 
     // Statistics for dashboard cards
     $totalDepartments = Department::count();
@@ -23,7 +31,8 @@ class DepartmentController extends Controller
         'totalDepartments',
         'departmentsWithHeads',
         'departmentsWithoutHeads',
-        'recentDepartments'
+        'recentDepartments',
+        'search'
     ));
 }
 

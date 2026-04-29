@@ -7,8 +7,8 @@
 
 @section('content')
     <div class="content">
-        <div class="content-wrapper">
-            <div class="container-xxl flex-grow-1 container-p-y">
+
+
 
 
                 {{-- STAT CARDS --}}
@@ -201,7 +201,7 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
+
+
     </div>
 @endsection

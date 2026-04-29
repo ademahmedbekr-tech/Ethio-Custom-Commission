@@ -101,6 +101,18 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="in_outside" class="form-label">Institution Type</label>
+                                            <select class="form-control @error('in_outside') is-invalid @enderror"
+                                                    id="in_outside"
+                                                    name="in_outside">
+                                                <option value="outside" {{ old('in_outside') == 'outside' ? 'selected' : '' }}>Outside Experience</option>
+                                                <option value="inside" {{ old('in_outside') == 'inside' ? 'selected' : '' }}>Inside Experience</option>
+                                            </select>
+                                            @error('in_outside')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>

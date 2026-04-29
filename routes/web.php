@@ -95,8 +95,12 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\WeeklyReportController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Branches\JigJigaController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\FaydaController;
+use App\Http\Controllers\FaydaVerificationController;
 use App\Http\Controllers\ManagersController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 
 /*
@@ -143,6 +147,9 @@ Route::resource('jigjiga', JigjigaController::class);
     Route::resource('permission', PermissionController::class);
     Route::resource('experiences', ExperienceController::class);
     Route::resource('managers',ManagersController::class);
+    Route::resource('notification',NotificationController::class);
+    // Route::resource('fayda',FaydaVerificationController::class);
+
 
 
     //
@@ -153,6 +160,7 @@ Route::resource('jigjiga', JigjigaController::class);
 
     // import
     Route::post('zone1/import', [Zone1Controller::class, 'import'])->name('zone1.import');
+
 
     //City
 
@@ -187,6 +195,8 @@ Route::resource('jigjiga', JigjigaController::class);
     Route::get('profile/{employee}', [EmployeeController::class, 'profile'])->name('employees.profile');
     Route::get('card/{employee}', [EmployeeController::class, 'printCard'])->name('employees.print-card');
   Route::get('employee/print-card/{employee}', [EmployeeController::class, 'printCard'])->name('employees.print-card');
+    // Route::get('/verifyotp',[ FaydaController::class, 'verifyotp'])->name('fayda.verifyotp');
+
   // In routes/web.php
 Route::get('employees/pdf/{id}', [EmployeeController::class, 'exportPdf'])->name('employees.pdf');
 Route::get('employees/card-pdf/{id}', [EmployeeController::class, 'printCard'])->name('employees.card-pdf');
@@ -208,4 +218,40 @@ Route::get('employees/card-pdf/{id}', [EmployeeController::class, 'printCard'])-
 // Dashboard/Home route (if needed)
 // Route::get('/', [EmployeeController::class, 'dashboard'])->name('dashboard');
 Route::resource('departments', DepartmentController::class);
+Route::resource('document', DocumentController::class);
+// Document Routes
+Route::get('document/{id}/download', [DocumentController::class, 'download'])->name('document.download');
+Route::get('document/{id}/preview', [DocumentController::class, 'preview'])->name('document.preview');
+Route::post('document/{id}/verify', [DocumentController::class, 'verify'])->name('document.verify');
+Route::post('document/reorder', [DocumentController::class, 'reorder'])->name('document.reorder');
+Route::post('document/copy', [DocumentController::class, 'copy'])->name('document.copy');
+Route::post('document/bulk-upload', [DocumentController::class, 'bulkUpload'])->name('document.bulk-upload');
+
+
+
+// Step 1: Show input form
+// routes/web.php
+
+
+    // Fayda Verification Routes
+    Route::prefix('fayda')->name('fayda.')->group(function () {
+        Route::get('verify', [FaydaVerificationController::class, 'showInputForm'])
+            ->name('verify');
+
+        Route::post('initiate', [FaydaVerificationController::class, 'initiateVerification'])
+            ->name('initiate');
+
+        Route::get('callback', [FaydaVerificationController::class, 'handleCallback'])
+            ->name('callback');
+
+        Route::post('verify-otp', [FaydaVerificationController::class, 'processOtpVerification'])
+            ->name('verify-otp');
+
+        Route::post('resend-otp', [FaydaVerificationController::class, 'resendOtp'])
+            ->name('resend-otp');
+
+        Route::get('success', [FaydaVerificationController::class, 'showSuccess'])
+            ->name('success')
+            ->middleware('auth'); // Only authenticated users can view success page
+    });
 });

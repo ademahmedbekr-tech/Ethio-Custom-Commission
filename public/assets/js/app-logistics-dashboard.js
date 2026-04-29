@@ -52,13 +52,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
         toolbar: { show: true },
         zoom: { enabled: true }
       },
-    //   markers: {
-    //     size: 5,
-    //     colors: [config.colors.white],
-    //     strokeColors: chartColors.line.series2,
-    //     hover: { size: 6 },
-    //     borderRadius: 4
-    //   },
+      markers: {
+        size: 5,
+        colors: [config.colors.white],
+        strokeColors: chartColors.line.series2,
+        hover: { size: 6 },
+        borderRadius: 4
+      },
       stroke: {
         curve: 'smooth',
         width: [0, 3],
