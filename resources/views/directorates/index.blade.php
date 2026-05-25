@@ -1,0 +1,219 @@
+@extends('layouts.app')
+@section('content')
+    <div class="content-wrapper">
+        <!-- Content -->
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row g-6 mb-6">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-between">
+                                <div class="content-left">
+                                    <span class="text-heading">Total Directorates</span>
+                                    <div class="d-flex align-items-center my-1">
+                                        <h4 class="mb-0 me-2">{{ $totalDirectorates }}</h4>
+                                        <p class="text-success mb-0">Total</p>
+                                    </div>
+                                    <small class="mb-0">All directorates</small>
+                                </div>
+                                <div class="avatar">
+                                    <span class="avatar-initial rounded bg-label-primary">
+                                        <i class="icon-base bx bx-building icon-lg"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-between">
+                                <div class="content-left">
+                                    <span class="text-heading">With Director</span>
+                                    <div class="d-flex align-items-center my-1">
+                                        <h4 class="mb-0 me-2">{{ $directoratesWithHeads }}</h4>
+                                        <p class="text-success mb-0">Assigned</p>
+                                    </div>
+                                    <small class="mb-0">Heads assigned</small>
+                                </div>
+                                <div class="avatar">
+                                    <span class="avatar-initial rounded bg-label-success">
+                                        <i class="icon-base bx bx-user-check icon-lg"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-between">
+                                <div class="content-left">
+                                    <span class="text-heading">Without Director</span>
+                                    <div class="d-flex align-items-center my-1">
+                                        <h4 class="mb-0 me-2">{{ $directoratesWithoutHeads }}</h4>
+                                        <p class="text-danger mb-0">Pending</p>
+                                    </div>
+                                    <small class="mb-0">Need assignment</small>
+                                </div>
+                                <div class="avatar">
+                                    <span class="avatar-initial rounded bg-label-warning">
+                                        <i class="icon-base bx bx-user-x icon-lg"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start justify-content-between">
+                                <div class="content-left">
+                                    <span class="text-heading">Recent Added</span>
+                                    <div class="d-flex align-items-center my-1">
+                                        <h4 class="mb-0 me-2">{{ $recentDirectorates }}</h4>
+                                        <p class="text-info mb-0">This month</p>
+                                    </div>
+                                    <small class="mb-0">New directorates</small>
+                                </div>
+                                <div class="avatar">
+                                    <span class="avatar-initial rounded bg-label-info">
+                                        <i class="icon-base bx bx-calendar-plus icon-lg"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Users List Table -->
+            <div class="card">
+                <div class="card-header border-bottom">
+                    <h5 class="card-title mb-0">Directorate Management</h5>
+                    <p class="card-category mb-0">Here you can manage Directorates</p>
+
+                    <!-- Search and Add Button -->
+                    <div class="d-flex justify-content-between align-items-center row pt-4 gap-md-0 g-6">
+                        <div class="col-md-6">
+                            <form method="GET" action="{{ route('directorates.index') }}" class="d-flex">
+                                <input type="text" name="search" class="form-control"
+                                    placeholder="Search by Directorate name, code or manager..."
+                                    value="{{ request('search') }}">
+                                <button type="submit" class="btn btn-primary ms-2">
+                                    <i class="bx bx-search"></i> Search
+                                </button>
+                                @if (request('search'))
+                                    <a href="{{ route('directorates.index') }}" class="btn btn-secondary ms-2">
+                                        <i class="bx bx-reset"></i> Reset
+                                    </a>
+                                @endif
+                            </form>
+                        </div>
+                        <div class="col-md-6 align-content-end text-end">
+
+                            <a href="{{ route('directorates.create') }}" class="btn btn-sm btn-primary">
+                                <i class="bx bx-plus"></i> Add New Directorate
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-datatable table-responsive">
+                    <table class="datatables-users table border-top table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Directorate Name</th>
+                                <th>Directorate Code</th>
+                                <th>Description</th>
+                                <th> Director's Name</th>
+                                <th>Branch Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($directorates as $dir)
+                                <tr>
+                                    <td>{{ $dir->id }}</td>
+                                    <td>{{ $dir->name }}</td>
+                                    <td>{{ $dir->code }}</td>
+                                    <td>{{ $dir->description }}</td>
+                                    <td>{{ $dir->manage?->name }}</td>
+                                    <td>{{ $dir->branch?->name }}</td>
+
+
+
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <!-- View Button -->
+                                            <a href="{{ route('directorates.show', $dir->id) }}"
+                                                class="btn btn-sm btn-info" title="View Directorate">
+                                                <i class="bx bx-show"></i>
+                                            </a>
+
+                                            <!-- Edit Button -->
+                                            <a href="{{ route('directorates.edit', $dir->id) }}"
+                                                class="btn btn-sm btn-primary" title="Edit Directorate">
+                                                <i class="bx bx-edit"></i>
+                                            </a>
+
+                                            <!-- Delete Button with Modal Trigger -->
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $dir->id }}"
+                                                title="Delete Directorate">
+                                                <i class="bx bx-trash"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Delete Confirmation Modal -->
+                                        <div class="modal fade" id="deleteModal{{ $dir->id }}" tabindex="-1"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Confirm Delete</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete department
+                                                        <strong>"{{ $dir->name }}"</strong>?
+                                                        <br>
+                                                        <small class="text-danger">This action cannot be undone.</small>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Cancel</button>
+                                                        <form action="{{ route('directorates.destroy', $dir->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3">
+                    {{ $directorates->appends(request()->query())->links('pagination::bootstrap-5') }}
+                </div>
+            </div>
+        </div>
+        <!-- / Content -->
+
+        <!-- Footer -->
+        <div class="content-backdrop fade"></div>
+    </div>
+@endsection

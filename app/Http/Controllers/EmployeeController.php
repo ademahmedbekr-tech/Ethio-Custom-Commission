@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\EmployeeExport;
 use App\Imports\EmployeesImport;
+use App\Mail\AdminMail;
 use App\Models\Department;
 use App\Models\Employee;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Maatwebsite\Excel\Facades\Excel;
 use Mpdf\Config\ConfigVariables;
@@ -34,19 +36,15 @@ class EmployeeController extends Controller
 
         $this->middleware('permission:profile-delete', ['only' => ['destroy']]);
     }
-    /**
-     * Dashboard/Summary page
-     */
+
     public function dashboard()
     {
         $name = 'Employee Dashboard';
 
-        // Statistics
         $totalEmployees = Employee::count();
         $activeEmployees = Employee::whereNull('deleted_at')->count();
         $inactiveEmployees = Employee::onlyTrashed()->count();
 
-        // Statistics by job position
         $jobStats = Employee::select('job_title', DB::raw('count(*) as total'))
             ->whereNotNull('job_title')
             ->whereNull('deleted_at')
@@ -55,21 +53,18 @@ class EmployeeController extends Controller
             ->limit(10)
             ->get();
 
-        // Statistics by gender
         $genderStats = Employee::select('gender', DB::raw('count(*) as total'))
             ->whereNotNull('gender')
             ->whereNull('deleted_at')
             ->groupBy('gender')
             ->get();
 
-        // Statistics by education level
         $educationStats = Employee::select('education_level', DB::raw('count(*) as total'))
             ->whereNotNull('education_level')
             ->whereNull('deleted_at')
             ->groupBy('education_level')
             ->get();
 
-        // Statistics by region
         $regionStats = Employee::select('region', DB::raw('count(*) as total'))
             ->whereNotNull('region')
             ->whereNull('deleted_at')
@@ -393,6 +388,8 @@ class EmployeeController extends Controller
     $validated['department_id'] = $request->department;
 
     Employee::create($validated);
+            // Mail::to($request->email)->send(new AdminMail($request->email, $request->password));
+
 
     return redirect()->route('employees.index')
         ->with('success', 'Employee created successfully.');
@@ -1105,4 +1102,42 @@ public function printCard($id)
                 ->with('error', 'Import failed: '.$errorMessage);
         }
     }
+
+
+
+     public function exportSingleWorkerPdf($id)
+{
+    // Find by id_number instead of id
+      $employee = Employee::withTrashed()->findOrFail($id);
+
+    $html = view('employees.epdf', compact('employee'))->render();
+
+    $defaultConfig = (new ConfigVariables())->getDefaults();
+    $fontDirs = $defaultConfig['fontDir'];
+
+    $defaultFontConfig = (new FontVariables())->getDefaults();
+    $fontData = $defaultFontConfig['fontdata'];
+
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+
+        'fontDir' => array_merge($fontDirs, [
+            storage_path('fonts'),
+        ]),
+
+        'fontdata' => $fontData + [
+            'ethiopic' => [
+                'R' => 'NotoSerifEthiopic-Regular.ttf',
+                'B' => 'AbyssinicaSIL-B.ttf',
+            ],
+        ],
+
+        'default_font' => 'ethiopic',
+    ]);
+
+    $mpdf->WriteHTML($html);
+
+    return $mpdf->Output('employee-experience'.$employee->file_number.'.pdf', 'D');
+}
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Andegna\DateTimeFactory;
 use App\Models\Employee;
 use App\Models\EmployeeExperience;
 use Illuminate\Http\Request;
@@ -249,7 +250,14 @@ class ExperienceController extends Controller
         {
             $experience = EmployeeExperience::with('employee')->findOrFail($id);
 
-            return view('experiences.edit', compact('experience'));
+//  $employeeId = $request->query('employee_id');
+
+
+
+           $employee = Employee::with('experiences')->first();
+
+
+            return view('experiences.edit', compact('experience','employee'));
         }
 
         /**

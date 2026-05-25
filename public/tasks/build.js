@@ -7,6 +7,7 @@ const exec = require('gulp-exec');
 const gulpIf = require('gulp-if');
 const sourcemaps = require('gulp-sourcemaps');
 const browserSync = require('browser-sync').create();
+const useref = require('gulp-useref');
 const webpack = require('webpack');
 const log = require('fancy-log');
 const colors = require('ansi-colors');
@@ -26,16 +27,19 @@ module.exports = (conf, srcGlob) => {
             // If conf.minify == true, generate compressed style without sourcemap
             gulpIf(
               conf.minify,
-              `sass scss:${conf.distPath}/css fonts:${conf.distPath}/fonts libs:${conf.distPath}/libs --style compressed --no-source-map`,
-              `sass scss:${conf.distPath}/css fonts:${conf.distPath}/fonts libs:${conf.distPath}/libs --no-source-map`
+              `sass --load-path=node_modules/ scss:${conf.distPath}/css fonts:${conf.distPath}/fonts libs:${conf.distPath}/libs --style compressed --no-source-map`,
+              `sass --load-path=node_modules/ scss:${conf.distPath}/css fonts:${conf.distPath}/fonts libs:${conf.distPath}/libs --no-source-map`
             ),
             function (err) {
               cb(err);
             }
           ),
-          sass({
-            outputStyle: conf.minify ? 'compressed' : 'expanded'
-          }).on('error', sass.logError)
+          sass
+            .sync({
+              includePaths: ['node_modules'], // Add this line to include node_modules
+              outputStyle: conf.minify ? 'compressed' : 'expanded'
+            })
+            .on('error', sass.logError)
         )
       )
       .pipe(gulpIf(conf.sourcemaps, sourcemaps.write()))
@@ -63,7 +67,6 @@ module.exports = (conf, srcGlob) => {
       .pipe(gulpIf(conf.sourcemaps, sourcemaps.write()))
       .pipe(dest(conf.distPath + '/css'))
       .pipe(browserSync.stream());
-    cb();
   };
 
   // Build JS
@@ -117,8 +120,12 @@ module.exports = (conf, srcGlob) => {
 
   const FONT_TASKS = [
     {
-      name: 'boxicons',
-      path: 'node_modules/boxicons/fonts/*'
+      name: 'fontawesome',
+      path: 'node_modules/@fortawesome/fontawesome-free/webfonts/*'
+    },
+    {
+      name: 'flags',
+      path: 'node_modules/flag-icons/flags/**/*'
     }
   ].reduce(function (tasks, font) {
     const functionName = `buildFonts${font.name.replace(/^./, m => m.toUpperCase())}Task`;
@@ -138,7 +145,26 @@ module.exports = (conf, srcGlob) => {
     return tasks.concat([taskFunction]);
   }, []);
 
-  const buildFontsTask = parallel(FONT_TASKS);
+  // Formula module requires KaTeX - Quill Editor
+  const KATEX_FONT_TASK = [
+    {
+      name: 'katex',
+      path: 'node_modules/katex/dist/fonts/*'
+    }
+  ].reduce(function (tasks, font) {
+    const functionName = `buildFonts${font.name.replace(/^./, m => m.toUpperCase())}Task`;
+    const taskFunction = function () {
+      return src(font.path).pipe(dest(path.join(conf.distPath, '/libs/quill/fonts')));
+    };
+
+    Object.defineProperty(taskFunction, 'name', {
+      value: functionName
+    });
+
+    return tasks.concat([taskFunction]);
+  }, []);
+
+  const buildFontsTask = parallel(FONT_TASKS, KATEX_FONT_TASK);
   // Copy
   // -------------------------------------------------------------------------------
 
@@ -159,7 +185,41 @@ module.exports = (conf, srcGlob) => {
     ).pipe(dest(conf.distPath));
   };
 
-  const buildAllTask = series(buildCssTask, buildJsTask, buildFontsTask, buildCopyTask);
+  // Combine js vendor assets in single theme file using UseRef
+  // -------------------------------------------------------------------------------
+  const assetsBuildTasks = function () {
+    return src(`${conf.buildTemplatePath}/*.html`).pipe(useref()).pipe(dest(conf.buildTemplatePath));
+  };
+
+  // Iconify task
+  // -------------------------------------------------------------------------------
+  const buildIconifyTask = function (cb) {
+    // Create required directories without copying files
+    const fs = require('fs');
+    const directories = ['./fonts/iconify', './assets/vendor/fonts'];
+
+    directories.forEach(dir => {
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+    });
+
+    const iconify = require('child_process').spawn('node', ['./fonts/iconify/iconify.js']);
+
+    iconify.stdout.on('data', data => {
+      console.log(data.toString());
+    });
+
+    iconify.stderr.on('data', data => {
+      console.error(data.toString());
+    });
+
+    iconify.on('close', code => {
+      cb();
+    });
+  };
+
+  const buildAllTask = series(buildCssTask, buildJsTask, buildFontsTask, buildCopyTask, buildIconifyTask);
 
   // Exports
   // ---------------------------------------------------------------------------
@@ -167,8 +227,10 @@ module.exports = (conf, srcGlob) => {
   return {
     css: series(buildCssTask, buildAutoprefixCssTask),
     js: buildJsTask,
+    theme: assetsBuildTasks,
     fonts: buildFontsTask,
     copy: buildCopyTask,
+    iconify: buildIconifyTask,
     all: buildAllTask
   };
 };

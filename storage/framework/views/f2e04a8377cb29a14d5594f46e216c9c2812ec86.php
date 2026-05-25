@@ -1,3 +1,8 @@
+ <?php
+    //  $notification = \Spatie\Activitylog\Models\Activity::latest()->with('subject')->first();
+     $unReadMessages = \Spatie\Activitylog\Models\Activity::where('seen',0)->count();
+
+ ?>
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu">
 
@@ -8,7 +13,7 @@
                     style="border-radius: 50%">
                 
             </span>
-            <span class="app-brand-text demo menu-text fw-bolder text-capitalize ms-2">ECC</span>
+            <span class="app-brand-text demo menu-text fw-bolder text-capitalize ms-2">ECC-GK</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -32,11 +37,7 @@
                         <div data-i18n="Analytics">Analytics</div>
                     </a>
                 </li>
-                <li class="menu-item <?php echo e(Request::is('dashboard2') ? 'active' : ''); ?>">
-                    <a href="<?php echo e(route('dashboard2.index')); ?>" class="menu-link">
-                        <div data-i18n="CRM">CRM</div>
-                    </a>
-                </li>
+                
 
             </ul>
         </li>
@@ -46,7 +47,7 @@
             <li class="menu-item <?php echo e(Request::is('users') ? 'active' : ''); ?>">
                 <a href="<?php echo e(route('users.index')); ?>" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-user-voice"></i>
-                    <div data-i18n="Users">Users</div>
+                    <div data-i18n="Users">Admin Users</div>
                 </a>
             </li>
         <?php endif; ?>
@@ -95,7 +96,7 @@
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('profile-list')): ?>
                     <li class="menu-item  <?php echo e(Request::is('employees') ? 'active' : ''); ?>">
                         <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
-                            <div data-i18n="profiles">profiles</div>
+                            <div data-i18n="profiles">Employee Profiles</div>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -129,14 +130,18 @@
 
 
 
-
-        <li class="menu-item <?php echo e(Request::is('departments') ? 'active' : ''); ?> open">
-            <a href="<?php echo e(route('departments.index')); ?>" class="menu-link">
+        <li class="menu-item <?php echo e(Request::is('directorates') ? 'active' : ''); ?> open">
+            <a href="<?php echo e(route('directorates.index')); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Departments">Departments</div>
+                <div data-i18n="Directorates">Directorates</div>
             </a>
         </li>
-
+ <li class="menu-item <?php echo e(Request::is('departments') ? 'active' : ''); ?> open">
+            <a href="<?php echo e(route('departments.index')); ?>" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Positions">Positions</div>
+            </a>
+        </li>
 
         <li class="menu-item <?php echo e(Request::is('experiences') ? 'active' : ''); ?> open">
             <a href="<?php echo e(route('experiences.index')); ?>" class="menu-link">
@@ -154,13 +159,23 @@
         <li class="menu-item <?php echo e(Request::is('managers') ? 'active' : ''); ?> open">
             <a href="<?php echo e(route('managers.index')); ?>" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user-circle"></i>
-                <div data-i18n="Managers">Managers</div>
+                <div data-i18n="Managers">Directors</div>
             </a>
         </li>
          <li class="menu-item <?php echo e(Request::is('notification') ? 'active' : ''); ?>">
             <a href="<?php echo e(route('notification.index')); ?>" class="menu-link">
                 <i class="menu-icon tf-icons icon-base bx bx-bell icon-md"></i>
                 <div data-i18n="Notifications">Notifications</div>
+              <div class="badge text-bg-danger rounded-pill ms-auto"> <?php echo e($unReadMessages); ?> </div>
+
+            </a>
+        </li>
+         <li class="menu-item <?php echo e(Request::is('maintainance-mode') ? 'active' : ''); ?>">
+            <a href="<?php echo e(route('maintainance-mode')); ?>" class="menu-link">
+                <i class="menu-icon tf-icons icon-base bx bx-cog"></i>
+                <div data-i18n="Mantenance">Maintenance Mode</div>
+              
+
             </a>
         </li>
 

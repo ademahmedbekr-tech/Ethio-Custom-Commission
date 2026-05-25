@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RoleUserCreateMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -97,6 +99,7 @@ class UserController extends Controller
         $user = User::create($input);
 
         $user->assignRole($request->input('roles'));
+            Mail::to($request->email)->send(new RoleUserCreateMail($request->email, $request->password));
 
         return redirect()->route('users.index')
 

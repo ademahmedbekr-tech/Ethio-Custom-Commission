@@ -21,7 +21,7 @@ protected $table= 'managers';
 
   public function department(): BelongsTo
     {
-        return $this->belongsTo(Department::class,'department_id','id');
+        return $this->belongsTo(Directorate::class,'department_id','id');
     }
 
 }

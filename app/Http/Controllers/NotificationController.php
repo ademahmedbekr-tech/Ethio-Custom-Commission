@@ -11,9 +11,9 @@ class NotificationController extends Controller{
 
 
     public function index(){
+        Activity::query()->update(['seen' => 1]);
         $activity = Activity::with('subject')->paginate(7);
 
-        // $activity = DB::table('activity_log')->paginate(7);
 return view('notification.index',compact('activity'));
     }
 }

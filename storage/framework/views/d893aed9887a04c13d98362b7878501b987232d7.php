@@ -1,5 +1,4 @@
 <?php $__env->startSection('content'); ?>
-
     <div class="row g-6">
         <div class="col-lg-8 mb-4 order-0">
             <div class="card">
@@ -7,24 +6,25 @@
                     <div class="col-sm-7">
                         <div class="card-body">
                             <h5 class="card-title text-primary mb-3">Hi,<?php echo e(Auth::user()->name); ?></h5>
-                                <p class="mb-4">
-                                   <strong style="color: #36e43b;">Ethiopian Customs Commission</strong>  <span class="fw-bold"> (ECC) </span>
-                                    Human Resource Directorate
-                                </p>
+                            <p class="mb-4">
+                                <strong style="color: #36e43b;">FDRE Customs Commission</strong> <span class="fw-bold"> (ECC)
+                                </span>
+                                Human Resource Directorate
+                            </p>
 
-                                <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
+                            <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
                         </div>
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
                         <div class="card-body pb-0 px-0 px-md-4">
-                            <img src="<?php echo e(Auth::user()->profile_photo_path); ?>" height="140" width="auto" alt="View Badge User"
-                                />
+                            <img src="<?php echo e(Auth::user()->profile_photo_path); ?>" height="140" width="auto"
+                                alt="View Badge User" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-           
+        
         <div class="col-lg-4 col-md-4 order-1">
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-6 mb-4">
@@ -32,8 +32,10 @@
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
                                 <div class="avatar flex-shrink-0">
-                                    <img src="<?php echo e(asset('dash/assets/img/front-pages/icons/user-success.svg')); ?>"
-                                        alt="chart success" class="rounded" />
+                                    <span class="avatar-initial rounded bg-label-primary">
+                                        <i class="icon-base bx bx-group icon-lg"></i>
+                                    </span>
+                                    
                                 </div>
                                 <div class="dropdown">
                                     <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown"
@@ -75,7 +77,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span> <?php echo e(__('Diroctorates')); ?> </span>
+                            <span> <?php echo e(__('Directorates')); ?> </span>
                             <h3 class="card-title text-nowrap mb-1"> <?php echo e($diroctorates); ?> </h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> <?php echo e(__('updates')); ?>
 
@@ -155,7 +157,7 @@
                     </div>
                 </div>
                 <!-- </div>
-                                                <div class="row"> -->
+                                                        <div class="row"> -->
                 <div class="col-12 mb-6">
                     <div class="card">
                         <div class="card-body">
@@ -227,7 +229,7 @@
                         <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
                             <div class="d-flex p-4 pt-3">
                                 <div class="avatar flex-shrink-0 me-3">
-                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User" />
+                                    
                                 </div>
                                 <div>
                                     <small class="text-muted d-block">Officer Members</small>
@@ -258,7 +260,7 @@
                         <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
                             <div class="d-flex p-4 pt-3">
                                 <div class="avatar flex-shrink-0 me-3">
-                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User" />
+                                    
                                 </div>
                                 <div>
                                     <small class="text-muted d-block"></small>
@@ -289,612 +291,7 @@
         <!--/ Transactions -->
     </div>
 
-      <div class="row">
-        <div class="col-md-6 order-3 order-lg-4 mb-6 mb-lg-0">
-                  <div class="card text-center h-100">
-                    <div class="card-header nav-align-top">
-                      <ul class="nav nav-pills flex-wrap row-gap-2" role="tablist">
-                        <li class="nav-item">
-                          <button
-                            type="button"
-                            class="nav-link active"
-                            role="tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-browser"
-                            aria-controls="navs-pills-browser"
-                            aria-selected="true">
-                            Browser
-                          </button>
-                        </li>
-                        <li class="nav-item">
-                          <button
-                            type="button"
-                            class="nav-link"
-                            role="tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-os"
-                            aria-controls="navs-pills-os"
-                            aria-selected="false">
-                            Operating System
-                          </button>
-                        </li>
-                        <li class="nav-item">
-                          <button
-                            type="button"
-                            class="nav-link"
-                            role="tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-country"
-                            aria-controls="navs-pills-country"
-                            aria-selected="false">
-                            Country
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="tab-content pt-0 pb-4">
-                      <div class="tab-pane fade show active" id="navs-pills-browser" role="tabpanel">
-                        <div class="table-responsive text-start text-nowrap">
-                          <table class="table table-borderless">
-                            <thead>
-                              <tr>
-                                <th>No</th>
-                                <th>Browser</th>
-                                <th>Visits</th>
-                                <th class="w-50">Data In Percentage</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="<?php echo e(asset('dash/assets/img/icons/brands/chrome.png')); ?>"
-                                      alt="Chrome"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Oromoo</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading"> <?php echo e($ethinicity); ?> </td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-success"
-                                        role="progressbar"
-                                        style="width: 64.75%"
-                                        aria-valuenow="64.75"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">64.75%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>2</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="<?php echo e(asset('dash/assets/img/icons/brands/safari.png')); ?>"
-                                      alt="Safari"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Safari</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">1.29k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-primary"
-                                        role="progressbar"
-                                        style="width: 18.43%"
-                                        aria-valuenow="18.43"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">18.43%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="<?php echo e(asset('dash/assets/img/icons/brands/firefox.png')); ?>"
-                                      alt="Firefox"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Firefox</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">328</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-info"
-                                        role="progressbar"
-                                        style="width: 8.37%"
-                                        aria-valuenow="8.37"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">8.37%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>4</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="<?php echo e(asset('dash/assets/img/icons/brands/edge.png')); ?>"
-                                      alt="Edge"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Edge</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">142</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-warning"
-                                        role="progressbar"
-                                        style="width: 6.12%"
-                                        aria-valuenow="6.12"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">6.12%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>5</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="<?php echo e(asset('dash/assets/img/icons/brands/opera.png')); ?>"
-                                      alt="Opera"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Opera</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">82</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-danger"
-                                        role="progressbar"
-                                        style="width: 2.12%"
-                                        aria-valuenow="1.94"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">2.12%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>6</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img src="<?php echo e(asset('dash/assets/img/icons/brands/uc.png')); ?>" alt="uc" height="24" class="me-3" />
-                                    <span class="text-heading">UC Browser</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">328</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-danger"
-                                        role="progressbar"
-                                        style="width: 20.14%"
-                                        aria-valuenow="1.94"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">20.14%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                      <div class="tab-pane fade" id="navs-pills-os" role="tabpanel">
-                        <div class="table-responsive text-start text-nowrap">
-                          <table class="table table-borderless">
-                            <thead>
-                              <tr>
-                                <th>No</th>
-                                <th>System</th>
-                                <th>Visits</th>
-                                <th class="w-50">Data In Percentage</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="../../assets/img/icons/brands/windows.png"
-                                      alt="Windows"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Windows</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">875.24k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-success"
-                                        role="progressbar"
-                                        style="width: 61.5%"
-                                        aria-valuenow="61.50"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">61.50%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>2</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="../../assets/img/icons/brands/mac.png"
-                                      alt="Mac"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Mac</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">89.68k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-primary"
-                                        role="progressbar"
-                                        style="width: 16.67%"
-                                        aria-valuenow="16.67"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">16.67%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="../../assets/img/icons/brands/ubuntu.png"
-                                      alt="Ubuntu"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Ubuntu</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">37.68k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-info"
-                                        role="progressbar"
-                                        style="width: 12.82%"
-                                        aria-valuenow="12.82"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">12.82%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>4</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="../../assets/img/icons/brands/chrome.png"
-                                      alt="Chrome"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Chrome</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">8.34k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-warning"
-                                        role="progressbar"
-                                        style="width: 6.25%"
-                                        aria-valuenow="6.25"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">6.25%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>5</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="../../assets/img/icons/brands/cent.png"
-                                      alt="Cent"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Cent</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">2.25k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-danger"
-                                        role="progressbar"
-                                        style="width: 2.76%"
-                                        aria-valuenow="2.76"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">2.76%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>6</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="../../assets/img/icons/brands/linux.png"
-                                      alt="linux"
-                                      height="24"
-                                      class="me-3" />
-                                    <span class="text-heading">Linux</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">328k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-danger"
-                                        role="progressbar"
-                                        style="width: 20.14%"
-                                        aria-valuenow="2.76"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">20.14%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                      <div class="tab-pane fade" id="navs-pills-country" role="tabpanel">
-                        <div class="table-responsive text-start text-nowrap">
-                          <table class="table table-borderless">
-                            <thead>
-                              <tr>
-                                <th>No</th>
-                                <th>Country</th>
-                                <th>Visits</th>
-                                <th class="w-50">Data In Percentage</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <i class="fis fi fi-us rounded-circle fs-4 me-3"></i>
-                                    <span class="text-heading">USA</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">87.24k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-success"
-                                        role="progressbar"
-                                        style="width: 38.12%"
-                                        aria-valuenow="38.12"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">38.12%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>2</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <i class="fis fi fi-br rounded-circle fs-4 me-3"></i>
-                                    <span class="text-heading">Brazil</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">42.68k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-primary"
-                                        role="progressbar"
-                                        style="width: 28.23%"
-                                        aria-valuenow="28.23"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">28.23%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <i class="fis fi fi-in rounded-circle fs-4 me-3"></i>
-                                    <span class="text-heading">India</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">12.58k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-info"
-                                        role="progressbar"
-                                        style="width: 14.82%"
-                                        aria-valuenow="14.82"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">14.82%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>4</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <i class="fis fi fi-au rounded-circle fs-4 me-3"></i>
-                                    <span class="text-heading">Australia</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">4.13k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-warning"
-                                        role="progressbar"
-                                        style="width: 12.72%"
-                                        aria-valuenow="12.72"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">12.72%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>5</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <i class="fis fi fi-fr rounded-circle fs-4 me-3"></i>
-                                    <span class="text-heading">France</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">2.21k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-danger"
-                                        role="progressbar"
-                                        style="width: 7.11%"
-                                        aria-valuenow="7.11"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">7.11%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>6</td>
-                                <td>
-                                  <div class="d-flex align-items-center">
-                                    <i class="fis fi fi-ca rounded-circle fs-4 me-3"></i>
-                                    <span class="text-heading">Canada</span>
-                                  </div>
-                                </td>
-                                <td class="text-heading">22.35k</td>
-                                <td>
-                                  <div class="d-flex justify-content-between align-items-center gap-4">
-                                    <div class="progress w-100" style="height: 10px">
-                                      <div
-                                        class="progress-bar bg-danger"
-                                        role="progressbar"
-                                        style="width: 15.13%"
-                                        aria-valuenow="7.11"
-                                        aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="fw-medium">15.13%</small>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-        <div class="col-xxl-6 col-lg-7 order-1">
-            <div class="card h-100">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <div class="card-title mb-0">
-                        <h5 class="mb-1">Shipment statistics</h5>
-                        <p class="card-subtitle">Total number of deliveries 23.8k</p>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-label-primary">January</button>
-                        <button type="button" class="btn btn-label-primary dropdown-toggle dropdown-toggle-split"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:void(0);">January</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">February</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">March</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">April</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">May</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">June</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">July</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">August</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">September</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">October</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">November</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">December</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div id="shipmentStatisticsChart"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 <?php $__env->stopSection(); ?>
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -933,12 +330,12 @@
                     offsetX: -3
                 },
                 fontSize: '13px',
-        fontFamily: config.fontFamily,
-        fontWeight: 400,
-         labels: {
-          colors: config.colors.bodyColor,
-        //   useSeriesColors: false
-        },
+                fontFamily: config.fontFamily,
+                fontWeight: 400,
+                labels: {
+                    colors: config.colors.bodyColor,
+                    //   useSeriesColors: false
+                },
                 itemMargin: {
                     horizontal: 10
                 }
@@ -949,8 +346,7 @@
                     name: 'Male Workers',
                     data: <?php echo json_encode(array_column($zoneCounts, 'members'), 512) ?>,
                     yAxisIndex: 0
-                }
-                ,
+                },
                 {
                     name: 'Female Wokers',
                     data: <?php echo json_encode(array_column($orgacount, 'adem'), 512) ?>,
@@ -965,27 +361,27 @@
                     },
                     labels: {
                         formatter: val => val.toLocaleString(),
-                          style: {
-            fontSize: '13px',
-            fontFamily: [config.fontFamily],
-            colors: [config.colors.bodyColor]
-          }
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: [config.fontFamily],
+                            colors: [config.colors.bodyColor]
+                        }
                     }
                 },
                 {
                     opposite: true,
                     title: {
                         text: "Female Workes",
-            colors: config.colors.bodyColor
+                        colors: config.colors.bodyColor
 
                     },
                     labels: {
                         formatter: val => val.toLocaleString(),
-                           style: {
-            fontSize: '13px',
-            fontFamily: [config.fontFamily],
-            colors: [config.colors.bodyColor]
-          }
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: [config.fontFamily],
+                            colors: [config.colors.bodyColor]
+                        }
                     }
                 }
             ],
@@ -993,12 +389,19 @@
             xaxis: {
                 categories: <?php echo json_encode(array_column($zoneCounts, 'zone'), 512) ?>,
 
-                labels:{
-             style: {
-            fontSize: '13px',
-            fontFamily: [config.fontFamily],
-            colors: [config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor]
-          }
+                labels: {
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: [config.fontFamily],
+                        colors: [config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor
+                        ]
+                    }
                 }
 
             },
@@ -1007,11 +410,11 @@
             title: {
                 text: 'Summarized Employee Data',
                 align: 'center',
-                 style: {
-            fontSize: '13px',
-            fontFamily: [config.fontFamily],
-            colors: [config.colors.bodyColor]
-          }
+                style: {
+                    fontSize: '13px',
+                    fontFamily: [config.fontFamily],
+                    colors: [config.colors.bodyColor]
+                }
 
             }
         };
@@ -1182,6 +585,5 @@
 
     });
 </script>
-
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ODA-IT\Documents\GitHub\ECC\ecc-profiles\resources\views/dashboard.blade.php ENDPATH**/ ?>

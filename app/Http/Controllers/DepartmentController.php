@@ -1,93 +1,83 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Department;
-use App\Models\Managers;
+use App\Models\Directorate;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
-  public function index(Request $request)
-{
-    $departments = Department::with('manage')->paginate(7);
-    // dd($departments->all());
-     $search = $request->input('search');
+    public function index()
+    {
+        $departments = Department::with('directorate')
+            ->latest()
+            ->paginate(10);
 
-    $departments = Department::with('manage')
-        ->when($search, function ($query, $search) {
-            return $query->where('name', 'like', '%' . $search . '%');
-        })
-        ->paginate(7)
-        ->appends(['search' => $search]);
-
-    // Statistics for dashboard cards
-    $totalDepartments = Department::count();
-    $departmentsWithHeads = Department::whereNotNull('managers_id')->count();
-    $departmentsWithoutHeads = Department::whereNull('managers_id')->count();
-    $recentDepartments = Department::whereMonth('created_at', now()->month)->count();
-
-    return view('departments.index', compact(
-        'departments',
-        'totalDepartments',
-        'departmentsWithHeads',
-        'departmentsWithoutHeads',
-        'recentDepartments',
-        'search'
-    ));
-}
+        return view('departments.index', compact('departments'));
+    }
 
     public function create()
     {
-        $manager = Managers::select('name')
-            ->distinct()
-            ->whereNotNull('name')
-            ->orderBy('name', 'ASC')
-            ->pluck('name');
-        return view('departments.create',compact('manager'));
+        $directorates = Directorate::with('branch')->get();
+
+        return view('departments.create', compact('directorates'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:departments,name',
+        $validated = $request->validate([
+            'directorate_id' => 'required|exists:directorates,id',
+            'name' => 'required|string|max:255',
             'code' => 'required|unique:departments,code',
+            'description' => 'nullable|string',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        Department::create($request->all());
+        Department::create($validated);
 
         return redirect()->route('departments.index')
             ->with('success', 'Department created successfully');
     }
 
+    public function show($id)
+    {
+        $department = Department::with('directorate.branch')->findOrFail($id);
+
+        return view('departments.show', compact('department'));
+    }
+
     public function edit($id)
     {
         $department = Department::findOrFail($id);
+        $directorates = Directorate::all();
 
-        return view('departments.edit', compact('department'));
+        return view('departments.edit', compact('department', 'directorates'));
     }
 
-    public function update(Request $request, Department $department)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
+        $department = Department::findOrFail($id);
+
+        $validated = $request->validate([
+            'directorate_id' => 'required|exists:directorates,id',
+            'name' => 'required|string|max:255',
             'code' => 'required|unique:departments,code,' . $department->id,
+            'description' => 'nullable|string',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        $department->update($request->all());
+        $department->update($validated);
 
         return redirect()->route('departments.index')
             ->with('success', 'Department updated successfully');
     }
 
-    public function destroy(Department $department)
+    public function destroy($id)
     {
-        $department->delete();
+        Department::findOrFail($id)->delete();
 
-        return back()->with('success', 'Department deleted');
+        return redirect()->route('departments.index')
+            ->with('success', 'Department deleted successfully');
     }
-
-    public function show(){
-return view('departments.show');
-    }
-
 }

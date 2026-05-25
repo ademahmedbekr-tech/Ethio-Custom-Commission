@@ -634,23 +634,20 @@ public function getDocumentStatusAttribute()
         });
     }
 
-   protected static $logAttributes = ['*'];
-
-    protected static $logOnlyDirty = false;
-
-   public function getDescriptionForEvent(string $eventName): string
+ public function getDescriptionForEvent(string $eventName): string
 {
-    $user = Auth::user()->name;
-    $modelName = strtolower(class_basename($this)); // returns 'employee'
+    $user = Auth::user()->name ?? 'System';
+    $modelName = strtolower(class_basename($this));
 
     return "{$user} has {$eventName} {$modelName} {$this->employee_name}";
 }
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['*'])
-            ->useLogName("Employee");
-    }
+
+public function getActivitylogOptions(): LogOptions
+{
+    return LogOptions::defaults()
+        ->logAll()
+        ->useLogName("Employee");
+}
 public function department(): BelongsTo
  {
         return $this->belongsTo(Department::class,'department_id','id');

@@ -1,0 +1,13 @@
+language: php
+
+php:
+  # GCM encryption requires PHP 7.1+
+  - '7.1'
+  - '7.2'
+  - '7.3'
+
+install:
+  - composer install
+
+script:
+  - composer test

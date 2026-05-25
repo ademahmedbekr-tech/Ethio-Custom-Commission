@@ -61,4 +61,5 @@
 </body>
 
 </html>
+
 <?php /**PATH C:\Users\ODA-IT\Documents\GitHub\ECC\ecc-profiles\resources\views/layouts/app.blade.php ENDPATH**/ ?>

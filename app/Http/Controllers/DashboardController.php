@@ -6,11 +6,15 @@ use App\Models\News;
 use App\Models\Zone1;
 use App\Models\Announcement;
 use App\Models\Department;
+use App\Models\Directorate;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class DashboardController
+
+
+class DashboardController extends Controller
 {
     public function __invoke(Request $request)
     {
@@ -23,12 +27,12 @@ for ($i = 1; $i <= 21; $i++) {
 for($a = 1; $a <=19; $a++){
     $city[] = "city{$a}s";
 }
-$roles = \DB::table('roles')->count();
-$officers = \DB::table('w_officers')->count();
+$roles = DB::table('roles')->count();
+$officers = DB::table('w_officers')->count();
 
-$all = collect($zones)->sum(fn($z) => \DB::table($z)->count());
-$allcity = collect($city)->sum(fn($c) => \DB::table($c)->count());
-$woreda = \DB::table('woreda')->count();
+$all = collect($zones)->sum(fn($z) => DB::table($z)->count());
+// $allcity = collect($city)->sum(fn($c) => DB::table($c)->count());
+$woreda = DB::table('woreda')->count();
 $total_employee = Employee::count();
 
 // Optional: return or dd
@@ -38,13 +42,13 @@ $total_employee = Employee::count();
         $count = Zone1::count();
         $announcement = Announcement::count();
         $members = Zone1::count();
-        $diroctorates = Department::count();
+        $diroctorates = Directorate::count();
 
 
 
     $zones = [
 
-    'zone1s' => 'Addis Ababa',
+    'employees' => 'Addis Ababa',
     'zone2s' => 'Kaliti',
     'zone3s' => 'Modjo',
     'zone4s' => 'Dire Dawa',
@@ -55,7 +59,7 @@ $total_employee = Employee::count();
     'zone9s' => 'Mekelle',
     'zone10s' => 'Jimma',
     'zone11s' => 'Semera',
-    'zone12s' => 'Jijiga',
+    'jigjiga' => 'Jijiga',
     'zone13s' => 'Gambella',
     'zone14s' => 'Dawale',
     'zone15s' => 'Galafi',
@@ -74,7 +78,7 @@ $total_employee = Employee::count();
     foreach ($zones as $table => $name) {
         $zoneCounts[] = [
             'zone' => $name,
-            'members' => \DB::table($table)->count()
+            'members' => DB::table($table)->count()
         ];
     }
 
@@ -114,7 +118,7 @@ $total_employee = Employee::count();
     foreach ($orgs as $table => $name) {
         $orgacount[] = [
             'ahmed' => $name,
-            'adem' => \DB::table($table)->count()
+            'adem' => DB::table($table)->count()
         ];
     }
 
@@ -144,7 +148,7 @@ $zonesposition =[
 
     foreach ($zonesposition as $zone) {
         foreach ($positions as $pos) {
-            $count = \DB::table($zone)
+            $count = DB::table($zone)
                 ->where('position', $pos)
                 ->count();
 
@@ -153,8 +157,8 @@ $zonesposition =[
         }
     }
 
-$zoneCounter = \DB::table('w_officers')
-    ->select('zone', \DB::raw('COUNT(name) AS total'))
+$zoneCounter = DB::table('w_officers')
+    ->select('zone', DB::raw('COUNT(name) AS total'))
     ->groupBy('zone')
     ->pluck('total', 'zone')      // returns ["Sh/Kaaabaa" => 8]
     ->toArray();
@@ -166,7 +170,7 @@ $user = User::whereNotNull('profile_photo_path')->get();
 
 
 
-        return view('dashboard',  compact('news', 'announcement', 'members','count','all','woreda','allcity','roles','officers','user','zoneCounts','ethinicity','orgacount','positionCounts','zonesposition','zoneCounter','total_employee','diroctorates'),
+        return view('dashboard', compact('news', 'announcement', 'members','count','all','woreda','roles','officers','user','zoneCounts','ethinicity','orgacount','positionCounts','zonesposition','zoneCounter','total_employee','diroctorates'),
         ['positionCounts' => $positionCounts],['zoneCounts' => $zoneCounts],['zoneCounter' => $zoneCounter]);
     }
 

@@ -52,32 +52,16 @@
                 <th>Email</th>
 
                 <!-- EDUCATION (7 columns) -->
-                <th>Edu Type</th>
-                <th>Edu Level</th>
-                <th>CGPA</th>
-                <th>Institution</th>
-                <th>Grad Date</th>
-                <th>COC</th>
-                <th>Higher Ed</th>
+                
 
                 <!-- WORK EXPERIENCE (9 columns) -->
-                <th>Current Job</th>
-                <th>Current Inst.</th>
-                <th>Exp From</th>
-                <th>Exp To</th>
-                <th>Exp Dur.</th>
-                <th>Previous Job</th>
-                <th>Previous Inst.</th>
-                <th>Prev From</th>
-                <th>Prev To</th>
+                
 
                 <!-- ADDITIONAL (4 columns) -->
-                <th>Col 40</th>
-                <th>Diagnosis</th>
-                <th>Disability</th>
-                <th>Status</th>
+                
 
                 <!-- ACTIONS (3 columns) -->
+                <th>Status</th>
                 <th>Photo</th>
                 <th>Document</th>
                 <th>Actions</th>
@@ -120,42 +104,14 @@
                     <td><?php echo e($employee->email ?? 'N/A'); ?></td>
 
                     <!-- EDUCATION -->
-                    <td><?php echo e($employee->education_type ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->education_level ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->cgpa ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->institution ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->graduation_date ? $employee->graduation_date->format('d/m/Y') : 'N/A'); ?></td>
-                    <td>
-                        <?php if($employee->coc_certificate): ?>
-                            <span class="badge bg-success">Yes</span>
-                        <?php else: ?>
-                            <span class="badge bg-secondary">No</span>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if($employee->higher_ed_verified): ?>
-                            <span class="badge bg-success">Yes</span>
-                        <?php else: ?>
-                            <span class="badge bg-secondary">No</span>
-                        <?php endif; ?>
-                    </td>
+                    
 
                     <!-- WORK EXPERIENCE -->
-                    <td><?php echo e($employee->current_job_title ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->current_institution ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->experience_from ? $employee->experience_from->format('d/m/Y') : 'N/A'); ?></td>
-                    <td><?php echo e($employee->experience_to ? $employee->experience_to->format('d/m/Y') : 'Present'); ?></td>
-                    <td><?php echo e($employee->experience_duration ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->previous_job_title ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->previous_institution ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->previous_from ? $employee->previous_from->format('d/m/Y') : 'N/A'); ?></td>
-                    <td><?php echo e($employee->previous_to ? $employee->previous_to->format('d/m/Y') : 'N/A'); ?></td>
+                    
 
                     <!-- ADDITIONAL -->
-                    <td><?php echo e($employee->column_40 ?? 'N/A'); ?></td>
-                    <td><?php echo e(Str::limit($employee->diagnosis, 15) ?? 'N/A'); ?></td>
-                    <td><?php echo e($employee->disability_type ?? 'None'); ?></td>
-                    <td>
+                    
+                     <td>
                         <?php if($employee->trashed()): ?>
                             <span class="badge bg-danger">Inactive</span>
                         <?php else: ?>
@@ -213,8 +169,8 @@
                                 </li>
                                   <li>
                                     <a class="dropdown-item"
-                                        href="<?php echo e(route('document.create', ['employeeid' => $employee->id])); ?>">
-                                        <i class="bi bi-briefcase"></i> Upload Documents
+                                        href="<?php echo e(route('employees.epdf', $employee->id)); ?>">
+                                        <i class="bi bi-briefcase"></i>  Generate Letter
                                     </a>
                                 </li>
                                 <li>

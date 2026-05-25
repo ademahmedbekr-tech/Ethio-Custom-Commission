@@ -1,0 +1,13 @@
+vendor
+.idea
+*.swap
+
+# local keys
+examples/creds/*
+!examples/creds/.gitkeep
+
+.env
+
+logs/*
+!logs/.gitkeep
+

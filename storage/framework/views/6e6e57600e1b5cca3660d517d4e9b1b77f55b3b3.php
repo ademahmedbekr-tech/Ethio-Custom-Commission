@@ -2,7 +2,7 @@
     <div class="container">
         <div class="navbar-header">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="<?php echo e(route('front.news')); ?>">
-                <img src="<?php echo e(asset('front/images/logo (1).png')); ?>" height="30em" width="30em">
+                <img src="<?php echo e(asset('dash/assets/img/avatars/1.png')); ?>" height="30em" width="30em">
             </a>
         </div>
         <div class="collapse navbar-collapse" id="custom-collapse">

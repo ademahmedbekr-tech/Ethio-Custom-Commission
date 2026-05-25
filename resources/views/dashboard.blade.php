@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('content')
-
     <div class="row g-6">
         <div class="col-lg-8 mb-4 order-0">
             <div class="card">
@@ -9,24 +7,25 @@
                     <div class="col-sm-7">
                         <div class="card-body">
                             <h5 class="card-title text-primary mb-3">Hi,{{ Auth::user()->name }}</h5>
-                                <p class="mb-4">
-                                   <strong style="color: #36e43b;">Ethiopian Customs Commission</strong>  <span class="fw-bold"> (ECC) </span>
-                                    Human Resource Directorate
-                                </p>
+                            <p class="mb-4">
+                                <strong style="color: #36e43b;">FDRE Customs Commission</strong> <span class="fw-bold"> (ECC)
+                                </span>
+                                Human Resource Directorate
+                            </p>
 
-                                <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
+                            <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a>
                         </div>
                     </div>
                     <div class="col-sm-5 text-center text-sm-left">
                         <div class="card-body pb-0 px-0 px-md-4">
-                            <img src="{{ Auth::user()->profile_photo_path }}" height="140" width="auto" alt="View Badge User"
-                                />
+                            <img src="{{ Auth::user()->profile_photo_path }}" height="140" width="auto"
+                                alt="View Badge User" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-           {{-- <div class="col-xxl-8 mb-6 order-0">
+        {{-- <div class="col-xxl-8 mb-6 order-0">
                   <div class="card">
                     <div class="d-flex align-items-start row">
                       <div class="col-sm-7">
@@ -58,8 +57,11 @@
                         <div class="card-body">
                             <div class="card-title d-flex align-items-start justify-content-between">
                                 <div class="avatar flex-shrink-0">
-                                    <img src="{{ asset('dash/assets/img/front-pages/icons/user-success.svg') }}"
-                                        alt="chart success" class="rounded" />
+                                    <span class="avatar-initial rounded bg-label-primary">
+                                        <i class="icon-base bx bx-group icon-lg"></i>
+                                    </span>
+                                    {{-- <img src="{{ asset('dash/assets/img/front-pages/icons/user-success.svg') }}"
+                                        alt="chart success" class="rounded" /> --}}
                                 </div>
                                 <div class="dropdown">
                                     <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown"
@@ -100,7 +102,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span> {{ __('Diroctorates') }} </span>
+                            <span> {{ __('Directorates') }} </span>
                             <h3 class="card-title text-nowrap mb-1"> {{ $diroctorates }} </h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> {{ __('updates') }}
                             </small>
@@ -180,7 +182,7 @@
                     </div>
                 </div>
                 <!-- </div>
-                                                <div class="row"> -->
+                                                        <div class="row"> -->
                 <div class="col-12 mb-6">
                     <div class="card">
                         <div class="card-body">
@@ -341,7 +343,7 @@
                         <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
                             <div class="d-flex p-4 pt-3">
                                 <div class="avatar flex-shrink-0 me-3">
-                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User" />
+                                    {{-- <img src="{{ asset('dash/assets/img/icons/unicons/wallet.png') }}" alt="User" /> --}}
                                 </div>
                                 <div>
                                     <small class="text-muted d-block">Officer Members</small>
@@ -397,7 +399,7 @@
                         <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
                             <div class="d-flex p-4 pt-3">
                                 <div class="avatar flex-shrink-0 me-3">
-                                    <img src="../assets/img/icons/unicons/wallet.png" alt="User" />
+                                    {{-- <img src="{{ asset('dash/assets/img/icons/unicons/wallet.png') }}" alt="User" /> --}}
                                 </div>
                                 <div>
                                     <small class="text-muted d-block"></small>
@@ -428,7 +430,7 @@
         <!--/ Transactions -->
     </div>
 
-      <div class="row">
+    {{-- <div class="row">
         <div class="col-md-6 order-3 order-lg-4 mb-6 mb-lg-0">
                   <div class="card text-center h-100">
                     <div class="card-header nav-align-top">
@@ -1033,7 +1035,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -1072,12 +1074,12 @@
                     offsetX: -3
                 },
                 fontSize: '13px',
-        fontFamily: config.fontFamily,
-        fontWeight: 400,
-         labels: {
-          colors: config.colors.bodyColor,
-        //   useSeriesColors: false
-        },
+                fontFamily: config.fontFamily,
+                fontWeight: 400,
+                labels: {
+                    colors: config.colors.bodyColor,
+                    //   useSeriesColors: false
+                },
                 itemMargin: {
                     horizontal: 10
                 }
@@ -1088,8 +1090,7 @@
                     name: 'Male Workers',
                     data: @json(array_column($zoneCounts, 'members')),
                     yAxisIndex: 0
-                }
-                ,
+                },
                 {
                     name: 'Female Wokers',
                     data: @json(array_column($orgacount, 'adem')),
@@ -1104,27 +1105,27 @@
                     },
                     labels: {
                         formatter: val => val.toLocaleString(),
-                          style: {
-            fontSize: '13px',
-            fontFamily: [config.fontFamily],
-            colors: [config.colors.bodyColor]
-          }
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: [config.fontFamily],
+                            colors: [config.colors.bodyColor]
+                        }
                     }
                 },
                 {
                     opposite: true,
                     title: {
                         text: "Female Workes",
-            colors: config.colors.bodyColor
+                        colors: config.colors.bodyColor
 
                     },
                     labels: {
                         formatter: val => val.toLocaleString(),
-                           style: {
-            fontSize: '13px',
-            fontFamily: [config.fontFamily],
-            colors: [config.colors.bodyColor]
-          }
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: [config.fontFamily],
+                            colors: [config.colors.bodyColor]
+                        }
                     }
                 }
             ],
@@ -1132,12 +1133,19 @@
             xaxis: {
                 categories: @json(array_column($zoneCounts, 'zone')),
 
-                labels:{
-             style: {
-            fontSize: '13px',
-            fontFamily: [config.fontFamily],
-            colors: [config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor,config.colors.bodyColor]
-          }
+                labels: {
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: [config.fontFamily],
+                        colors: [config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor,
+                            config.colors.bodyColor, config.colors.bodyColor, config.colors.bodyColor
+                        ]
+                    }
                 }
 
             },
@@ -1146,11 +1154,11 @@
             title: {
                 text: 'Summarized Employee Data',
                 align: 'center',
-                 style: {
-            fontSize: '13px',
-            fontFamily: [config.fontFamily],
-            colors: [config.colors.bodyColor]
-          }
+                style: {
+                    fontSize: '13px',
+                    fontFamily: [config.fontFamily],
+                    colors: [config.colors.bodyColor]
+                }
 
             }
         };
@@ -1321,4 +1329,3 @@
 
     });
 </script>
-

@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
       series: [
         {
           name: 'Shipment',
-          type: 'bar',
+          type: 'column',
           data: [38, 45, 33, 38, 32, 50, 48, 40, 42, 37]
         },
         {
@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
         type: 'line',
         stacked: false,
         parentHeightOffset: 0,
-        toolbar: { show: true },
-        zoom: { enabled: true }
+        toolbar: { show: false },
+        zoom: { enabled: false }
       },
       markers: {
         size: 5,

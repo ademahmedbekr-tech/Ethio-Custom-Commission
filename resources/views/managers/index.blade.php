@@ -110,8 +110,8 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Manager Name</th>
-                                <th>Department ID</I></th>
+                                <th>Director Name</th>
+                                <th>Directorate Name</I></th>
                                 <th>Description</th>
                                 {{-- <th>Department Head</th> --}}
                                 {{-- <th>Status</th> --}}

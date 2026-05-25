@@ -63,16 +63,16 @@
                 <th>Email</th>
 
                 <!-- EDUCATION (7 columns) -->
-                <th>Edu Type</th>
+                {{-- <th>Edu Type</th>
                 <th>Edu Level</th>
                 <th>CGPA</th>
                 <th>Institution</th>
                 <th>Grad Date</th>
                 <th>COC</th>
-                <th>Higher Ed</th>
+                <th>Higher Ed</th> --}}
 
                 <!-- WORK EXPERIENCE (9 columns) -->
-                <th>Current Job</th>
+                {{-- <th>Current Job</th>
                 <th>Current Inst.</th>
                 <th>Exp From</th>
                 <th>Exp To</th>
@@ -80,15 +80,16 @@
                 <th>Previous Job</th>
                 <th>Previous Inst.</th>
                 <th>Prev From</th>
-                <th>Prev To</th>
+                <th>Prev To</th> --}}
 
                 <!-- ADDITIONAL (4 columns) -->
-                <th>Col 40</th>
+                {{-- <th>Col 40</th>
                 <th>Diagnosis</th>
                 <th>Disability</th>
-                <th>Status</th>
+                <th>Status</th> --}}
 
                 <!-- ACTIONS (3 columns) -->
+                <th>Status</th>
                 <th>Photo</th>
                 <th>Document</th>
                 <th>Actions</th>
@@ -131,7 +132,7 @@
                     <td>{{ $employee->email ?? 'N/A' }}</td>
 
                     <!-- EDUCATION -->
-                    <td>{{ $employee->education_type ?? 'N/A' }}</td>
+                    {{-- <td>{{ $employee->education_type ?? 'N/A' }}</td>
                     <td>{{ $employee->education_level ?? 'N/A' }}</td>
                     <td>{{ $employee->cgpa ?? 'N/A' }}</td>
                     <td>{{ $employee->institution ?? 'N/A' }}</td>
@@ -149,10 +150,10 @@
                         @else
                             <span class="badge bg-secondary">No</span>
                         @endif
-                    </td>
+                    </td> --}}
 
                     <!-- WORK EXPERIENCE -->
-                    <td>{{ $employee->current_job_title ?? 'N/A' }}</td>
+                    {{-- <td>{{ $employee->current_job_title ?? 'N/A' }}</td>
                     <td>{{ $employee->current_institution ?? 'N/A' }}</td>
                     <td>{{ $employee->experience_from ? $employee->experience_from->format('d/m/Y') : 'N/A' }}</td>
                     <td>{{ $employee->experience_to ? $employee->experience_to->format('d/m/Y') : 'Present' }}</td>
@@ -160,13 +161,20 @@
                     <td>{{ $employee->previous_job_title ?? 'N/A' }}</td>
                     <td>{{ $employee->previous_institution ?? 'N/A' }}</td>
                     <td>{{ $employee->previous_from ? $employee->previous_from->format('d/m/Y') : 'N/A' }}</td>
-                    <td>{{ $employee->previous_to ? $employee->previous_to->format('d/m/Y') : 'N/A' }}</td>
+                    <td>{{ $employee->previous_to ? $employee->previous_to->format('d/m/Y') : 'N/A' }}</td> --}}
 
                     <!-- ADDITIONAL -->
-                    <td>{{ $employee->column_40 ?? 'N/A' }}</td>
+                    {{-- <td>{{ $employee->column_40 ?? 'N/A' }}</td>
                     <td>{{ Str::limit($employee->diagnosis, 15) ?? 'N/A' }}</td>
                     <td>{{ $employee->disability_type ?? 'None' }}</td>
                     <td>
+                        @if ($employee->trashed())
+                            <span class="badge bg-danger">Inactive</span>
+                        @else
+                            <span class="badge bg-success">Active</span>
+                        @endif
+                    </td> --}}
+                     <td>
                         @if ($employee->trashed())
                             <span class="badge bg-danger">Inactive</span>
                         @else
@@ -224,8 +232,8 @@
                                 </li>
                                   <li>
                                     <a class="dropdown-item"
-                                        href="{{ route('document.create', ['employeeid' => $employee->id]) }}">
-                                        <i class="bi bi-briefcase"></i> Upload Documents
+                                        href="{{ route('employees.epdf', $employee->id) }}">
+                                        <i class="bi bi-briefcase"></i>  Generate Letter
                                     </a>
                                 </li>
                                 <li>

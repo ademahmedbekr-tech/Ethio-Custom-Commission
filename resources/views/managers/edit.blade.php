@@ -9,7 +9,8 @@
                         <i class="bx bx-home-heart"></i> Create New Manager
                     </h5>
                     <div class="card-body">
-                        <form action="{{ route('managers.update', $managers->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('managers.update', $managers->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -32,15 +33,15 @@
                                             <div class="mb-3">
                                                 <label for="department_id" class="form-label">Manager Department</label>
                                                 <select class="form-select" id="department_id" name="department_id">
-                                                    <option value="">Select Manager</option>
-                                                    @foreach ($department ?? [] as $dept)
-                                                      <option value="{{ $dept }}"
-                                                        {{ request('department_id') == $dept ? 'selected' : '' }}>
-                                                        {{ $dept }}
-                                                        </option>
-                                                    @endforeach
-
-
+                                                    <option value="">Select Department</option> {{-- Changed "Select Manager" to "Select Department" --}}
+                                                    @if (!empty($department))
+                                                        @foreach ($department as $dept)
+                                                            <option value="{{ $dept->id }}"
+                                                                {{ old('department_id', $managers->department_id) == $dept->id ? 'selected' : '' }}>
+                                                                {{ $dept->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
 

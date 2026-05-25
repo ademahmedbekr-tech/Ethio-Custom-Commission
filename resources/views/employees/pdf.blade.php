@@ -4,189 +4,142 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>የሠራተኛ የግል ሁኔታ መግለጫ</title>
+    <title>የሠራተኛ የግል ሁኔታ መግለጫ – የጉምሩክ ኮሚሽን</title>
     <style>
-    @font-face {
-        font-family: 'Abyssinica SIL';
-        font-style: normal;
-        font-weight: normal;
-        src: url("{{ storage_path('fonts/AbyssinicaSIL-Regular.ttf') }}") format('truetype');
-    }
+        @font-face {
+            font-family: 'Abyssinica SIL';
+            font-style: normal;
+            font-weight: normal;
+            src: url("{{ storage_path('fonts/AbyssinicaSIL-Regular.ttf') }}") format('truetype');
+        }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-        font-family: 'Abyssinica SIL', 'Nyala', 'Ethiopic', 'DejaVu Sans', sans-serif;
-        direction: ltr;
-        font-size: 11px;
-        line-height: 1.3;
-        margin: 8px 12px;
-        background: #fffcf0;
-        color: #2c3e50;
-    }
+        body {
+            font-family: 'Abyssinica SIL', 'Nyala', 'Ethiopic', 'DejaVu Sans', serif;
+            font-size: 10.5pt;
+            line-height: 1.35;
+            background: #f5f0e8;
+            color: #1e1e1e;
+            padding: 20px;
+        }
 
-    .container {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 10px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
+        .official-paper {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border: 20px solid #f0e9d8;
+            padding: 25px 30px 20px;
+            margin: 0 auto;
+        }
 
-    .header {
-        text-align: center;
-        margin-bottom: 12px;
-        padding-bottom: 6px;
-        border-bottom: 2px solid #c4a27a;
-    }
+        .subtitle-wrapper {
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
-    .header h1 {
-        font-size: 16px;
-        font-weight: bold;
-        margin: 0;
-        color: #2c1810;
-        letter-spacing: 0.5px;
-    }
+        .document-subtitle {
+            text-align: center;
+            font-size: 14pt;
+            font-weight: bold;
+            color: #1c0488;
+            margin: 5px 0 15px;
+            border-bottom: 2px solid #c4a27a;
+            display: inline-block;
+            padding-bottom: 3px;
+        }
 
-    .header h2 {
-        font-size: 14px;
-        font-weight: bold;
-        margin: 3px 0;
-        color: #4a3525;
-        border-bottom: 1px dotted #c4a27a;
-        display: inline-block;
-        padding-bottom: 2px;
-    }
+        .personal-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0 12px;
+        }
 
-    .form-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 10px;
-    }
+        .personal-table td {
+            padding: 5px 8px;
+            vertical-align: middle;
+            font-size: 10pt;
+        }
 
-    .form-table td {
-        padding: 5px 6px;
-        border: 1px solid #d4c9b7;
-        vertical-align: middle;
-    }
+        .personal-table .label-cell {
+            font-weight: bold;
+            width: 25%;
+            color: #1c0488;
+            text-align: left;
+        }
 
-    .form-table td:first-child {
-        width: 35%;
-        background-color: #faf5eb;
-        font-weight: bold;
-    }
+        .personal-table .value-cell {
+            background-color: #ffffff;
+            width: 25%;
+        }
 
-    .form-table td:last-child {
-        width: 65%;
-        background-color: white;
-    }
+        .value-text {
+            border-bottom: 1px dotted #4c4c99;
+            display: inline-block;
+            min-width: 80px;
+        }
 
-    .label {
-        font-weight: bold;
-        color: #5c3e2d;
-        font-size: 11px;
-    }
+        .value-text:empty::before {
+            content: '_______________';
+            color: #b8a990;
+            letter-spacing: 1px;
+        }
 
-    .value {
-        border-bottom: 1px dotted #8b6b4d;
-        padding: 2px 5px;
-        min-height: 22px;
-        display: inline-block;
-    }
+        .section-heading {
+            font-size: 11pt;
+            font-weight: bold;
+            text-align: center;
+            color: #1c0488;
+            margin: 8px 0 4px;
+            border-top: 1px solid #c4a27a;
+            border-bottom: 1px solid #c4a27a;
+            padding: 3px 0;
+            background: #fcf9f2;
+        }
 
-    .value:empty::before {
-        content: '_______________';
-        color: #c4a27a;
-        opacity: 0.5;
-    }
+        .experience-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 6px 0 8px;
+            font-size: 9.5pt;
+            border: 1px solid #1c0488;
+        }
 
-    .experience-section {
-        margin: 10px 0 8px;
-        padding: 8px;
-        border: 1px solid #e8ddcc;
-        border-radius: 6px;
-        background: white;
-        overflow-x: auto;
-    }
+        .experience-table th {
+            background-color: #1c0488;
+            color: white;
+            font-weight: bold;
+            padding: 5px 4px;
+            text-align: center;
+            border: 1px solid #ffffff;
+            font-size: 9.5pt;
+        }
 
-    .experience-section h3 {
-        font-size: 13px;
-        font-weight: bold;
-        text-align: center;
-        margin: -14px auto 8px;
-        width: fit-content;
-        padding: 0 10px;
-        background: #fffcf0;
-        color: #2c1810;
-        display: inline-block;
-        left: 50%;
-        position: relative;
-        transform: translateX(-50%);
-    }
+        .experience-table th.sub-header {
+            background-color: #3b3486;
+            font-size: 9pt;
+        }
 
-    .experience-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 10px;
-        text-align: center;
-        min-width: 900px;
-    }
+        .experience-table td {
+            border: 1px solid #1c0488;
+            padding: 5px 4px;
+            text-align: center;
+            background-color: #ffffff;
+            font-size: 9.5pt;
+        }
 
-    /* Common header styling */
-    .experience-table th.common-header {
-        background-color: #5c3e2d;
-        color: white;
-        font-size: 11px;
-        padding: 6px 4px;
-        text-align: center;
-        border: 1px solid #4a3022;
-        font-weight: bold;
-    }
+        .experience-table .total-row td {
+            background-color: #e8e4f0;
+            font-weight: bold;
+            border-top: 2px solid #1c0488;
+        }
 
-    /* Regular column headers */
-    .experience-table th.col-header {
-        background-color: #8b6b4d;
-        color: white;
-        font-weight: bold;
-        font-size: 10px;
-        padding: 5px 2px;
-        text-align: center;
-        border: 1px solid #b8a990;
-    }
-
-    /* Sub-header for split columns */
-    .experience-table th.sub-header {
-        background-color: #a07d5a;
-        color: white;
-        font-weight: bold;
-        font-size: 9px;
-        padding: 4px 2px;
-        text-align: center;
-        border: 1px solid #b8a990;
-    }
-
-    .experience-table td {
-        border: 1px solid #b8a990;
-        padding: 4px 2px;
-        text-align: center;
-        background-color: white;
-        vertical-align: middle;
-    }
-
-    .experience-table tr:hover td {
-        background-color: #faf5eb;
-    }
-
-    .total-row td {
-        background-color: #f0e6d8 !important;
-        font-weight: bold;
-        border-top: 2px solid #8b6b4d;
-    }
-
-    .signature-section {
+         .signature-section {
         margin-top: 12px;
         padding: 8px;
         border-top: 2px dashed #c4a27a;
@@ -222,104 +175,105 @@
         margin: 0 auto 5px;
     }
 
-    .dots {
-        letter-spacing: 2px;
-        font-size: 12px;
-        color: #8b6b4d;
-    }
-
-    .logo {
-        margin-bottom: 10px;
-    }
-
-    .logo img {
-        max-height: 120px;
-        width: 120px;
-        border-radius: 50%;
-    }
-
-    @media print {
-        body {
-            background: white;
-            margin: 5px;
+        .official-footer {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 8pt;
+            color: #2c3e50;
+            border-top: 1px solid #c4a27a;
+            padding-top: 5px;
         }
-        .container {
-            box-shadow: none;
-            padding: 5px;
-        }
-        .experience-section {
-            overflow-x: visible;
-        }
-    }
 
-    .footer-note {
-        text-align: center;
-        margin-top: 6px;
-        font-size: 8px;
-        color: #8b6b4d;
-    }
-</style>
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+            .official-paper {
+                box-shadow: none;
+                border: 1px solid #000;
+                padding: 14px 18px;
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <div class="header" style="text-align: center;">
-        <div class="logo">
-            <img src="{{ public_path('Photo/p.png') }}" alt="የጉምሩክ ኮሚሽን ሎጎ" style="max-height: 120px; width: 120px; border-radius: 50%;">
+    <div class="official-paper">
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border-bottom: 3px double #1e3c72; padding-bottom: 15px;">
+            <tr>
+                <td style="width: 85px; vertical-align: middle; padding-bottom: 10px;">
+                    <img src="{{ public_path('Photo/picture1.jpg') }}" alt="Logo" style="width: 70px; height: 70px; display: block; object-fit: contain;">
+                </td>
+                <td style="vertical-align: middle; text-align: left; padding-bottom: 10px; padding-left: 5px;">
+                    <div style="font-size: 26px; font-weight: 800; color: #1e3c72; letter-spacing: 1px; line-height: 1.3; margin: 0;">የኢትዮጵያ ጉምሩክ ኮሚሽን</div>
+                    <div style="font-size: 18px; font-weight: 700; color: #1e3c72; text-transform: uppercase; letter-spacing: 2px; font-family: 'Arial', 'DejaVu Sans', sans-serif; line-height: 1.3; margin-top: 2px; margin: 0;">FDRE CUSTOMS COMMISSION</div>
+                </td>
+                 <td style="width: 85px; vertical-align: middle; padding-bottom: 10px;">
+                    <img src="{{ public_path('dash/assets/img/avatars/FDRE_logo.jpg') }}" alt="Logo" style="width: 70px; height: 70px; display: block; object-fit: contain;">
+                </td>
+            </tr>
+        </table>
+
+        <div class="subtitle-wrapper">
+            <span class="document-subtitle">የሠራተኛ የግል ሁኔታ መግለጫ</span>
         </div>
-        <h1>የጉምሩክ ኮሚሽን</h1>
-        <h2>የሠራተኛ የግል ሁኔታ መግለጫ</h2>
-    </div>
 
-    <!-- Main Form -->
-    <table class="form-table">
-        <tr>
-            <td><span class="label">ስም ከነ አያት፡-</span></td>
-            <td><span class="value">{{ $employee->employee_name ?? '_________________' }}</span></td>
-            <td><span class="label">የሰለጠኑበት ሙያ፡-</span></td>
-            <td><span class="value">{{ $employee->job_title ?? '_________________' }}</span></td>
-        </tr>
-        <tr>
-            <td><span class="label">የልደት ዘመን፡-</span></td>
-            <td><span class="value">{{ $employee->date_of_birth ? $employee->date_of_birth->format('d/m/Y') : '_________________' }}</span></td>
-            <td><span class="label">የሥራ መደብ / የሥራ ድርሻ፡-</span></td>
-            <td><span class="value">{{ $employee->current_job_title ?? ($employee->job_title ?? '_________________') }}</span></td>
-        </tr>
-        <tr>
-            <td><span class="label">የቅጥር ዘመን:-</span></td>
-            <td><span class="value">{{ $employee->hire_date ? $employee->hire_date->format('d/m/Y') : '_________________' }}</span></td>
-            <td><span class="label">የአገልግሎት ደረጃ፡-</span></td>
-            <td><span class="value">{{ $employee->job_level ?? '_________________' }}</span></td>
-        </tr>
-        <tr>
-            <td><span class="label">የትምህርት ደረጃ፡-</span></td>
-            <td><span class="value">{{ $employee->education_level ?? '_________________' }}</span></td>
-            <td><span class="label">የጡረታ መለያ ቁጥር፡-</span></td>
-            <td><span class="value">{{ $employee->pension_id ?? '_________________' }}</span></td>
-        </tr>
-        <tr>
-            <td><span class="label">የትምህርት አይነት:-</span></td>
-            <td><span class="value">{{ $employee->education_type ?? '_________________' }}</span></td>
-            <td><span class="label">ደመወዝ፡-</span></td>
-            <td><span class="value">{{ $employee->salary ? number_format($employee->salary, 2) : '___________' }}/{{ $employee->allowance ? number_format($employee->allowance, 2) : '___________' }}</span></td>
-        </tr>
-        <tr>
-            <td><span class="label">የተመረቁበት ቀን፡-</span></td>
-            <td><span class="value">{{ $employee->graduation_date ? $employee->graduation_date->format('d/m/Y') : '_________________' }}</span></td>
-            <td><span class="label">አማካይ BSC ምዘና ውጤት ፡-</span></td>
-            <td><span class="value">{{ $employee->cgpa ?? '_________________' }}</span></td>
-        </tr>
-        <tr>
-            <td><span class="label">የፋይል ቁጥር፡-</span></td>
-            <td><span class="value">{{ $employee->file_number ?? '_________________' }}</span></td>
-            <td><span class="label">የማህደር ጥራት ሁኔታ:-</span></td>
-            <td><span class="value">{{ $employee->higher_ed_verified ? 'የተረጋገጠ' : '_______________' }}</span></td>
-        </tr>
-    </table>
+        <table class="personal-table">
+            <tr>
+                <td class="label-cell">ስም ከነ አያት</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->employee_name ?? '' }}</span></td>
+                <td class="label-cell">የሰለጠኑበት ሙያ</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->previous_job_title ?? '' }}</span></td>
+            </tr>
+            <tr>
+                <td class="label-cell">የልደት ዘመን</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->date_of_birth ? $employee->date_of_birth->format('d/m/Y') : '' }}</span></td>
+                <td class="label-cell">የሥራ መደብ / ድርሻ</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->current_job_title ?? ($employee->job_title ?? '') }}</span></td>
+            </tr>
+            <tr>
+                <td class="label-cell">የቅጥር ዘመን</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->hire_date ? $employee->hire_date->format('d/m/Y') : '' }}</span></td>
+                <td class="label-cell">የአገልግሎት ደረጃ</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->job_level ?? '' }}</span></td>
+            </tr>
+            <tr>
+                <td class="label-cell">የትምህርት ደረጃ</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->education_level ?? '' }}</span></td>
+                <td class="label-cell">የጡረታ መለያ ቁጥር</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->pension_id ?? '' }}</span></td>
+            </tr>
+            <tr>
+                <td class="label-cell">የትምህርት አይነት</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->education_type ?? '' }}</span></td>
+                <td class="label-cell">ደመወዝ / አበል</td>
+                <td class="value-cell">
+                    <span class="value-text">{{ $employee->salary ? number_format($employee->salary, 2) : '' }}</span>
+                    /
+                    <span class="value-text">{{ $employee->allowance ? number_format($employee->allowance, 2) : '' }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-cell">የተመረቁበት ቀን</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->graduation_date ? $employee->graduation_date->format('d/m/Y') : '' }}</span></td>
+                <td class="label-cell">አማካይ BSC ምዘና ውጤት</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->cgpa ?? '' }}</span></td>
+            </tr>
+            <tr>
+                <td class="label-cell">የፋይል ቁጥር</td>
+                <td class="value-cell"><span class="value-text">{{ $employee->file_number ?? '' }}</span></td>
+                <td class="label-cell">የማህደር ጥራት ሁኔታ</td>
+                <td class="value-cell">
+                    <span class="value-text">{{ isset($employee->higher_ed_verified) ? ($employee->higher_ed_verified ? 'የተረጋገጠ' : 'ያልተረጋገጠ') : '' }}</span>
+                </td>
+            </tr>
+        </table>
 
-    <!-- Experience Section with New Structure -->
-    <div class="experience-section">
-        <h3>ኃላፊነቶችና ጠቅላላ አገልግሎት</h3>
+        <div class="section-heading">ኃላፊነቶችና ጠቅላላ አገልግሎት</div>
 
         @php
             $totalYears = 0;
@@ -329,112 +283,99 @@
 
         <table class="experience-table">
             <thead>
-                <!-- Common Headers Row -->
                 <tr>
-                    <th class="common-header" colspan="2">የቀጣሪ ዘመን</th>
-                    <th class="common-header" colspan="3">ጠቅላላ የስራ ዘመን</th>
-                    <th class="common-header" rowspan="2">የስራ መጠሪያ</th>
-                    <th class="common-header" colspan="2">ያገለገሉበት ተቋም</th>
+                    <th colspan="2">የቀጣሪ ዘመን</th>
+                    <th colspan="3">ጠቅላላ የስራ ዘመን</th>
+                    <th rowspan="2">የስራ መጠሪያ</th>
+                    <th colspan="2">ያገለገሉበት ተቋም</th>
                 </tr>
-
-                <!-- Column Headers Row -->
                 <tr>
-                    <!-- Under "የቀጣሪ ዘመን" -->
-                    <th class="col-header">ከወር/ዓመት</th>
-                    <th class="col-header">እስከ ወር/ዓመት</th>
-
-                    <!-- Under "ጠቅላላ የስራ ዘመን" -->
-                    <th class="col-header">ዓመት</th>
-                    <th class="col-header">ወር</th>
-                    <th class="col-header">ቀን</th>
-
-                    <!-- "የስራ መጠሪያ" column header already above -->
-
-                    <!-- Under "ያገለገሉበት ተቋም" -->
+                    <th class="sub-header">ከወር/ዓመት</th>
+                    <th class="sub-header">እስከ ወር/ዓመት</th>
+                    <th class="sub-header">ዓመት</th>
+                    <th class="sub-header">ወር</th>
+                    <th class="sub-header">ቀን</th>
                     <th class="sub-header">የአሁን ተቋም</th>
                     <th class="sub-header">የቀድሞ ተቋም</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($employee->experiences ?? [] as $exp)
-                @php
-                    $start = $exp->from_date ? \Carbon\Carbon::parse($exp->from_date) : null;
-                    $end = $exp->to_date ? \Carbon\Carbon::parse($exp->to_date) : ($exp->experience_type == 'current' ? \Carbon\Carbon::now() : null);
-                    $years = 0;
-                    $months = 0;
-                    $days = 0;
-                    if($start && $end) {
-                        $diff = $start->diff($end);
-                        $years = $diff->y;
-                        $months = $diff->m;
-                        $days = $diff->d;
-                        $totalYears += $years;
-                        $totalMonths += $months;
-                        $totalDays += $days;
-                    }
-
-                    // Determine if current or previous institution
-                    $currentInstitution = ($exp->in_outside == 'inside') ? ($exp->institution ?? '') : '';
-                    $previousInstitution = ($exp->in_outside != 'inside') ? ($exp->institution ?? '') : '';
-                @endphp
-                <tr>
-                    <td>{{ $exp->from_date ? \Carbon\Carbon::parse($exp->from_date)->format('d/m/Y') : '__________' }}</td>
-                    <td>
-                        @if($exp->to_date)
-                            {{ \Carbon\Carbon::parse($exp->to_date)->format('d/m/Y') }}
-                        @elseif($exp->experience_type == 'current')
-                            እስከ አሁን
-                        @else
-                            __________
-                        @endif
-                    </td>
-                    <td>{{ $years }}</td>
-                    <td>{{ $months }}</td>
-                    <td>{{ $days }}</td>
-                    <td>{{ $exp->job_title ?? '____________________' }}</td>
-                    <td>{{ $currentInstitution ?: '__________' }}</td>
-                    <td>{{ $previousInstitution ?: '__________' }}</td>
-                </tr>
+                    @php
+                        $start = $exp->from_date ? \Carbon\Carbon::parse($exp->from_date) : null;
+                        $end = $exp->to_date
+                            ? \Carbon\Carbon::parse($exp->to_date)
+                            : ($exp->experience_type == 'current'
+                                ? \Carbon\Carbon::now()
+                                : null);
+                        $years = 0;
+                        $months = 0;
+                        $days = 0;
+                        if ($start && $end) {
+                            $diff = $start->diff($end);
+                            $years = $diff->y;
+                            $months = $diff->m;
+                            $days = $diff->d;
+                            $totalYears += $years;
+                            $totalMonths += $months;
+                            $totalDays += $days;
+                        }
+                        $currentInstitution = $exp->in_outside == 'inside' ? $exp->institution ?? '' : '';
+                        $previousInstitution = $exp->in_outside != 'inside' ? $exp->institution ?? '' : '';
+                    @endphp
+                    <tr>
+                        <td>{{ $exp->from_date ? \Carbon\Carbon::parse($exp->from_date)->format('d/m/Y') : '__________' }}</td>
+                        <td>
+                            @if ($exp->to_date)
+                                {{ \Carbon\Carbon::parse($exp->to_date)->format('d/m/Y') }}
+                            @elseif($exp->experience_type == 'current')
+                                እስከ አሁን
+                            @else
+                                __________
+                            @endif
+                        </td>
+                        <td>{{ $years }}</td>
+                        <td>{{ $months }}</td>
+                        <td>{{ $days }}</td>
+                        <td>{{ $exp->job_title ?? '_______________' }}</td>
+                        <td>{{ $currentInstitution ?: '__________' }}</td>
+                        <td>{{ $previousInstitution ?: '__________' }}</td>
+                    </tr>
                 @empty
-                <!-- Sample empty row -->
-                <tr>
-                    <td>__________</td>
-                    <td>__________</td>
-                    <td>__</td>
-                    <td>__</td>
-                    <td>__</td>
-                    <td>____________________</td>
-                    <td>__________</td>
-                    <td>__________</td>
-                </tr>
+                    <tr>
+                        <td>__________</td>
+                        <td>__________</td>
+                        <td>__</td>
+                        <td>__</td>
+                        <td>__</td>
+                        <td>_______________</td>
+                        <td>__________</td>
+                        <td>__________</td>
+                    </tr>
                 @endforelse
 
                 @php
-                    // Normalize days to months
-                    if($totalDays >= 30) {
+                    if ($totalDays >= 30) {
                         $totalMonths += floor($totalDays / 30);
                         $totalDays = $totalDays % 30;
                     }
-                    // Normalize months to years
-                    if($totalMonths >= 12) {
+                    if ($totalMonths >= 12) {
                         $totalYears += floor($totalMonths / 12);
                         $totalMonths = $totalMonths % 12;
                     }
                 @endphp
 
                 <tr class="total-row">
-                    <td colspan="2" style="text-align: right; font-weight: bold;">ድምር</td>
-                    <td style="font-weight: bold;">{{ $totalYears }}</td>
-                    <td style="font-weight: bold;">{{ $totalMonths }}</td>
-                    <td style="font-weight: bold;">{{ $totalDays }}</td>
+                    <td colspan="2" style="text-align: right;">ድምር</td>
+                    <td>{{ $totalYears }}</td>
+                    <td>{{ $totalMonths }}</td>
+                    <td>{{ $totalDays }}</td>
                     <td colspan="3"></td>
                 </tr>
             </tbody>
         </table>
-    </div>
 
-    <!-- Signature Section -->
-    <table class="signature-table">
+     <table class="signature-table">
         <tr>
             <td style="width: 33%;">
                 <div>ያዘጋጀው _______________</div>
@@ -456,6 +397,13 @@
         <div>የሠራተኛው ስምና ፈርማ _______________</div>
     </div>
 
+
+
+        <div class="official-footer">
+            ይህ ሰነድ የጉምሩክ ኮሚሽን ኦፊሴላዊ መዝገብ ነው።
+        </div>
+
+    </div>
 </body>
 
 </html>

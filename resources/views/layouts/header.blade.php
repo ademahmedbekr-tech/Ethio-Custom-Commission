@@ -41,15 +41,23 @@
 
     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/css/pages/page-profile.css') }}" />
     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/dropzone/dropzone.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/bs-stepper/bs-stepper.css') }}" />
+     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/@form-validation/form-validation.css') }}" />
 
 
 
+  <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/quill/typography.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/highlight/highlight.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/quill/katex.css') }}" />
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/quill/editor.css') }}" />
 
     <!-- Page CSS -->
 
 
     <!-- Page CSS -->
-<link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/app-logistics-dashboard.css') }}" />
+{{-- <link rel="stylesheet" href="{{ asset('dash/assets/vendor/css/pages/app-logistics-dashboard.css') }}" /> --}}
 
 
     <!-- Helpers -->

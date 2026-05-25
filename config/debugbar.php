@@ -14,7 +14,7 @@ return [
      |
      */
 
-    'enabled' => env('DEBUGBAR_ENABLED', true),
+    'enabled' => env('DEBUGBAR_ENABLED', false),
     'except' => [
         'telescope*',
         'horizon*',
@@ -116,7 +116,7 @@ return [
      */
 
     'capture_ajax' => true,
-    'add_ajax_timing' => false,
+    'add_ajax_timing' => true,
 
     /*
      |--------------------------------------------------------------------------
@@ -198,7 +198,7 @@ return [
                 'enabled' => false,
                 'types' => ['SELECT'],     // Deprecated setting, is always only SELECT
             ],
-            'hints'             => false,    // Show hints for common mistakes
+            'hints'             =>true,    // Show hints for common mistakes
             'show_copy'         => false,    // Show copy button next to the query,
             'slow_threshold'    => false,   // Only track queries that last longer than this time in ms
         ],

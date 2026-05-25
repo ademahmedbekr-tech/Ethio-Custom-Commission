@@ -1,23 +1,23 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Department;
-use App\Models\managers;
-use App\Models\Managers as ModelsManagers;
+use App\Models\Directorate;
+use App\Models\Managers;
+// use App\Models\Managers as ModelsManagers;
 use Illuminate\Http\Request;
 
 class ManagersController extends Controller
 {
   public function index()
 {
-    $department = Department::first();
+    $department = Directorate::first();
     $managers = Managers::with('department')->paginate(7);
 
     // Statistics for dashboard cards
-    $totalmanagers = managers::count();
-    $managersWithHeads = managers::whereNotNull('department_id')->count();
-    $managersWithoutHeads = managers::whereNull('department_id')->count();
-    $recentmanagers = managers::whereMonth('created_at', now()->month)->count();
+    $totalmanagers = Managers::count();
+    $managersWithHeads = Managers::whereNotNull('department_id')->count();
+    $managersWithoutHeads = Managers::whereNull('department_id')->count();
+    $recentmanagers = Managers::whereMonth('created_at', now()->month)->count();
 
     return view('managers.index', compact(
         'managers',
@@ -31,7 +31,7 @@ class ManagersController extends Controller
     public function create()
     {
 
-        $department = Department::get();
+        $department = Directorate::get();
         return view('managers.create', compact('department'));
     }
 
@@ -56,27 +56,33 @@ class ManagersController extends Controller
 
     public function edit($id)
     {
-        $managers = managers::findOrFail($id);
+        $department = Directorate::get();
 
-        return view('managers.edit', compact('managers'));
+        $managers = Managers::findOrFail($id);
+
+        return view('managers.edit', compact('managers','department'));
     }
 
-    public function update(Request $request, managers $managers)
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required',
+        'department_id' => 'nullable|unique:managers,department_id,' . $id,
+    ]);
+
+    $manager = Managers::findOrFail($id);
+    $manager->update([
+        'name' => $request->name,
+        'department_id' => $request->department_id,  // ✅ Changed from 'department' to 'department_id'
+    ]);
+
+    return redirect()->route('managers.index')
+        ->with('success', 'Manager updated successfully');
+}
+
+    public function destroy($id)
     {
-        $request->validate([
-            'name' => 'required',
-            'code' => 'required|unique:managers,code,' . $managers->id,
-        ]);
-
-        $managers->update($request->all());
-
-        return redirect()->route('managers.index')
-            ->with('success', 'managers updated successfully');
-    }
-
-    public function destroy(managers $managers)
-    {
-        $managers->delete();
+        Managers::find($id)->delete();
 
         return back()->with('success', 'managers deleted');
     }

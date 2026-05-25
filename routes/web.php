@@ -64,6 +64,7 @@ use App\Http\Controllers\Front\DetailController;
 use App\Http\Controllers\CityMemberPayController;
 use App\Http\Controllers\ZoneMemberPayController;
 use App\Http\Controllers\AbroadMemberPayController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\RegionMemberPayController;
 use App\Http\Controllers\HonorableMemberPayController;
 use App\Http\Controllers\Front\NewsController as FrontNewsController;
@@ -95,6 +96,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\WeeklyReportController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Branches\JigJigaController;
+use App\Http\Controllers\ContentController;
+use App\Http\Controllers\DirectorateController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\FaydaController;
@@ -117,6 +120,8 @@ use App\Http\Controllers\PermissionController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+
 Route::get('/', FrontNewsController::class)->name('front.news');
 Route::get('/front-announcement', FrontAnnouncementController::class)->name('front.announcement');
 Route::get('/detail/{id}/{model}', DetailController::class);
@@ -131,6 +136,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+     Route::get('maintainance-mode',[ContentController::class,'maintainanceMode'])->name('maintainance-mode');
+    Route::put('maintainance-mode-update',[ContentController::class,'maintainanceModeUpdate'])->name('maintainance-mode-update');
+
+Route::group(['middleware' => ['maintainance']], function () {
     Route::get('/admin', DashboardController::class)->name('dashboard');
 
     Route::resource('users', UserController::class);
@@ -164,6 +173,8 @@ Route::resource('jigjiga', JigjigaController::class);
 
     //City
 
+//  Route::get('maintainance-mode',[ContentController::class,'maintainanceMode'])->name('maintainance-mode');
+//     Route::put('maintainance-mode-update',[ContentController::class,'maintainanceModeUpdate'])->name('maintainance-mode-update');
 
 
 
@@ -173,12 +184,13 @@ Route::resource('jigjiga', JigjigaController::class);
 // Employee Resource Routes
 
 // Additional custom routes for employees
-
     // Import/Export routes
     // Route::get('import/form', [EmployeeController::class, 'showImportForm'])->name('employees.import.form');
     Route::post('emplooyees/import', [EmployeeController::class, 'import'])->name('employees.import');
     Route::post('jigjiga/import', [JigJigaController::class, 'import'])->name('jigjiga.import');
     Route::get('emp/{export}', [EmployeeController::class, 'export'])->name('employees.export');
+    Route::get('/employees/epdf/{id}', [EmployeeController::class, 'exportSingleWorkerPdf'])->name('employees.epdf');
+
     Route::get('download/sample', [EmployeeController::class, 'downloadSample'])->name('employees.download.sample');
 
     // Bulk actions
@@ -217,8 +229,11 @@ Route::get('employees/card-pdf/{id}', [EmployeeController::class, 'printCard'])-
 
 // Dashboard/Home route (if needed)
 // Route::get('/', [EmployeeController::class, 'dashboard'])->name('dashboard');
-Route::resource('departments', DepartmentController::class);
+
+Route::resource('directorates', DirectorateController::class);
 Route::resource('document', DocumentController::class);
+Route::resource('branches', BranchController::class);
+Route::resource('departments', DepartmentController::class);
 // Document Routes
 Route::get('document/{id}/download', [DocumentController::class, 'download'])->name('document.download');
 Route::get('document/{id}/preview', [DocumentController::class, 'preview'])->name('document.preview');
@@ -254,4 +269,5 @@ Route::post('document/bulk-upload', [DocumentController::class, 'bulkUpload'])->
             ->name('success')
             ->middleware('auth'); // Only authenticated users can view success page
     });
+});
 });
