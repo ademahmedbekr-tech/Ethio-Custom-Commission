@@ -113,7 +113,10 @@
         </table>
 
     </div>
+ <div class="mt-3">
+                    <?php echo e($branches->appends(request()->query())->links('pagination::bootstrap-5')); ?>
 
+                </div>
 </div>
 
 <?php $__env->stopSection(); ?>

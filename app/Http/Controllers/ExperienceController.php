@@ -14,6 +14,18 @@ class ExperienceController extends Controller
     /**
      * Display a listing of experiences for an employee.
      */
+     public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('permission:experience-list|experience-create|experience-edit|experience-delete', ['only' => ['index', 'store']]);
+
+        $this->middleware('permission:experience-create', ['only' => ['create', 'store']]);
+
+        $this->middleware('permission:experience-edit', ['only' => ['edit', 'update']]);
+
+        $this->middleware('permission:experience-delete', ['only' => ['destroy']]);
+    }
     public function index(Request $request)
     {
         try {

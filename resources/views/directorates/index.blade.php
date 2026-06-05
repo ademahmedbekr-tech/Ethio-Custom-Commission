@@ -217,3 +217,15 @@
         <div class="content-backdrop fade"></div>
     </div>
 @endsection
+@section('scripts')
+   <script>
+
+        $("#table").dataTable({
+            "columnDefs": [{
+                "sortable": false,
+                "targets": [2, 3]
+            }]
+        });
+
+    </script>
+    @endsection

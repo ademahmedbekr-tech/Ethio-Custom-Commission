@@ -653,5 +653,9 @@ public function department(): BelongsTo
         return $this->belongsTo(Department::class,'department_id','id');
 
 }
+public function branch(): BelongsTo
+{
+    return $this->belongsTo(Branch::class,'branches_id','id');
+}
 
 }

@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Exports\EmployeeExport;
 use App\Imports\EmployeesImport;
 use App\Mail\AdminMail;
+use App\Models\Branch;
 use App\Models\Department;
+use App\Models\Directorate;
 use App\Models\Employee;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use DirectoryIterator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -217,9 +220,35 @@ class EmployeeController extends Controller
     /**
      * Show create form
      */
+    // public function fetchDept(Request $request){
+    //     $position = Department::where('directorate_id', $request->id)->get();
+    //     return $position;
+
+    // }
+    public function fetchDirectorates(Request $request)
+    {
+        // Fetches either HQ Directorates or Branch Work Processes based on selected Branch
+        $directorates = Directorate::where('branch_id', $request->branch_id)->get();
+        return response()->json($directorates);
+    }
+
+    public function fetchPositions(Request $request)
+    {
+        // Fetches Positions linked directly to the chosen Directorate/Work Process
+        $positions = Department::where('directorate_id', $request->directorate_id)->get();
+        return response()->json($positions);
+    }
+    //  public function fetchCategory(Request $request)
+    // {
+    //     $categories = Category::where('language', $request->lang)->get();
+    //     return $categories;
+    // }
     public function create()
     {
-        $department = Department::get();
+        // $department = Department::get();
+        $branches = Branch::get();
+        $directorates = Directorate::all();
+        // $position = D
         // Predefined lists
         $genders = ['ወ', 'ሴ'];
         $maritalStatuses = ['Single', 'Married', 'Divorced', 'Widowed'];
@@ -255,7 +284,8 @@ class EmployeeController extends Controller
             'ethnicities',
             'regions',
             'disabilityTypes',
-            'department'
+            'branches',
+            'directorates'
         ));
     }
 

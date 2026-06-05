@@ -115,7 +115,9 @@
         </table>
 
     </div>
-
+ <div class="mt-3">
+                    {{ $branches->appends(request()->query())->links('pagination::bootstrap-5') }}
+                </div>
 </div>
 
 @endsection

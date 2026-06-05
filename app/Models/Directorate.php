@@ -3,9 +3,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Directorate extends Model
 {
+    use LogsActivity;
     protected $table = 'directorates';
     protected $fillable = [
         'name',
@@ -37,7 +40,23 @@ class Directorate extends Model
     {
         return $this->belongsTo(Managers::class,'manager_id','id');
     }
+  protected static $logAttributes = ['*'];
 
+    protected static $logOnlyDirty = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        //$user = Auth::user()->name;
+        //return "{$user} has {$eventName} user {$this->name}";
+
+        return "user has {$eventName} user {$this->name}";
+    }
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->useLogName("Directorate");
+    }
 
 
 }

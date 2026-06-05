@@ -76,19 +76,7 @@
                             </div>
 
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-
-                            <div class="form-group">
-
-                                <strong>Zone:</strong>
-
-                                <select name="zone" id="zone" class="form-select">
-                                    
-                                    <?php for($i = 1; $i <= 21; $i++): ?> <option value="zone <?php echo e($i); ?>">zone <?php echo e($i); ?></option>
-                                        <?php endfor; ?>
-                                </select>
-                            </div>
-                        </div>
+                        
 
 
                         <div class="col-xs-12 col-sm-12 col-md-12">

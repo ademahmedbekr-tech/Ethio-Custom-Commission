@@ -34,6 +34,8 @@
      <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/datatables-select-bs5/select.bootstrap5.css') }}" />
+      {{-- <link rel="stylesheet" href="../../assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" /> --}}
+    <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/flatpickr/flatpickr.css') }}" />
   <link rel="stylesheet" href="{{ asset('dash/assets/vendor/fonts/flag-icons.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('dash/assets/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css') }}" />

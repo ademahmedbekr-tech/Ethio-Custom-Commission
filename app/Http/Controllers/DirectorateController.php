@@ -9,9 +9,21 @@ use Illuminate\Http\Request;
 
 class DirectorateController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('permission:directorate-list|directorate-create|directorate-edit|directorate-delete', ['only' => ['index', 'store']]);
+
+        $this->middleware('permission:directorate-create', ['only' => ['create', 'store']]);
+
+        $this->middleware('permission:directorate-edit', ['only' => ['edit', 'update']]);
+
+        $this->middleware('permission:directorate-delete', ['only' => ['destroy']]);
+    }
     public function index(Request $request)
     {
-        $directorates = Directorate::with('manage','branch')->paginate(7);
+        $directorates = Directorate::with('manage','branch')->first();
         // dd($directorates->all());
         $search = $request->input('search');
 

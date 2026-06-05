@@ -208,7 +208,7 @@ Route::resource('jigjiga', JigjigaController::class);
     Route::get('card/{employee}', [EmployeeController::class, 'printCard'])->name('employees.print-card');
   Route::get('employee/print-card/{employee}', [EmployeeController::class, 'printCard'])->name('employees.print-card');
     // Route::get('/verifyotp',[ FaydaController::class, 'verifyotp'])->name('fayda.verifyotp');
-
+Route::get('fetchdept', [EmployeeController::class,'fetchDept'])->name('fetchDept');
   // In routes/web.php
 Route::get('employees/pdf/{id}', [EmployeeController::class, 'exportPdf'])->name('employees.pdf');
 Route::get('employees/card-pdf/{id}', [EmployeeController::class, 'printCard'])->name('employees.card-pdf');
@@ -223,6 +223,11 @@ Route::get('employees/card-pdf/{id}', [EmployeeController::class, 'printCard'])-
     // Search and filters
     Route::get('search', [EmployeeController::class, 'search'])->name('employees.search');
     Route::get('filter', [EmployeeController::class, 'filter'])->name('employees.filter');
+    Route::get('/ajax/branches/{branch_id}/directorates', [EmployeeController::class, 'fetchDirectorates']);
+    Route::get('/ajax/directorates/{directorate_id}/departments', [EmployeeController::class, 'fetchPositions']);
+    // routes/web.php
+
+Route::get('/ajax/branches/{branch_id}/directorates', [DepartmentController::class, 'getDirectoratesByBranch']);
 
     // API-like routes for AJAX requests
 

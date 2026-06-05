@@ -75,19 +75,19 @@
                             </div>
 
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12">
+                        {{-- <div class="col-xs-12 col-sm-12 col-md-12">
 
                             <div class="form-group">
 
                                 <strong>Zone:</strong>
 
                                 <select name="zone" id="zone" class="form-select">
-                                    {{-- options from zone 1 to zone 21 --}}
+                                    options from zone 1 to zone 21
                                     @for ($i = 1; $i <= 21; $i++) <option value="zone {{ $i }}">zone {{ $i }}</option>
                                         @endfor
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
 
                         <div class="col-xs-12 col-sm-12 col-md-12">

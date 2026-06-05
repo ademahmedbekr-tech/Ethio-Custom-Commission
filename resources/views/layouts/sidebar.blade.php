@@ -112,6 +112,34 @@
                 @endcan
             </ul>
         </li>
+         <li class="menu-item {{ Request::is('branches') ? 'active' : '' }} {{ Request::is('directorates') ? 'active' : '' }} {{ Request::is('branches') ? 'open' : '' }} {{ Request::is('directorates') ? 'open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon icon-base bx bx-check-shield"></i>
+                <div data-i18n="Structure">Structure</div>
+            </a>
+            <ul class="menu-sub">
+                @can('role-list')
+                    <li class="menu-item  {{ Request::is('roles') ? 'active' : '' }}">
+                        <a href="{{ route('branches.index') }}" class="menu-link">
+                            <div data-i18n="Roles">Branches</div>
+                        </a>
+                    </li>
+                @endcan
+  <li class="menu-item {{ Request::is('directorates') ? 'active' : '' }} open">
+            <a href="{{ route('directorates.index') }}" class="menu-link">
+                {{-- <i class="menu-icon tf-icons bx bx-home-circle"></i> --}}
+                <div data-i18n="Directorates">Directorates/Branch Management</div>
+            </a>
+        </li>
+ <li class="menu-item {{ Request::is('departments') ? 'active' : '' }} open">
+            <a href="{{ route('departments.index') }}" class="menu-link">
+                {{-- <i class="menu-icon tf-icons bx bx-home-circle"></i> --}}
+                <div data-i18n="Positions">Positions</div>
+            </a>
+        </li>
+
+            </ul>
+        </li>
 
         <!-- Layouts -->
         <li class="menu-item {{ Request::is('employees') ? 'active':  '' }} {{ Request::is('employees') ? 'open':  '' }} ">
@@ -165,7 +193,7 @@
 
 
 
-        <li class="menu-item {{ Request::is('directorates') ? 'active' : '' }} open">
+        {{-- <li class="menu-item {{ Request::is('directorates') ? 'active' : '' }} open">
             <a href="{{ route('directorates.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Directorates">Directorates</div>
@@ -176,7 +204,7 @@
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Positions">Positions</div>
             </a>
-        </li>
+        </li> --}}
 
         <li class="menu-item {{ Request::is('experiences') ? 'active' : '' }} open">
             <a href="{{ route('experiences.index') }}" class="menu-link">

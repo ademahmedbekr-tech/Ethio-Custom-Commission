@@ -8,6 +8,18 @@ use Illuminate\Http\Request;
 
 class ManagersController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('permission:managers-list|managers-create|managers-edit|managers-delete', ['only' => ['index', 'store']]);
+
+        $this->middleware('permission:managers-create', ['only' => ['create', 'store']]);
+
+        $this->middleware('permission:managers-edit', ['only' => ['edit', 'update']]);
+
+        $this->middleware('permission:managers-delete', ['only' => ['destroy']]);
+    }
   public function index()
 {
     $department = Directorate::first();

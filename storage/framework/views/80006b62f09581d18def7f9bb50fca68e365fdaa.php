@@ -15,7 +15,7 @@
 
 <?php $__env->startSection('table'); ?>
 
-    <table class="table table-bordered table-striped" style="font-size: 12px;">
+    <table class="table table-bordered table-striped" id="table" style="font-size: 12px;">
         <thead>
             
             <tr>

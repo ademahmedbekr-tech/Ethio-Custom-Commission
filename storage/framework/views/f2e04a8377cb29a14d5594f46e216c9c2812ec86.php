@@ -77,6 +77,34 @@
                 <?php endif; ?>
             </ul>
         </li>
+         <li class="menu-item <?php echo e(Request::is('branches') ? 'active' : ''); ?> <?php echo e(Request::is('directorates') ? 'active' : ''); ?> <?php echo e(Request::is('branches') ? 'open' : ''); ?> <?php echo e(Request::is('directorates') ? 'open' : ''); ?>">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon icon-base bx bx-check-shield"></i>
+                <div data-i18n="Structure">Structure</div>
+            </a>
+            <ul class="menu-sub">
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-list')): ?>
+                    <li class="menu-item  <?php echo e(Request::is('roles') ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('branches.index')); ?>" class="menu-link">
+                            <div data-i18n="Roles">Branches</div>
+                        </a>
+                    </li>
+                <?php endif; ?>
+  <li class="menu-item <?php echo e(Request::is('directorates') ? 'active' : ''); ?> open">
+            <a href="<?php echo e(route('directorates.index')); ?>" class="menu-link">
+                
+                <div data-i18n="Directorates">Directorates/Branch Management</div>
+            </a>
+        </li>
+ <li class="menu-item <?php echo e(Request::is('departments') ? 'active' : ''); ?> open">
+            <a href="<?php echo e(route('departments.index')); ?>" class="menu-link">
+                
+                <div data-i18n="Positions">Positions</div>
+            </a>
+        </li>
+
+            </ul>
+        </li>
 
         <!-- Layouts -->
         <li class="menu-item <?php echo e(Request::is('employees') ? 'active':  ''); ?> <?php echo e(Request::is('employees') ? 'open':  ''); ?> ">
@@ -130,18 +158,7 @@
 
 
 
-        <li class="menu-item <?php echo e(Request::is('directorates') ? 'active' : ''); ?> open">
-            <a href="<?php echo e(route('directorates.index')); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Directorates">Directorates</div>
-            </a>
-        </li>
- <li class="menu-item <?php echo e(Request::is('departments') ? 'active' : ''); ?> open">
-            <a href="<?php echo e(route('departments.index')); ?>" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Positions">Positions</div>
-            </a>
-        </li>
+        
 
         <li class="menu-item <?php echo e(Request::is('experiences') ? 'active' : ''); ?> open">
             <a href="<?php echo e(route('experiences.index')); ?>" class="menu-link">

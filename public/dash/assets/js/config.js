@@ -55,7 +55,7 @@ window.templateName = document.documentElement.getAttribute('data-template');
  * -------------------------------------------------------------------------------------
  * displayCustomizer: true(Show customizer), false(Hide customizer)
  * lang: To set default language, Add more languages and set default. Fallback language is 'en'
- * defaultPrimaryColor: '#7367F0' | Set default primary color
+ * defaultPrimaryColor: '#182990' | Set default primary color
  * defaultSkin: 0(Default), 1(Bordered)
  * defaultTheme: 'light', 'dark', 'system'
  * defaultSemiDark: true, false (For dark menu only)

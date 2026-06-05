@@ -44,7 +44,7 @@
                     <td>{{ $dept->code }}</td>
 
                     <td>{{ $dept->directorate->name ?? 'N/A' }}</td>
-                    <td>{{ $dept->directorate?->branch?->name ?? 'N/A' }}</td>
+                    <td>{{ $dept->branch?->name ?? 'N/A' }}</td>
 
                     <td>
                         <a href="{{ route('departments.edit', $dept->id) }}" class="btn btn-warning btn-sm">

@@ -42,7 +42,7 @@
                     <td><?php echo e($dept->code); ?></td>
 
                     <td><?php echo e($dept->directorate->name ?? 'N/A'); ?></td>
-                    <td><?php echo e($dept->directorate?->branch?->name ?? 'N/A'); ?></td>
+                    <td><?php echo e($dept->branch?->name ?? 'N/A'); ?></td>
 
                     <td>
                         <a href="<?php echo e(route('departments.edit', $dept->id)); ?>" class="btn btn-warning btn-sm">
