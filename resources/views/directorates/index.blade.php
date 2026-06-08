@@ -131,9 +131,10 @@
                                 <th>#</th>
                                 <th>Directorate Name</th>
                                 <th>Directorate Code</th>
-                                <th>Description</th>
+                                {{-- <th>Description</th> --}}
                                 <th> Director's Name</th>
                                 <th>Branch Name</th>
+                                <th>Positions</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -143,9 +144,10 @@
                                     <td>{{ $dir->id }}</td>
                                     <td>{{ $dir->name }}</td>
                                     <td>{{ $dir->code }}</td>
-                                    <td>{{ $dir->description }}</td>
+                                    {{-- <td>{{ $dir->description }}</td> --}}
                                     <td>{{ $dir->manage?->name }}</td>
                                     <td>{{ $dir->branch?->name }}</td>
+                                    <td>{{ $dir->departments?->count() }} </td>
 
 
 

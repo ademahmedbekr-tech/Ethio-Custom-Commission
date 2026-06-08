@@ -26,27 +26,25 @@
 
                     <?php if(count($errors) > 0): ?>
 
-                    <div class="alert alert-danger">
+                        <div class="alert alert-danger">
 
-                        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
 
-                        <ul>
+                            <ul>
 
-                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><?php echo e($error); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                            <li><?php echo e($error); ?></li>
+                            </ul>
 
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                        </ul>
-
-                    </div>
+                        </div>
 
                     <?php endif; ?>
 
 
 
-                    <?php echo Form::open(array('route' => 'users.store','method'=>'POST')); ?>
+                    <?php echo Form::open(['route' => 'users.store', 'method' => 'POST']); ?>
 
 
                     <div class="row">
@@ -57,7 +55,7 @@
 
                                 <strong>Name:</strong>
 
-                                <?php echo Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')); ?>
+                                <?php echo Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']); ?>
 
 
                             </div>
@@ -70,7 +68,7 @@
 
                                 <strong>Email:</strong>
 
-                                <?php echo Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')); ?>
+                                <?php echo Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']); ?>
 
 
                             </div>
@@ -85,7 +83,7 @@
 
                                 <strong>Password:</strong>
 
-                                <?php echo Form::password('password', array('placeholder' => 'Password','class' => 'form-control')); ?>
+                                <?php echo Form::password('password', ['placeholder' => 'Password', 'class' => 'form-control']); ?>
 
 
                             </div>
@@ -98,12 +96,13 @@
 
                                 <strong>Confirm Password:</strong>
 
-                                <?php echo Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')); ?>
+                                <?php echo Form::password('confirm-password', ['placeholder' => 'Confirm Password', 'class' => 'form-control']); ?>
 
 
                             </div>
 
                         </div>
+                        
 
                         <div class="col-xs-12 col-sm-12 col-md-12">
 
@@ -111,7 +110,7 @@
 
                                 <strong>Role:</strong>
 
-                                <?php echo Form::select('roles[]', $roles,[], array('class' => 'form-select')); ?>
+                                <?php echo Form::select('roles[]', $roles, [], ['class' => 'form-select']); ?>
 
 
                             </div>

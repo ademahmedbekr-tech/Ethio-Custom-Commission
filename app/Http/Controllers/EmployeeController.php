@@ -292,7 +292,7 @@ class EmployeeController extends Controller
     /**
      * Store new employee
      */
-   public function store(Request $request)
+public function store(Request $request)
 {
     // Validate request
     $validated = $request->validate([
@@ -304,7 +304,6 @@ class EmployeeController extends Controller
         'job_title' => 'nullable|string|max:255',
         'gender' => 'nullable|string|in:ወ,ሴ',
         'job_level' => 'nullable|string|max:50',
-        'branch_name' => 'nullable|string|max:50',
         'ethnicity' => 'nullable|string|max:100',
         'religion' => 'nullable|string|max:100',
         'date_of_birth' => 'nullable|date',
@@ -327,8 +326,7 @@ class EmployeeController extends Controller
         'house_number' => 'nullable|string|max:50',
         'phone_number' => 'nullable|string|max:20',
         'email' => 'nullable|email|unique:employees,email',
-        'fan_number' => 'nullable|string|max:100,',
-
+        'fan_number' => 'nullable|string|max:100', // FIXED: removed trailing comma inside validation string
 
         // Education
         'education_type' => 'nullable|string|max:100',
@@ -360,7 +358,11 @@ class EmployeeController extends Controller
         'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'document' => 'nullable|mimes:pdf,doc,docx,txt',
         'fayda' => 'nullable|mimes:pdf,doc,docx,txt|max:5120',
-        'department_id' => 'nullable|integer'
+
+        // Structural Relationships
+        'department_id' => 'required',
+        'branch_id' => 'required',
+        'directorate_id' => 'required'
     ]);
 
     // Handle photo upload
@@ -368,12 +370,10 @@ class EmployeeController extends Controller
         $image = $request->file('photo');
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
 
-        // Create directory if it doesn't exist
         if (! file_exists(public_path('uploads/employees/photos'))) {
             mkdir(public_path('uploads/employees/photos'), 0777, true);
         }
 
-        // Resize and save image
         $img = Image::make($image);
         $img->resize(300, 300, function ($constraint) {
             $constraint->aspectRatio();
@@ -389,7 +389,6 @@ class EmployeeController extends Controller
         $document = $request->file('document');
         $documentName = time().'_'.$document->getClientOriginalName();
 
-        // Create directory if it doesn't exist
         if (! file_exists(public_path('uploads/employees/documents'))) {
             mkdir(public_path('uploads/employees/documents'), 0777, true);
         }
@@ -398,11 +397,11 @@ class EmployeeController extends Controller
         $validated['document'] = 'uploads/employees/documents/'.$documentName;
     }
 
+    // Handle Fayda document upload
     if ($request->hasFile('fayda')) {
         $fayda = $request->file('fayda');
         $faydaName = time().'_'.$fayda->getClientOriginalName();
 
-        // Create directory if it doesn't exist
         if (! file_exists(public_path('uploads/employees/fayda'))) {
             mkdir(public_path('uploads/employees/fayda'), 0777, true);
         }
@@ -410,16 +409,16 @@ class EmployeeController extends Controller
         $fayda->move(public_path('uploads/employees/fayda'), $faydaName);
         $validated['fayda'] = 'uploads/employees/fayda/'.$faydaName;
     }
-    // Set boolean fields
 
+    // Set boolean fields safely
     $validated['coc_certificate'] = $request->has('coc_certificate');
     $validated['higher_ed_verified'] = $request->has('higher_ed_verified');
 
-    $validated['department_id'] = $request->department;
+    // FIX REMOVED: Re-assignment lines that were overwriting array elements with null are gone.
+    // They are already safely present inside $validated via the initial validation block.
 
+    // Persist Record
     Employee::create($validated);
-            // Mail::to($request->email)->send(new AdminMail($request->email, $request->password));
-
 
     return redirect()->route('employees.index')
         ->with('success', 'Employee created successfully.');

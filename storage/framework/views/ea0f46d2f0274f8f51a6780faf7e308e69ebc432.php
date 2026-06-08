@@ -130,9 +130,10 @@
                                 <th>#</th>
                                 <th>Directorate Name</th>
                                 <th>Directorate Code</th>
-                                <th>Description</th>
+                                
                                 <th> Director's Name</th>
                                 <th>Branch Name</th>
+                                <th>Positions</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -142,9 +143,10 @@
                                     <td><?php echo e($dir->id); ?></td>
                                     <td><?php echo e($dir->name); ?></td>
                                     <td><?php echo e($dir->code); ?></td>
-                                    <td><?php echo e($dir->description); ?></td>
+                                    
                                     <td><?php echo e($dir->manage?->name); ?></td>
                                     <td><?php echo e($dir->branch?->name); ?></td>
+                                    <td><?php echo e($dir->departments?->count()); ?> </td>
 
 
 

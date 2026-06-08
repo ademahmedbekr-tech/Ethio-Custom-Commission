@@ -3,7 +3,7 @@
 @section('content')
     <div class="card shadow-sm border-0">
         <div class="card-header bg-transparent pt-4 px-4">
-            <h4 class="mb-0 font-weight-bold text-dark">Create Department</h4>
+            <h4 class="mb-0 font-weight-bold text-dark">Create Position</h4>
         </div>
 
         <div class="card-body px-4 pb-4">
@@ -28,22 +28,22 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label font-weight-bold text-dark">Department Name <span class="text-danger">*</span></label>
+                    <label class="form-label font-weight-bold text-dark">Position Name <span class="text-danger">*</span></label>
                     <input type="text" name="name" class="form-control" placeholder="e.g., Application Development Team" required>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label font-weight-bold text-dark">Department Code <span class="text-danger">*</span></label>
-                    <input type="text" name="code" class="form-control" placeholder="e.g., DEPT-IT-01" required>
+                    <label class="form-label font-weight-bold text-dark">Position Capacity <span class="text-danger">*</span></label>
+                    <input type="number" name="capacity" class="form-control" placeholder="e.g., 1,2,3" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label font-weight-bold text-dark">Description</label>
-                    <textarea name="description" class="form-control" rows="3" placeholder="Optional notes regarding department function..."></textarea>
+                    <textarea name="description" class="form-control" rows="3" placeholder="Optional notes regarding Position function..."></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary px-4 shadow-sm">
-                    <i class="fas fa-save mr-1"></i> Save Department
+                    <i class="fas fa-save mr-1"></i> Save Position
                 </button>
             </form>
         </div>

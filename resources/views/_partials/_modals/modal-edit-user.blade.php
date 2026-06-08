@@ -39,6 +39,21 @@
                                                 </select>
                                             </div> --}}
 
+                    {{-- <div class="mb-3">
+                        <label class="form-label font-weight-bold text-dark">User's Branch <span
+                                class="text-danger">*</span></label>
+                        <select name="branch_id" id="branch_selector" class="form-select" required>
+                            <option value="" disabled>Select Branch</option>
+                            @if ($branch)
+                                 <option value="{{ $branch->id }}"
+                                    {{ old('branch_id', $user->user_branch_id) == $branch->id ? 'selected' : '' }}>
+                                    {{ $branch->name }}
+                                </option>
+                            @endif
+
+                        </select>
+                    </div> --}}
+
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="password">Password</label>
                         <input type="password" id="password" name="password" class="form-control modal-edit-tax-id"
@@ -48,9 +63,8 @@
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="password">Confirm Password</label>
                         <div class="input-group">
-                            <input type="password" id="confirm-password" name="confirm-password"
-                                class="form-control" placeholder="password"
-                                 />
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control"
+                                placeholder="password" />
                         </div>
                     </div>
 

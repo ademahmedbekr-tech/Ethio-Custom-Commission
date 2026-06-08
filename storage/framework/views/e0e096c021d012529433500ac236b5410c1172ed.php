@@ -25,6 +25,17 @@
                     </div>
                     
 
+                  <div class="col-12 col-md-6">
+    <label class="form-label font-weight-bold text-dark">User's Branch <span
+            class="text-danger">*</span></label>
+    <select name="user_branch_id" id="branch_selector" class="form-select" required>
+        <option value="<?php echo e($user->userBranch->id ?? ''); ?>">
+            <?php echo e($user->userBranch->name ?? 'No Branch Assigned'); ?>
+
+        </option>
+    </select>
+</div>
+
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="password">Password</label>
                         <input type="password" id="password" name="password" class="form-control modal-edit-tax-id"
@@ -34,9 +45,8 @@
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="password">Confirm Password</label>
                         <div class="input-group">
-                            <input type="password" id="confirm-password" name="confirm-password"
-                                class="form-control" placeholder="password"
-                                 />
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control"
+                                placeholder="password" />
                         </div>
                     </div>
 
@@ -60,4 +70,4 @@
     </div>
 </div>
 <!--/ Edit User Modal -->
-<?php /**PATH C:\Users\ODA-IT\Documents\GitHub\ECC\ecc-profiles\resources\views/_partials/_modals/modal-edit-user.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\ODA-IT\Documents\GitHub\ECC\ecc-profiles\resources\views/users/edit.blade.php ENDPATH**/ ?>

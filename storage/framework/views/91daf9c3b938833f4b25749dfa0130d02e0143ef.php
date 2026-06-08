@@ -2,122 +2,115 @@
 
 <?php $__env->startSection('content'); ?>
 
-<div class="card">
+    <div class="card">
 
-    <div class="card-header d-flex justify-content-between">
+        <div class="card-header d-flex justify-content-between">
 
-        <h4 class="mb-0">Branches</h4>
+            <h4 class="mb-0">Branches</h4>
 
-        <a href="<?php echo e(route('branches.create')); ?>"
-           class="btn btn-primary">
+            <a href="<?php echo e(route('branches.create')); ?>" class="btn btn-primary">
 
-            Add Branch
+                Add Branch
 
-        </a>
+            </a>
 
-    </div>
+        </div>
 
-    <div class="table-responsive">
+        <div class="table-responsive">
 
-        <table class="table">
+            <table class="table">
 
-            <thead>
-
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Type</th>
-                    <th>City</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                <?php $__empty_1 = true; $__currentLoopData = $branches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                <thead>
 
                     <tr>
-
-                        <td><?php echo e($loop->iteration); ?></td>
-
-                        <td><?php echo e($branch->name); ?></td>
-
-                        <td><?php echo e($branch->code); ?></td>
-
-                        <td><?php echo e($branch->branch_type); ?></td>
-
-                        <td><?php echo e($branch->city); ?></td>
-
-                        <td>
-
-                            <?php if($branch->is_active): ?>
-
-                                <span class="badge bg-success">
-                                    Active
-                                </span>
-
-                            <?php else: ?>
-
-                                <span class="badge bg-danger">
-                                    Inactive
-                                </span>
-
-                            <?php endif; ?>
-
-                        </td>
-
-                        <td>
-
-                            <a href="<?php echo e(route('branches.edit', $branch->id)); ?>"
-                               class="btn btn-sm btn-warning">
-
-                                Edit
-
-                            </a>
-
-                            <form action="<?php echo e(route('branches.destroy', $branch->id)); ?>"
-                                  method="POST"
-                                  class="d-inline">
-
-                                <?php echo csrf_field(); ?>
-                                <?php echo method_field('DELETE'); ?>
-
-                                <button class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Delete branch?')">
-
-                                    Delete
-
-                                </button>
-
-                            </form>
-
-                        </td>
-
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Type</th>
+                        <th>City</th>
+                        <th>Directorates</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
 
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                </thead>
 
-                    <tr>
-                        <td colspan="7" class="text-center">
-                            No branches found.
-                        </td>
-                    </tr>
+                <tbody>
 
-                <?php endif; ?>
+                    <?php $__empty_1 = true; $__currentLoopData = $branches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <tr>
 
-            </tbody>
+                            <td><?php echo e($loop->iteration); ?></td>
 
-        </table>
+                            <td><?php echo e($branch->name); ?></td>
 
+                            <td><?php echo e($branch->code); ?></td>
+
+                            <td><?php echo e($branch->branch_type); ?></td>
+
+                            <td><?php echo e($branch->city); ?></td>
+                            <td><?php echo e($branch->directorates?->count()); ?></td>
+
+                            <td>
+
+                                <?php if($branch->is_active): ?>
+                                    <span class="badge bg-success">
+                                        Active
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger">
+                                        Inactive
+                                    </span>
+                                <?php endif; ?>
+
+                            </td>
+
+                            <td>
+
+                                <a href="<?php echo e(route('branches.edit', $branch->id)); ?>" class="btn btn-sm btn-warning">
+
+                                    <i class="bx bx-edit"></i>
+
+
+                                </a>
+
+                                <form action="<?php echo e(route('branches.destroy', $branch->id)); ?>" method="POST" class="d-inline">
+
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
+
+                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Delete branch?')">
+
+                                        <i class="bx bx-trash"></i>
+
+
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+
+                        <tr>
+                            <td colspan="7" class="text-center">
+                                No branches found.
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+
+                </tbody>
+
+            </table>
+
+        </div>
+        <div class="mt-3">
+            <?php echo e($branches->appends(request()->query())->links('pagination::bootstrap-5')); ?>
+
+        </div>
     </div>
- <div class="mt-3">
-                    <?php echo e($branches->appends(request()->query())->links('pagination::bootstrap-5')); ?>
-
-                </div>
-</div>
 
 <?php $__env->stopSection(); ?>
 

@@ -212,7 +212,7 @@
                      </li>
 
                      <li>
-                         <a class="dropdown-item" href="<?php echo e(route('logout')); ?>" target="_blank">
+                         <a class="dropdown-item" href="<?php echo e(route('logout')); ?>"s>
                              <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Log Out</span>
                          </a>
                      </li>

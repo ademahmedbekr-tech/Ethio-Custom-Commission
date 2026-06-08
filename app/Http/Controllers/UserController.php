@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Mail\RoleUserCreateMail;
+use App\Models\Branch;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -40,11 +42,12 @@ class UserController extends Controller
         $userRole = Role::count();
         $admin = Role::where('name','Admin')->count();
         $zonal = Role::where('name','!=', 'Admin')->count();
+        $branch = Branch::first();
 
 
-        $data = User::orderBy('id', 'DESC')->paginate(5);
+        $data = User::with('userBranch')->orderBy('id', 'DESC')->paginate(5);
 
-        return view('users.index', compact('data', 'roles','users','userRole','admin','zonal'))
+        return view('users.index', compact('data', 'roles','users','userRole','admin','zonal','branch'))
 
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -62,9 +65,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        // $branch = User::with('userBranch')->first();
+        $branch = Branch::get();
         $roles = Role::pluck('name', 'name')->all();
 
-        return view('users.create', compact('roles'));
+        return view('users.create', compact('roles','branch'));
     }
 
     /**
@@ -89,6 +94,7 @@ class UserController extends Controller
             'zone' => 'nullable',
 
             'roles' => 'required',
+            'user_branch_id'
 
         ]);
 
@@ -131,16 +137,15 @@ class UserController extends Controller
 
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $user = User::find($id);
+   public function edit($id)
+{
+    $user = User::with('userBranch')->find($id);
 
-        $roles = Role::pluck('name', 'name')->all();
+    $roles = Role::pluck('name', 'name')->all();
+    $userRole = $user->roles->pluck('name', 'name')->all();
 
-        $userRole = $user->roles->pluck('name', 'name')->all();
-
-        return view('users.edit', compact('user', 'roles', 'userRole'));
-    }
+    return view('users.edit', compact('user', 'userRole', 'roles'));
+}
 
     /**
      * Update the specified resource in storage.

@@ -84,46 +84,47 @@
                             <small>Carefully manage it</small>
                         </div>
                         <div class="row g-6">
-    <div class="col-sm-6">
-        <label class="form-label" for="username-modern">Username / Employee Name</label>
-        <input type="text" id="username-modern" name="employee_name" class="form-control" placeholder="johndoe" required />
-    </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="username-modern">Username / Employee Name</label>
+                                <input type="text" id="username-modern" name="employee_name" class="form-control"
+                                    placeholder="johndoe" required />
+                            </div>
 
-    <div class="col-sm-6">
-        <label class="form-label" for="branch_id">Branch</label>
-        <select class="select2 form-select" name="branch_id" id="branch_id" required>
-            <option value="" selected disabled>Select Branch</option>
-            @foreach ($branches as $branch)
-                <option value="{{ $branch->id }}">{{  $branch->name }}</option>
-            @endforeach
-        </select>
-    </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="branch_id">Branch</label>
+                                <select class="select2 form-select" name="branch_id" id="branch_id" required>
+                                    <option value="" selected disabled>Select Branch</option>
+                                    @foreach ($branches as $branch)
+                                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-    <div class="col-sm-6">
-        <label class="form-label" for="directorate_id">Directorate / Work Process</label>
-        <select class="form-select" name="directorate_id" id="directorate_id" required>
-            <option value="" selected disabled>Select Directorate</option>
-            </select>
-    </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="directorate_id">Directorate / Work Process</label>
+                                <select class="form-select" name="directorate_id" id="directorate_id" required>
+                                    <option value="" selected disabled>Select Directorate</option>
+                                </select>
+                            </div>
 
-    <div class="col-sm-6">
-        <label for="department_id" class="form-label">Position</label>
-        <select class="form-select" id="department_id" name="department_id" required>
-            <option value="" selected disabled>Select Position</option>
-            </select>
-    </div>
+                            <div class="col-sm-6">
+                                <label for="department_id" class="form-label">Position</label>
+                                <select class="form-select" id="department_id" name="department_id" required>
+                                    <option value="" selected disabled>Select Position</option>
+                                </select>
+                            </div>
 
-    <div class="col-12 d-flex justify-content-between mt-4">
-        <button type="button" class="btn btn-label-secondary btn-prev" disabled>
-            <i class="icon-base bx bx-chevron-left icon-sm ms-sm-n2 me-sm-2"></i>
-            <span class="align-middle d-sm-inline-block d-none">Previous</span>
-        </button>
-        <button type="button" class="btn btn-primary btn-next">
-            <span class="align-middle d-sm-inline-block d-none me-sm-2">Next</span>
-            <i class="icon-base icon-base bx bx-chevron-right icon-md icon-sm me-sm-n2"></i>
-        </button>
-    </div>
-</div>
+                            <div class="col-12 d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-label-secondary btn-prev" disabled>
+                                    <i class="icon-base bx bx-chevron-left icon-sm ms-sm-n2 me-sm-2"></i>
+                                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                </button>
+                                <button type="button" class="btn btn-primary btn-next">
+                                    <span class="align-middle d-sm-inline-block d-none me-sm-2">Next</span>
+                                    <i class="icon-base icon-base bx bx-chevron-right icon-md icon-sm me-sm-n2"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- STEP 1: Personal Information -->
@@ -597,9 +598,10 @@
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const wizardNumbered = document.querySelector('#wizard-numbered');
+            // FIX: Select by class instead of non-existent ID
+            const wizardNumbered = document.querySelector('.wizard-numbered');
 
-            if (typeof FormValidation !== 'undefined' && wizardNumbered !== null) {
+            if (wizardNumbered !== null) {
                 const wizardNumberedBtnNextList = [].slice.call(wizardNumbered.querySelectorAll('.btn-next'));
                 const wizardNumberedBtnPrevList = [].slice.call(wizardNumbered.querySelectorAll('.btn-prev'));
                 const wizardNumberedForm = wizardNumbered.querySelector('#wizard-numbered-form');
@@ -621,75 +623,55 @@
                         numberedStepper.previous();
                     });
                 });
+
+                // Ensure the form submits cleanly when clicking the submit button on the last step
+                if (wizardNumberedForm) {
+                    wizardNumberedForm.addEventListener('submit', function(e) {
+                        // Allow natural form submission to employees.store
+                    });
+                }
             }
         });
     </script>
     <script>
         $(document).ready(function() {
-            $('#directory_select').on('change', function() {
-                let lang = $(this).val();
-                $.ajax({
-                    method: 'GET',
-                    url: "{{ route('fetchDept') }}",
-                    data: {
-                        id: lang
-                    },
-                    success: function(data) {
-                        $('#department').html("");
-                        $('#department').html(
-                            `<option value="">---{{ __('Select Position') }}---</option>`);
+            // 1. When Branch changes -> Fetch Directorates / Work Processes
+            $('#branch_id').on('change', function() {
+                var branchId = $(this).val();
+                $('#directorate_id').empty().append('<option value="">-- Select Division --</option>');
 
-                        $.each(data, function(index, data) {
-                            $('#department').append(
-                                `<option value="${data.id}">${data.name}</option>`)
-                        })
-
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                })
-            })
-        })
-    </script>
-<script>
-$(document).ready(function() {
-    // 1. When Branch changes -> Fetch Directorates / Work Processes
-    $('#branch_id').on('change', function() {
-        var branchId = $(this).val();
-        $('#directorate_id').empty().append('<option value="">-- Select Division --</option>');
-        // $('#department_id').empty().append('<option value="">-- Select Position --</option>');
-
-        if(branchId) {
-            $.ajax({
-                url: '/ajax/branches/' + branchId + '/directorates',
-                type: 'GET',
-                success: function(data) {
-                    $.each(data, function(key, value) {
-                        $('#directorate_id').append('<option value="'+ value.id +'">'+ value.name + '</option>');
+                if (branchId) {
+                    $.ajax({
+                        url: '/ajax/branches/' + branchId + '/directorates',
+                        type: 'GET',
+                        success: function(data) {
+                            $.each(data, function(key, value) {
+                                $('#directorate_id').append('<option value="' + value
+                                    .id + '">' + value.name + '</option>');
+                            });
+                        }
                     });
                 }
             });
-        }
-    });
 
-    // 2. When Directorate changes -> Fetch Positions directly
-    $('#directorate_id').on('change', function() {
-        var directorateId = $(this).val();
-        $('#department_id').empty().append('<option value="">-- Select Position --</option>');
+            // 2. When Directorate changes -> Fetch Positions directly
+            $('#directorate_id').on('change', function() {
+                var directorateId = $(this).val();
+                $('#department_id').empty().append('<option value="">-- Select Position --</option>');
 
-        if(directorateId) {
-            $.ajax({
-                url: '/ajax/directorates/' + directorateId + '/departments',
-                type: 'GET',
-                success: function(data) {
-                    $.each(data, function(key, value) {
-                        $('#department_id').append('<option value="'+ value.id +'">'+ value.name + '</option>');
+                if (directorateId) {
+                    $.ajax({
+                        url: '/ajax/directorates/' + directorateId + '/departments',
+                        type: 'GET',
+                        success: function(data) {
+                            $.each(data, function(key, value) {
+                                $('#department_id').append('<option value="' + value
+                                    .id + '">' + value.name + '</option>');
+                            });
+                        }
                     });
                 }
             });
-        }
-    });
-});
+        });
     </script>
 @endsection

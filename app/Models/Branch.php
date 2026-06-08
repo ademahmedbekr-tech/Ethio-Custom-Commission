@@ -10,7 +10,6 @@ use App\Models\Directorate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-
 class Branch extends Model
 {
     use HasFactory;
@@ -29,10 +28,14 @@ protected $fillable = [
         return $this->hasMany(Directorate::class);
     }
 
-      public function branch()
-    {
-        return $this->belongsTo(Branch::class);
+    public function user(){
+        return $this->hasMany(User::class);
     }
+
+    //   public function branch()
+    // {
+    //     return $this->belongsTo(Branch::class);
+    // }
 
     protected static $logAttributes = ['*'];
 

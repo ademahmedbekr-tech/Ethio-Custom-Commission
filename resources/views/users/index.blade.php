@@ -117,6 +117,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Roles</th>
+                                        <th>User's Branch</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
@@ -134,6 +135,7 @@
                                                     <span class="badge bg-info">{{ $role }}</span>
                                                 @endforeach
                                             </td>
+                                            <td> {{ $user->userBranch?->name }} </td>
                                             <td class="text-end">
                                                 @can('user-edit')
                                                     <button class="btn btn-icon me-1"
@@ -142,7 +144,7 @@
                                                         <i class="icon-base bx bx-edit icon-md"></i>
                                                     </button>
                                                 @endcan
-                                                @include('_partials._modals.modal-edit-user')
+                                                @include('users.edit')
 
 
                                                 @can('user-delete')

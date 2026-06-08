@@ -28,27 +28,25 @@
 
                     @if (count($errors) > 0)
 
-                    <div class="alert alert-danger">
+                        <div class="alert alert-danger">
 
-                        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
 
-                        <ul>
+                            <ul>
 
-                            @foreach ($errors->all() as $error)
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
 
-                            <li>{{ $error }}</li>
+                            </ul>
 
-                            @endforeach
-
-                        </ul>
-
-                    </div>
+                        </div>
 
                     @endif
 
 
 
-                    {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
+                    {!! Form::open(['route' => 'users.store', 'method' => 'POST']) !!}
 
                     <div class="row">
 
@@ -58,7 +56,7 @@
 
                                 <strong>Name:</strong>
 
-                                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                                {!! Form::text('name', null, ['placeholder' => 'Name', 'class' => 'form-control']) !!}
 
                             </div>
 
@@ -70,7 +68,7 @@
 
                                 <strong>Email:</strong>
 
-                                {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                                {!! Form::text('email', null, ['placeholder' => 'Email', 'class' => 'form-control']) !!}
 
                             </div>
 
@@ -96,7 +94,7 @@
 
                                 <strong>Password:</strong>
 
-                                {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+                                {!! Form::password('password', ['placeholder' => 'Password', 'class' => 'form-control']) !!}
 
                             </div>
 
@@ -108,11 +106,21 @@
 
                                 <strong>Confirm Password:</strong>
 
-                                {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+                                {!! Form::password('confirm-password', ['placeholder' => 'Confirm Password', 'class' => 'form-control']) !!}
 
                             </div>
 
                         </div>
+                        {{-- <div class="col-xs-12 col-sm-12 col-md-12">
+                            <label class="form-label font-weight-bold text-dark">Branch Office <span
+                                    class="text-danger">*</span></label>
+                            <select name="branch_id" id="branch_selector" class="form-select" required>
+                                <option value="" selected disabled>Select Branch</option>
+                                @foreach ($branch as $branches)
+                                    <option value="{{ $branches->id }}">{{ $branches->name }}</option>
+                                @endforeach
+                            </select>
+                        </div> --}}
 
                         <div class="col-xs-12 col-sm-12 col-md-12">
 
@@ -120,7 +128,7 @@
 
                                 <strong>Role:</strong>
 
-                                {!! Form::select('roles[]', $roles,[], array('class' => 'form-select')) !!}
+                                {!! Form::select('roles[]', $roles, [], ['class' => 'form-select']) !!}
 
                             </div>
 

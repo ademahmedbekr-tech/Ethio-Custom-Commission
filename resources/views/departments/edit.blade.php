@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label font-weight-bold text-dark">Department Name <span class="text-danger">*</span></label>
+                    <label class="form-label font-weight-bold text-dark">Position Name <span class="text-danger">*</span></label>
                     <input type="text"
                            name="name"
                            class="form-control"
@@ -50,11 +50,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label font-weight-bold text-dark">Department Code <span class="text-danger">*</span></label>
-                    <input type="text"
-                           name="code"
+                    <label class="form-label font-weight-bold text-dark">Position Code <span class="text-danger">*</span></label>
+                    <input type="number"
+                           name="capacity"
                            class="form-control"
-                           value="{{ old('code', $department->code) }}"
+                           value="{{ old('code', $department->capacity) }}"
                            required>
                 </div>
 
@@ -64,7 +64,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary px-4 shadow-sm">
-                    <i class="fas fa-save mr-1"></i> Update Department
+                    <i class="fas fa-save mr-1"></i> Update Position
                 </button>
             </form>
         </div>

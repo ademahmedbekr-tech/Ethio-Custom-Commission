@@ -11,8 +11,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Dom\Document;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+    use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Models\Scopes\BranchScope;
 
 
 class Employee extends Model
@@ -116,6 +118,8 @@ class Employee extends Model
         'document',
         'department_id',
         'fayda',
+        'directorate_id',
+        'branch_id',
 
     ];
 
@@ -189,6 +193,28 @@ class Employee extends Model
 
     // ==================== ACCESSORS ====================
 
+
+
+/**
+ * The "booted" method of the model.
+ */
+protected static function booted()
+{
+    // Registering the global scope as a Closure directly
+    static::addGlobalScope('branch_filter', function (Builder $builder) {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user && $user->user_branch_id == 4) {
+                return; // Stops execution here, letting this user see ALL records
+            }
+
+            // Restrict queries to only match the logged-in user's branch ID
+            if ($user && isset($user->user_branch_id)) {
+                $builder->where('branch_id', $user->user_branch_id);
+            }
+        }
+    });
+}
     /**
      * Get the employee's age.
      */
@@ -620,19 +646,21 @@ public function getDocumentStatusAttribute()
     /**
      * The "booted" method of the model.
      */
-    protected static function booted()
-    {
-        static::creating(function ($employee) {
-            // Auto-generate file number if not provided
-            if (empty($employee->file_number)) {
-                $employee->file_number = self::generateFileNumber();
-            }
-        });
+    // protected static function booted()
+    // {
 
-        static::updating(function ($employee) {
-            // Add any update logic here
-        });
-    }
+
+    //     static::creating(function ($employee) {
+    //         // Auto-generate file number if not provided
+    //         if (empty($employee->file_number)) {
+    //             $employee->file_number = self::generateFileNumber();
+    //         }
+    //     });
+
+    //     static::updating(function ($employee) {
+    //         // Add any update logic here
+    //     });
+    // }
 
  public function getDescriptionForEvent(string $eventName): string
 {
@@ -655,7 +683,11 @@ public function department(): BelongsTo
 }
 public function branch(): BelongsTo
 {
-    return $this->belongsTo(Branch::class,'branches_id','id');
+    return $this->belongsTo(Branch::class,'branch_id','id');
 }
 
+public function directorate(): BelongsTo
+{
+    return $this->belongsTo(Directorate::class,'directorate_id','id');
+}
 }

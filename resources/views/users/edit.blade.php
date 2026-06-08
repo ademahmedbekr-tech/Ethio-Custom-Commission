@@ -1,131 +1,84 @@
-@extends('layouts.app', ['activePage' => 'user', 'titlePage' => __('User')])
-
-@section('content')
-{{-- <x-app-layout> --}}
-
-    <div>
-        <div class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="row">
-
-                        <div class="col-lg-12 margin-tb">
-
-                            <div class="pull-left">
-
-                                <h2>Edit New User</h2>
-
-                            </div>
-
-                            <div class="pull-right">
-
-                                <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    @if (count($errors) > 0)
-
-                    <div class="alert alert-danger">
-
-                        <strong>Whoops!</strong> There were some problems with your input.<br><br>
-
-                        <ul>
-
-                            @foreach ($errors->all() as $error)
-
-                            <li>{{ $error }}</li>
-
-                            @endforeach
-
-                        </ul>
-
-                    </div>
-
-                    @endif
-
-
-                    {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
-
-                    <div class="row">
-
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-
-                            <div class="form-group">
-
-                                <strong>Name:</strong>
-
-                                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-
-                            <div class="form-group">
-
-                                <strong>Email:</strong>
-
-                                {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-
-                            <div class="form-group">
-
-                                <strong>Password:</strong>
-
-                                {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-
-                            <div class="form-group">
-
-                                <strong>Confirm Password:</strong>
-
-                                {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-
-                            <div class="form-group">
-
-                                <strong>Role:</strong>
-
-                                {!! Form::select('roles[]', $roles,$userRole, array('class' => 'select2','form-select')) !!}
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-3">
-
-                            <button type="submit" class="btn btn-primary">Submit</button>
-
-                        </div>
-
-                    </div>
-
-                    {!! Form::close() !!}
-
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUser{{ $user->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="text-center mb-6">
+                    <h4 class="mb-2">Edit User Information</h4>
+                    <p>Updating user details will receive a privacy audit.</p>
                 </div>
+                <form id="editUserForm" action="{{ route('users.update', $user->id) }}" method="POST" class="row g-6"
+                    onsubmit="return true">
+                    @csrf
+                    @method('PUT')
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="name">Full Name</label>
+                        <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
+                            class="form-control" placeholder="Enter Name" />
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="modalEditUserEmail">Email</label>
+                        <input type="email" id="modalEditUserEmail" name="email" class="form-control"
+                            placeholder="Enter Email" value="{{ old('email', $user->email) }}" />
+                    </div>
+                    {{-- <div class="mb-3">
+                                                <label for="roles" class="form-label">Manager Department</label>
+                                                <select class="form-select" id="" name="roles">
+                                                    <option value="">Select Manager</option>
+                                                    @if ($userRole)
+                                                      <option value="{{ $user }}"
+                                                        {{ request('roles') == $role ? 'selected' : '' }}>
+                                                        {{ $role }}
+                                                        </option>
+                                                    @endif
+
+
+
+                                                </select>
+                                            </div> --}}
+
+                  <div class="col-12 col-md-6">
+    <label class="form-label font-weight-bold text-dark">User's Branch <span
+            class="text-danger">*</span></label>
+    <select name="user_branch_id" id="branch_selector" class="form-select" required>
+        <option value="{{ $user->userBranch->id ?? '' }}">
+            {{ $user->userBranch->name ?? 'No Branch Assigned' }}
+        </option>
+    </select>
+</div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control modal-edit-tax-id"
+                            placeholder="password" />
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label" for="password">Confirm Password</label>
+                        <div class="input-group">
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control"
+                                placeholder="password" />
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+
+                        <strong>Role:</strong>
+
+                        {!! Form::select('roles[]', $roles, $userRole, ['class' => 'form-select', 'select2']) !!}
+
+                    </div>
+
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary me-3">Submit</button>
+                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+                            aria-label="Close">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-{{-- </x-app-layout> --}}
-@endsection
+</div>
+<!--/ Edit User Modal -->

@@ -114,6 +114,7 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Roles</th>
+                                        <th>User's Branch</th>
                                         <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
@@ -132,6 +133,7 @@
                                                     <span class="badge bg-info"><?php echo e($role); ?></span>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </td>
+                                            <td> <?php echo e($user->userBranch?->name); ?> </td>
                                             <td class="text-end">
                                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user-edit')): ?>
                                                     <button class="btn btn-icon me-1"
@@ -140,7 +142,7 @@
                                                         <i class="icon-base bx bx-edit icon-md"></i>
                                                     </button>
                                                 <?php endif; ?>
-                                                <?php echo $__env->make('_partials._modals.modal-edit-user', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                                                <?php echo $__env->make('users.edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
                                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user-delete')): ?>

@@ -23,11 +23,11 @@ class DirectorateController extends Controller
     }
     public function index(Request $request)
     {
-        $directorates = Directorate::with('manage','branch')->first();
+        $directorates = Directorate::with('manage','branch','departments')->first();
         // dd($directorates->all());
         $search = $request->input('search');
 
-        $directorates = Directorate::with('manage','branch')
+        $directorates = Directorate::with('manage','branch','departments')
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', '%'.$search.'%');
             })
