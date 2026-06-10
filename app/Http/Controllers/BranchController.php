@@ -50,11 +50,20 @@ class BranchController extends Controller
     /**
      * Display the specified branch.
      */
-    public function show(int $id)
+  /**
+     * Display the specified branch.
+     */
+    public function show(Request $request, int $id)
     {
-        $branch = Branch::findOrFail($id);
+        // 1. Fetch branch profile metadata with structural relation counters
+        $branch = Branch::with(['directorates'])->findOrFail($id);
 
-        return view('branches.show', compact('branch'));
+        // 2. Paginate linked Directorates directly instead of departments/positions
+        $directoratesList = $branch->directorates()
+            ->paginate(5)
+            ->appends($request->query()); // Retains query search parameters on click
+
+        return view('branches.show', compact('branch', 'directoratesList'));
     }
 
     /**

@@ -147,7 +147,7 @@
                                     {{-- <td>{{ $dir->description }}</td> --}}
                                     <td>{{ $dir->manage?->name }}</td>
                                     <td>{{ $dir->branch?->name }}</td>
-                                    <td>{{ $dir->departments?->count() }} </td>
+                                    <td>{{ $dir->departments?->sum('capacity') ?? 0 }}</td>
 
 
 
@@ -161,7 +161,7 @@
 
                                             <!-- Edit Button -->
                                             <a href="{{ route('directorates.edit', $dir->id) }}"
-                                                class="btn btn-sm btn-primary" title="Edit Directorate">
+                                                class="btn btn-sm btn-warning" title="Edit Directorate">
                                                 <i class="bx bx-edit"></i>
                                             </a>
 
@@ -218,16 +218,4 @@
         <!-- Footer -->
         <div class="content-backdrop fade"></div>
     </div>
-@endsection
-@section('scripts')
-   <script>
-
-        $("#table").dataTable({
-            "columnDefs": [{
-                "sortable": false,
-                "targets": [2, 3]
-            }]
-        });
-
-    </script>
     @endsection

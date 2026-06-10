@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use DirectoryIterator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -225,31 +226,52 @@ class EmployeeController extends Controller
     //     return $position;
 
     // }
+
+
+
+
+    /**
+     * AJAX endpoint: Fetch Directorates or Branch Work Processes safely.
+     */
     public function fetchDirectorates(Request $request)
     {
-        // Fetches either HQ Directorates or Branch Work Processes based on selected Branch
-        $directorates = Directorate::where('branch_id', $request->branch_id)->get();
+        $user = Auth::user();
+
+        // SECURITY OVERRIDE: If not Head Office (4), force filter to the user's branch
+        $branchId = ($user->user_branch_id == 4) ? $request->branch_id : $user->user_branch_id;
+
+        $directorates = Directorate::where('branch_id', $branchId)->get();
         return response()->json($directorates);
     }
 
+    /**
+     * AJAX endpoint: Fetch Positions linked directly to the chosen Directorate.
+     */
     public function fetchPositions(Request $request)
     {
-        // Fetches Positions linked directly to the chosen Directorate/Work Process
+        // The relationship check protects this query structural tier
         $positions = Department::where('directorate_id', $request->directorate_id)->get();
         return response()->json($positions);
     }
-    //  public function fetchCategory(Request $request)
-    // {
-    //     $categories = Category::where('language', $request->lang)->get();
-    //     return $categories;
-    // }
+
+    /**
+     * Show the form for creating a new employee.
+     */
     public function create()
     {
-        // $department = Department::get();
-        $branches = Branch::get();
-        $directorates = Directorate::all();
-        // $position = D
-        // Predefined lists
+        $user = Auth::user();
+
+        // SCOPE CHECK: Filter dropdown options contextually based on user authority
+        if ($user->user_branch_id == 4) {
+            $branches = Branch::all();
+            $directorates = Directorate::all();
+        } else {
+            // Regular branch operators only see their assigned operational jurisdiction
+            $branches = Branch::where('id', $user->user_branch_id)->get();
+            $directorates = Directorate::where('branch_id', $user->user_branch_id)->get();
+        }
+
+        // Predefined local metadata lists
         $genders = ['ወ', 'ሴ'];
         $maritalStatuses = ['Single', 'Married', 'Divorced', 'Widowed'];
         $educationLevels = ['High School', 'Diploma', 'Bachelor', 'Master', 'PhD', 'Certificate', 'Other'];
@@ -258,171 +280,190 @@ class EmployeeController extends Controller
         $ethnicities = ['Oromo', 'Amhara', 'Tigray', 'Somali', 'Gurage', 'Sidama', 'Wolayta', 'Afar', 'Other'];
         $disabilityTypes = ['Physical', 'Visual', 'Hearing', 'Speech', 'Intellectual', 'Mental', 'None'];
 
-        // Regions of Ethiopia
+        // Regional boundaries of Ethiopia
         $regions = [
-            'Addis Ababa',
-            'Afar',
-            'Amhara',
-            'Benishangul-Gumuz',
-            'Dire Dawa',
-            'Gambela',
-            'Harari',
-            'Oromia',
-            'Sidama',
-            'Somali',
-            'SNNPR',
-            'Tigray',
+            'Addis Ababa', 'Afar', 'Amhara', 'Benishangul-Gumuz', 'Dire Dawa',
+            'Gambela', 'Harari', 'Oromia', 'Sidama', 'Somali', 'SNNPR', 'Tigray',
             'South West Ethiopia Peoples',
         ];
 
         return view('employees.create', compact(
-            'genders',
-            'maritalStatuses',
-            'educationLevels',
-            'educationTypes',
-            'religions',
-            'ethnicities',
-            'regions',
-            'disabilityTypes',
-            'branches',
-            'directorates'
+            'genders', 'maritalStatuses', 'educationLevels', 'educationTypes',
+            'religions', 'ethnicities', 'regions', 'disabilityTypes',
+            'branches', 'directorates'
         ));
     }
 
     /**
-     * Store new employee
+     * Store a newly created employee in storage securely.
      */
-public function store(Request $request)
-{
-    // Validate request
-    $validated = $request->validate([
-        // Required fields
-        'file_number' => 'nullable|string|unique:employees,file_number',
-        'employee_name' => 'required|string|max:255',
+    public function store(Request $request)
+    {
+        $user = Auth::user();
 
-        // Employee Information
-        'job_title' => 'nullable|string|max:255',
-        'gender' => 'nullable|string|in:ወ,ሴ',
-        'job_level' => 'nullable|string|max:50',
-        'ethnicity' => 'nullable|string|max:100',
-        'religion' => 'nullable|string|max:100',
-        'date_of_birth' => 'nullable|date',
-        'hire_date' => 'nullable|date',
+        // 1. Strict Server Validate Block
+        $validated = $request->validate([
+            'file_number' => 'nullable|string|unique:employees,file_number',
+            'employee_name' => 'required|string|max:255',
+            'job_title' => 'nullable|string|max:255',
+            'gender' => 'nullable|string|in:ወ,ሴ',
+            'job_level' => 'nullable|string|max:50',
+            'ethnicity' => 'nullable|string|max:100',
+            'religion' => 'nullable|string|max:100',
+            'date_of_birth' => 'nullable|date',
+            'hire_date' => 'nullable|date',
+            'step' => 'nullable|integer|min:1|max:20',
+            'salary' => 'nullable|numeric|min:0',
+            'allowance' => 'nullable|numeric|min:0',
+            'assignment_date' => 'nullable|date',
+            'housing_allowance' => 'nullable|numeric|min:0',
+            'pension_id' => 'nullable|string|max:50',
+            'marital_status' => 'nullable|string|in:Single,Married,Divorced,Widowed',
+            'region' => 'nullable|string|max:100',
+            'zone' => 'nullable|string|max:100',
+            'district' => 'nullable|string|max:100',
+            'specific_location' => 'nullable|string|max:255',
+            'house_number' => 'nullable|string|max:50',
+            'phone_number' => 'nullable|string|max:20',
+            'email' => 'nullable|email|unique:employees,email',
+            'fan_number' => 'nullable|string|max:100',
+            'education_type' => 'nullable|string|max:100',
+            'education_level' => 'nullable|string|max:100',
+            'cgpa' => 'nullable|numeric|min:0|max:4',
+            'institution' => 'nullable|string|max:255',
+            'graduation_date' => 'nullable|date',
+            'coc_certificate' => 'nullable|boolean',
+            'higher_ed_verified' => 'nullable|boolean',
+            'current_job_title' => 'nullable|string|max:255',
+            'current_institution' => 'nullable|string|max:255',
+            'experience_from' => 'nullable|date',
+            'experience_to' => 'nullable|date',
+            'previous_job_title' => 'nullable|string|max:255',
+            'previous_institution' => 'nullable|string|max:255',
+            'previous_from' => 'nullable|date',
+            'previous_to' => 'nullable|date',
+            'column_40' => 'nullable|string|max:255',
+            'diagnosis' => 'nullable|string',
+            'disability_type' => 'nullable|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'document' => 'nullable|mimes:pdf,doc,docx,txt',
+            'fayda' => 'nullable|mimes:pdf,doc,docx,txt|max:5120',
+            'department_id' => 'required',
+            'branch_id' => 'required',
+            'directorate_id' => 'required'
+        ]);
 
-        // Job and Compensation
-        'step' => 'nullable|integer|min:1|max:20',
-        'salary' => 'nullable|numeric|min:0',
-        'allowance' => 'nullable|numeric|min:0',
-        'assignment_date' => 'nullable|date',
-        'housing_allowance' => 'nullable|numeric|min:0',
-
-        // Personal & Contact
-        'pension_id' => 'nullable|string|max:50',
-        'marital_status' => 'nullable|string|in:Single,Married,Divorced,Widowed',
-        'region' => 'nullable|string|max:100',
-        'zone' => 'nullable|string|max:100',
-        'district' => 'nullable|string|max:100',
-        'specific_location' => 'nullable|string|max:255',
-        'house_number' => 'nullable|string|max:50',
-        'phone_number' => 'nullable|string|max:20',
-        'email' => 'nullable|email|unique:employees,email',
-        'fan_number' => 'nullable|string|max:100', // FIXED: removed trailing comma inside validation string
-
-        // Education
-        'education_type' => 'nullable|string|max:100',
-        'education_level' => 'nullable|string|max:100',
-        'cgpa' => 'nullable|numeric|min:0|max:4',
-        'institution' => 'nullable|string|max:255',
-        'graduation_date' => 'nullable|date',
-        'coc_certificate' => 'nullable|boolean',
-        'higher_ed_verified' => 'nullable|boolean',
-
-        // Work Experience (Current)
-        'current_job_title' => 'nullable|string|max:255',
-        'current_institution' => 'nullable|string|max:255',
-        'experience_from' => 'nullable|date',
-        'experience_to' => 'nullable|date',
-
-        // Work Experience (Previous)
-        'previous_job_title' => 'nullable|string|max:255',
-        'previous_institution' => 'nullable|string|max:255',
-        'previous_from' => 'nullable|date',
-        'previous_to' => 'nullable|date',
-
-        // Additional Info
-        'column_40' => 'nullable|string|max:255',
-        'diagnosis' => 'nullable|string',
-        'disability_type' => 'nullable|string|max:255',
-
-        // Files
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'document' => 'nullable|mimes:pdf,doc,docx,txt',
-        'fayda' => 'nullable|mimes:pdf,doc,docx,txt|max:5120',
-
-        // Structural Relationships
-        'department_id' => 'required',
-        'branch_id' => 'required',
-        'directorate_id' => 'required'
-    ]);
-
-    // Handle photo upload
-    if ($request->hasFile('photo')) {
-        $image = $request->file('photo');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-
-        if (! file_exists(public_path('uploads/employees/photos'))) {
-            mkdir(public_path('uploads/employees/photos'), 0777, true);
+        // 2. BACK-END SECURITY FALLBACK: Ignore browser DOM tampering completely
+        if ($user->user_branch_id != 4) {
+            $validated['branch_id'] = $user->user_branch_id;
         }
 
-        $img = Image::make($image);
-        $img->resize(300, 300, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-        $img->save(public_path('uploads/employees/photos/'.$name_gen));
+        // 3. Handle File uploads securely
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
 
-        $validated['photo'] = 'uploads/employees/photos/'.$name_gen;
-    }
+            if (!file_exists(public_path('uploads/employees/photos'))) {
+                mkdir(public_path('uploads/employees/photos'), 0777, true);
+            }
 
-    // Handle document upload
-    if ($request->hasFile('document')) {
-        $document = $request->file('document');
-        $documentName = time().'_'.$document->getClientOriginalName();
-
-        if (! file_exists(public_path('uploads/employees/documents'))) {
-            mkdir(public_path('uploads/employees/documents'), 0777, true);
+            $img = Image::make($image);
+            $img->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $img->save(public_path('uploads/employees/photos/'.$name_gen));
+            $validated['photo'] = 'uploads/employees/photos/'.$name_gen;
         }
 
-        $document->move(public_path('uploads/employees/documents'), $documentName);
-        $validated['document'] = 'uploads/employees/documents/'.$documentName;
-    }
+        if ($request->hasFile('document')) {
+            $document = $request->file('document');
+            $documentName = time().'_'.$document->getClientOriginalName();
 
-    // Handle Fayda document upload
-    if ($request->hasFile('fayda')) {
-        $fayda = $request->file('fayda');
-        $faydaName = time().'_'.$fayda->getClientOriginalName();
+            if (!file_exists(public_path('uploads/employees/documents'))) {
+                mkdir(public_path('uploads/employees/documents'), 0777, true);
+            }
 
-        if (! file_exists(public_path('uploads/employees/fayda'))) {
-            mkdir(public_path('uploads/employees/fayda'), 0777, true);
+            $document->move(public_path('uploads/employees/documents'), $documentName);
+            $validated['document'] = 'uploads/employees/documents/'.$documentName;
         }
 
-        $fayda->move(public_path('uploads/employees/fayda'), $faydaName);
-        $validated['fayda'] = 'uploads/employees/fayda/'.$faydaName;
+        if ($request->hasFile('fayda')) {
+            $fayda = $request->file('fayda');
+            $faydaName = time().'_'.$fayda->getClientOriginalName();
+
+            if (!file_exists(public_path('uploads/employees/fayda'))) {
+                mkdir(public_path('uploads/employees/fayda'), 0777, true);
+            }
+
+            $fayda->move(public_path('uploads/employees/fayda'), $faydaName);
+            $validated['fayda'] = 'uploads/employees/fayda/'.$faydaName;
+        }
+
+        // 4. Sanitize unchecked checkbox flags
+        $validated['coc_certificate'] = $request->has('coc_certificate');
+        $validated['higher_ed_verified'] = $request->has('higher_ed_verified');
+
+        // 5. Secure Commit Execution
+        Employee::create($validated);
+
+        return redirect()->route('employees.index')
+            ->with('success', 'Employee created successfully.');
     }
 
-    // Set boolean fields safely
-    $validated['coc_certificate'] = $request->has('coc_certificate');
-    $validated['higher_ed_verified'] = $request->has('higher_ed_verified');
+    /**
+     * Show the form for editing the specified employee.
+     * (Protected from cross-branch URL tampering via the BranchScope model layer)
+     */
+    // public function edit($id)
+    // {
+    //     // Automatically throws a 404 error if an unauthorized branch user types an invalid ID
+    //     $employee = Employee::findOrFail($id);
+    //     $user = Auth::user();
 
-    // FIX REMOVED: Re-assignment lines that were overwriting array elements with null are gone.
-    // They are already safely present inside $validated via the initial validation block.
+    //     if ($user->user_branch_id == 4) {
+    //         $branches = Branch::all();
+    //     } else {
+    //         $branches = Branch::where('id', $user->user_branch_id)->get();
+    //     }
 
-    // Persist Record
-    Employee::create($validated);
+    //     // Re-use standard operational data options...
+    //     $genders = ['ወ', 'ሴ'];
+    //     $maritalStatuses = ['Single', 'Married', 'Divorced', 'Widowed'];
+    //     $educationLevels = ['High School', 'Diploma', 'Bachelor', 'Master', 'PhD', 'Certificate', 'Other'];
+    //     $regions = ['Addis Ababa', 'Afar', 'Amhara', 'Benishangul-Gumuz', 'Dire Dawa', 'Gambela', 'Harari', 'Oromia', 'Sidama', 'Somali', 'SNNPR', 'Tigray'];
 
-    return redirect()->route('employees.index')
-        ->with('success', 'Employee created successfully.');
-}
+    //     return view('employees.edit', compact('employee', 'branches', 'genders', 'maritalStatuses', 'educationLevels', 'regions'));
+    // }
+
+    /**
+     * Update the specified employee record in storage securely.
+     */
+    // public function update(Request $request, $id)
+    // {
+    //     $employee = Employee::findOrFail($id);
+    //     $user = Auth::user();
+
+    //     // Standard validation setup...
+    //     $validated = $request->validate([
+    //         'employee_name' => 'required|string|max:255',
+    //         'job_title' => 'nullable|string|max:255',
+    //         'salary' => 'nullable|numeric|min:0',
+    //         'department_id' => 'required',
+    //         'directorate_id' => 'required'
+    //     ]);
+
+    //     // Keep branch mapping secure on updates
+    //     if ($user->user_branch_id == 4) {
+    //         $employee->branch_id = $request->input('branch_id');
+    //     }
+    //     // If they are not from branch 4, we don't allow altering the historical branch data field
+
+    //     $employee->update($validated);
+
+    //     return redirect()->route('employees.index')->with('success', 'Employee profile updated successfully.');
+    // }
+// }
 
     /**
      * Display employee details

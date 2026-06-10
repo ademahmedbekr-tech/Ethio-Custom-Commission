@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use App\Models\Zone1;
 use App\Models\Announcement;
+use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Directorate;
 use App\Models\Employee;
@@ -166,11 +167,12 @@ $zoneCounter = DB::table('w_officers')
                 // convert collection → array
 
 $ethinicity = Employee::where('ethnicity','ኦሮሞ')->count();
+$branch = Branch::where('id','!=',4)->count();
 $user = User::whereNotNull('profile_photo_path')->get();
 
 
 
-        return view('dashboard', compact('news', 'announcement', 'members','count','all','woreda','roles','officers','user','zoneCounts','ethinicity','orgacount','positionCounts','zonesposition','zoneCounter','total_employee','diroctorates'),
+        return view('dashboard', compact('news', 'branch','announcement', 'members','count','all','woreda','roles','officers','user','zoneCounts','ethinicity','orgacount','positionCounts','zonesposition','zoneCounter','total_employee','diroctorates'),
         ['positionCounts' => $positionCounts],['zoneCounts' => $zoneCounts],['zoneCounter' => $zoneCounter]);
     }
 

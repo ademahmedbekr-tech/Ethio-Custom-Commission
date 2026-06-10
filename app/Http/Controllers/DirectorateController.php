@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Models\Department;
 use App\Models\Directorate;
 use App\Models\Managers;
 use Illuminate\Http\Request;
@@ -113,9 +114,16 @@ class DirectorateController extends Controller
 
         return back()->with('success', 'Directorate deleted');
     }
+public function show(Request $request, $id)
+{
+    // 1. Fetch the main directorate metadata
+    $directorate = Directorate::with(['manage', 'branch'])->findOrFail($id);
 
-    public function show()
-    {
-        return view('directorates.show');
-    }
+    // 2. Paginate its linked positions/departments separately (e.g., 5 rows per page)
+    $departments = $directorate->departments()
+        ->paginate(5)
+        ->appends($request->query()); // Keeps current URL params intact
+
+    return view('directorates.show', compact('directorate', 'departments'));
+}
 }

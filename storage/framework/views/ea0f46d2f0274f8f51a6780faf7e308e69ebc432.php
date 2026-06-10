@@ -146,7 +146,7 @@
                                     
                                     <td><?php echo e($dir->manage?->name); ?></td>
                                     <td><?php echo e($dir->branch?->name); ?></td>
-                                    <td><?php echo e($dir->departments?->count()); ?> </td>
+                                    <td><?php echo e($dir->departments?->sum('capacity') ?? 0); ?></td>
 
 
 
@@ -160,7 +160,7 @@
 
                                             <!-- Edit Button -->
                                             <a href="<?php echo e(route('directorates.edit', $dir->id)); ?>"
-                                                class="btn btn-sm btn-primary" title="Edit Directorate">
+                                                class="btn btn-sm btn-warning" title="Edit Directorate">
                                                 <i class="bx bx-edit"></i>
                                             </a>
 
@@ -218,18 +218,6 @@
         <!-- Footer -->
         <div class="content-backdrop fade"></div>
     </div>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('scripts'); ?>
-   <script>
-
-        $("#table").dataTable({
-            "columnDefs": [{
-                "sortable": false,
-                "targets": [2, 3]
-            }]
-        });
-
-    </script>
     <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ODA-IT\Documents\GitHub\ECC\ecc-profiles\resources\views/directorates/index.blade.php ENDPATH**/ ?>

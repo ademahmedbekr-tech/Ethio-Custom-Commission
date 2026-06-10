@@ -60,18 +60,18 @@ class Department extends Model
 
     protected static $logOnlyDirty = true;
 
-    public function getDescriptionForEvent(string $eventName): string
-    {
-        // $user = Auth::user()->name;
-        // return "{$user} has {$eventName} user {$this->name}";
+   public function getDescriptionForEvent(string $eventName): string
+{
+    $user = Auth::user()->name ?? 'System';
+    $modelName = strtolower(class_basename($this));
 
-        return "user has {$eventName} user {$this->name}";
-    }
+    return "{$user} has {$eventName} {$modelName} {$this->name}";
+}
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logOnly(['*'])
-            ->useLogName('Department');
+            ->useLogName('Position');
     }
 }

@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
 
@@ -10,10 +8,10 @@
                     <p class="mb-0">Overview of organizational capacities and positions</p>
                 </div>
                 <div class="d-flex align-content-center flex-wrap gap-2">
-                    <a href="{{ route('directorates.index') }}" class="btn btn-outline-secondary">
+                    <a href="<?php echo e(route('directorates.index')); ?>" class="btn btn-outline-secondary">
                         <i class="bx bx-left-arrow-alt me-1"></i> Back to List
                     </a>
-                    <a href="{{ route('directorates.edit', $directorate->id) }}" class="btn btn-primary">
+                    <a href="<?php echo e(route('directorates.edit', $directorate->id)); ?>" class="btn btn-primary">
                         <i class="bx bx-edit me-1"></i> Edit Directorate
                     </a>
                 </div>
@@ -31,9 +29,9 @@
                                         </span>
                                     </div>
                                     <div class="user-info text-center">
-                                        <h5>{{ $directorate->name }}</h5>
+                                        <h5><?php echo e($directorate->name); ?></h5>
                                         <span class="badge bg-label-secondary mb-2">Code:
-                                            {{ $directorate->code ?? 'N/A' }}</span>
+                                            <?php echo e($directorate->code ?? 'N/A'); ?></span>
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +44,7 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <h5 class="mb-0">{{ $directorate->departments?->count() ?? 0 }}</h5>
+                                        <h5 class="mb-0"><?php echo e($directorate->departments?->count() ?? 0); ?></h5>
                                         <span>Distinct Roles</span>
                                     </div>
                                 </div>
@@ -58,7 +56,7 @@
                                     </div>
                                     <div>
                                         <h5 class="mb-0" id="total-capacity-badge">
-                                            {{ $directorate->departments?->sum('capacity') ?? 0 }}</h5>
+                                            <?php echo e($directorate->departments?->sum('capacity') ?? 0); ?></h5>
                                         <span>Total Capacity</span>
                                     </div>
                                 </div>
@@ -69,26 +67,27 @@
                                 <ul class="list-unstyled mb-0">
                                     <li class="mb-4">
                                         <span class="h6 me-2">Directorate Name:</span>
-                                        <span>{{ $directorate->name }}</span>
+                                        <span><?php echo e($directorate->name); ?></span>
                                     </li>
                                     <li class="mb-4">
                                         <span class="h6 me-2">Directorate Code:</span>
-                                        <span>{{ $directorate->code ?? 'N/A' }}</span>
+                                        <span><?php echo e($directorate->code ?? 'N/A'); ?></span>
                                     </li>
                                     <li class="mb-4">
                                         <span class="h6 me-2">Assigned Branch:</span>
                                         <span
-                                            class="text-capitalize">{{ $directorate->branch?->name ?? 'Unassigned' }}</span>
+                                            class="text-capitalize"><?php echo e($directorate->branch?->name ?? 'Unassigned'); ?></span>
                                     </li>
                                     <li class="mb-4">
                                         <span class="h6 me-2">Director In-Charge:</span>
                                         <span
-                                            class="badge bg-label-success">{{ $directorate->manage?->name ?? 'Vacant / Pending' }}</span>
+                                            class="badge bg-label-success"><?php echo e($directorate->manage?->name ?? 'Vacant / Pending'); ?></span>
                                     </li>
                                     <li class="mb-4">
                                         <span class="h6 me-2">Description:</span>
                                         <p class="text-muted mt-1 mb-0">
-                                            {{ $directorate->description ?? 'No historical summary or description provided for this directorate branch.' }}
+                                            <?php echo e($directorate->description ?? 'No historical summary or description provided for this directorate branch.'); ?>
+
                                         </p>
                                     </li>
                                 </ul>
@@ -107,7 +106,7 @@
                                         <div>
                                             <p class="mb-1 text-white-50 fw-medium">Operational Structural Slots</p>
                                             <h3 class="card-title text-white mb-0"><span
-                                                    id="total-capacity-strip">{{ $directorate->departments?->sum('capacity') ?? 0 }}</span>
+                                                    id="total-capacity-strip"><?php echo e($directorate->departments?->sum('capacity') ?? 0); ?></span>
                                                 Staff</h3>
                                         </div>
                                         <div class="avatar bg-white-10 rounded">
@@ -123,7 +122,8 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <p class="mb-1 text-muted fw-medium">Role Variations Linked</p>
-                                            <h3 class="card-title mb-0">{{ $directorate->departments?->count() ?? 0 }}
+                                            <h3 class="card-title mb-0"><?php echo e($directorate->departments?->count() ?? 0); ?>
+
                                                 Unique Titles</h3>
                                         </div>
                                         <div class="avatar bg-label-info rounded">
@@ -151,42 +151,43 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($departments as $dept)
-                                    <tr id="position-row-{{ $dept->id }}">
-                                        <td><strong>#{{ $dept->id }}</strong></td>
+                                <?php $__empty_1 = true; $__currentLoopData = $departments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $dept): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                    <tr id="position-row-<?php echo e($dept->id); ?>">
+                                        <td><strong>#<?php echo e($dept->id); ?></strong></td>
                                         <td>
-                                            <span class="text-heading fw-medium position-name">{{ $dept->name }}</span>
+                                            <span class="text-heading fw-medium position-name"><?php echo e($dept->name); ?></span>
                                         </td>
                                         <td class="text-center">
                                             <span class="badge bg-label-primary px-3 py-2 rounded-pill fw-bold fs-7 position-capacity-display">
-                                                {{ $dept->capacity }} Slots
+                                                <?php echo e($dept->capacity); ?> Slots
                                             </span>
                                         </td>
                                         <td class="text-center">
                                             <button type="button"
                                                     class="btn btn-sm btn-icon btn-outline-primary edit-position-btn"
-                                                    data-id="{{ $dept->id }}"
-                                                    data-name="{{ $dept->name }}"
-                                                    data-capacity="{{ $dept->capacity }}"
+                                                    data-id="<?php echo e($dept->id); ?>"
+                                                    data-name="<?php echo e($dept->name); ?>"
+                                                    data-capacity="<?php echo e($dept->capacity); ?>"
                                                     title="Modify Capacity Allocation">
                                                 <i class="bx bx-edit"></i>
                                             </button>
                                         </td>
                                     </tr>
-                                @empty
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <tr>
                                         <td colspan="4" class="text-center py-6 text-muted">
                                             No explicit positions mapped directly to this unit yet.
                                         </td>
                                     </tr>
-                                @endforelse
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
                 <div class="mt-3">
-                    {{ $departments->links('pagination::bootstrap-5') }}
+                    <?php echo e($departments->links('pagination::bootstrap-5')); ?>
+
                 </div>
                 </div>
             </div>
@@ -201,7 +202,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="editPositionForm">
-                    @csrf
+                    <?php echo csrf_field(); ?>
                     <input type="hidden" id="modal_position_id" name="id">
 
                     <div class="modal-body py-4">
@@ -227,9 +228,9 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
     <script>
         $(document).ready(function() {
             // 1. Intercept edit clicks and map fields to form input fields
@@ -306,4 +307,6 @@
             });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ODA-IT\Documents\GitHub\ECC\ecc-profiles\resources\views/directorates/show.blade.php ENDPATH**/ ?>

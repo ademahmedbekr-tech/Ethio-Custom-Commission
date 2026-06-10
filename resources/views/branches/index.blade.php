@@ -68,6 +68,12 @@
                             </td>
 
                             <td>
+                                <a href="{{ route('branches.show', $branch->id) }}" class="btn btn-sm btn-info">
+
+                                    <i class="bx bx-show"></i>
+
+
+                                </a>
 
                                 <a href="{{ route('branches.edit', $branch->id) }}" class="btn btn-sm btn-warning">
 

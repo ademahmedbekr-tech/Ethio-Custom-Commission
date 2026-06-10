@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use File;
+// use File;
 use Illuminate\Validation\Rules\ImageFile;
 use App\Models\Setting;
 use App\Models\Language;
@@ -15,6 +15,7 @@ use App\Models\SettingLanguage;
 use App\Models\MaintainanceText;
 use App\Http\Controllers\Controller;
 use App\Models\SectionContentLanguage;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 // use Intervention\Image\Image;
 

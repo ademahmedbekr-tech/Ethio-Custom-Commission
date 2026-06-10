@@ -66,6 +66,12 @@
                             </td>
 
                             <td>
+                                <a href="<?php echo e(route('branches.show', $branch->id)); ?>" class="btn btn-sm btn-info">
+
+                                    <i class="bx bx-show"></i>
+
+
+                                </a>
 
                                 <a href="<?php echo e(route('branches.edit', $branch->id)); ?>" class="btn btn-sm btn-warning">
 

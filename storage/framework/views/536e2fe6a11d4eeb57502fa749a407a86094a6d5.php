@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Branch Details'); ?>
 
-@section('title', 'Branch Details')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
 
@@ -12,10 +10,10 @@
                 <p class="mb-0">Overview of branch metadata and assigned operational units</p>
             </div>
             <div class="d-flex align-content-center flex-wrap gap-2">
-                <a href="{{ route('branches.index') }}" class="btn btn-outline-secondary">
+                <a href="<?php echo e(route('branches.index')); ?>" class="btn btn-outline-secondary">
                     <i class="bx bx-left-arrow-alt me-1"></i> Back to List
                 </a>
-                <a href="{{ route('branches.edit', $branch->id) }}" class="btn btn-primary">
+                <a href="<?php echo e(route('branches.edit', $branch->id)); ?>" class="btn btn-primary">
                     <i class="bx bx-edit me-1"></i> Edit Branch
                 </a>
             </div>
@@ -33,8 +31,8 @@
                                     </span>
                                 </div>
                                 <div class="user-info text-center">
-                                    <h5>{{ $branch->name }}</h5>
-                                    <span class="badge bg-label-secondary mb-2">Code: {{ $branch->code }}</span>
+                                    <h5><?php echo e($branch->name); ?></h5>
+                                    <span class="badge bg-label-secondary mb-2">Code: <?php echo e($branch->code); ?></span>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +45,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h5 class="mb-0">{{ $branch->directorates?->count() ?? 0 }}</h5>
+                                    <h5 class="mb-0"><?php echo e($branch->directorates?->count() ?? 0); ?></h5>
                                     <span>Directorates Linked</span>
                                 </div>
                             </div>
@@ -58,31 +56,31 @@
                             <ul class="list-unstyled mb-0">
                                 <li class="mb-4">
                                     <span class="h6 me-2">Branch Name:</span>
-                                    <span>{{ $branch->name }}</span>
+                                    <span><?php echo e($branch->name); ?></span>
                                 </li>
                                 <li class="mb-4">
                                     <span class="h6 me-2">Branch Code:</span>
-                                    <span>{{ $branch->code }}</span>
+                                    <span><?php echo e($branch->code); ?></span>
                                 </li>
                                 <li class="mb-4">
                                     <span class="h6 me-2">Branch Type:</span>
-                                    <span class="badge bg-label-info text-capitalize">{{ $branch->branch_type ?? 'N/A' }}</span>
+                                    <span class="badge bg-label-info text-capitalize"><?php echo e($branch->branch_type ?? 'N/A'); ?></span>
                                 </li>
                                 <li class="mb-4">
                                     <span class="h6 me-2">City Location:</span>
-                                    <span>{{ $branch->city ?? 'N/A' }}</span>
+                                    <span><?php echo e($branch->city ?? 'N/A'); ?></span>
                                 </li>
                                 <li class="mb-4">
                                     <span class="h6 me-2">Physical Address:</span>
-                                    <span class="text-muted d-block mt-1">{{ $branch->address ?? 'No physical address configured for this hub branch.' }}</span>
+                                    <span class="text-muted d-block mt-1"><?php echo e($branch->address ?? 'No physical address configured for this hub branch.'); ?></span>
                                 </li>
                                 <li class="mb-4">
                                     <span class="h6 me-2">Status:</span>
-                                    @if ($branch->is_active)
+                                    <?php if($branch->is_active): ?>
                                         <span class="badge bg-label-success">Active</span>
-                                    @else
+                                    <?php else: ?>
                                         <span class="badge bg-label-danger">Inactive</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </li>
                             </ul>
                         </div>
@@ -98,7 +96,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <p class="mb-1 text-white-50 fw-medium">Active Branch Sub-Units</p>
-                                        <h3 class="card-title text-white mb-0">{{ $branch->directorates?->count() ?? 0 }} Tracked Directorates</h3>
+                                        <h3 class="card-title text-white mb-0"><?php echo e($branch->directorates?->count() ?? 0); ?> Tracked Directorates</h3>
                                     </div>
                                     <div class="avatar bg-white-10 rounded">
                                         <i class="bx bx-buildings fs-2 text-white"></i>
@@ -125,42 +123,45 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($directoratesList as $directorate)
+                                <?php $__empty_1 = true; $__currentLoopData = $directoratesList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $directorate): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                     <tr>
-                                        <td><strong>#{{ $directorate->id }}</strong></td>
+                                        <td><strong>#<?php echo e($directorate->id); ?></strong></td>
                                         <td>
-                                            <span class="text-heading fw-medium">{{ $directorate->name }}</span>
+                                            <span class="text-heading fw-medium"><?php echo e($directorate->name); ?></span>
                                         </td>
                                         <td>
-                                            <span class="badge bg-label-secondary">{{ $directorate->code ?? 'N/A' }}</span>
+                                            <span class="badge bg-label-secondary"><?php echo e($directorate->code ?? 'N/A'); ?></span>
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ route('directorates.show', $directorate->id) }}"
+                                            <a href="<?php echo e(route('directorates.show', $directorate->id)); ?>"
                                                class="btn btn-sm btn-icon btn-outline-primary"
                                                title="View Directorate Details">
                                                 <i class="bx bx-show"></i>
                                             </a>
                                         </td>
                                     </tr>
-                                @empty
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <tr>
                                         <td colspan="4" class="text-center py-6 text-muted">
                                             <i class="bx bx-info-circle fs-3 d-block mb-2 text-warning"></i>
                                             No explicit directorates are currently mapped or grouped underneath this branch context yet.
                                         </td>
                                     </tr>
-                                @endforelse
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
                 <div class="mt-3">
-                    {{ $directoratesList->links('pagination::bootstrap-5') }}
+                    <?php echo e($directoratesList->links('pagination::bootstrap-5')); ?>
+
                 </div>
 
             </div>
             </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ODA-IT\Documents\GitHub\ECC\ecc-profiles\resources\views/branches/show.blade.php ENDPATH**/ ?>
