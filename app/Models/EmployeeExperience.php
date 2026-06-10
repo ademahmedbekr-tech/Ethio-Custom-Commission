@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
+
 class EmployeeExperience extends Model {
 
 
@@ -37,12 +39,12 @@ protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
 
     public function getDescriptionForEvent(string $eventName): string
-    {
-        //$user = Auth::user()->name;
-        //return "{$user} has {$eventName} user {$this->name}";
+{
+    $user = Auth::user()->name ?? 'System';
+    $modelName = strtolower(class_basename($this));
 
-        return "user has {$eventName} user {$this->name}";
-    }
+    return "{$user} has {$eventName} {$modelName} {$this->name}";
+}
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
