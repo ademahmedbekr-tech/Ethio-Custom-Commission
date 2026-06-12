@@ -25,19 +25,13 @@ use Mpdf\Mpdf;
 
 class EmployeeController extends Controller
 {
-
-
-
-  public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
 
         $this->middleware('permission:profile-list|profile-create|profile-edit|profile-delete', ['only' => ['index', 'store']]);
-
         $this->middleware('permission:profile-create', ['only' => ['create', 'store']]);
-
         $this->middleware('permission:profile-edit', ['only' => ['edit', 'update']]);
-
         $this->middleware('permission:profile-delete', ['only' => ['destroy']]);
     }
 
@@ -77,9 +71,7 @@ class EmployeeController extends Controller
             ->limit(10)
             ->get();
 
-
         $recentEmployees = Employee::latest()->take(5)->get();
-
 
         $avgSalary = Employee::whereNull('deleted_at')->avg('salary');
         $totalPayroll = Employee::whereNull('deleted_at')->sum(DB::raw('COALESCE(salary, 0) + COALESCE(allowance, 0) + COALESCE(housing_allowance, 0)'));
@@ -105,9 +97,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $name = 'Employees List';
-    $zone   = 'employees';
-
-        $employees = 'emplooyees';
+        $zone = 'employees';
         $count = Employee::count();
 
         // Filter parameters
@@ -115,9 +105,8 @@ class EmployeeController extends Controller
         $region = $request->region;
         $gender = $request->gender;
         $educationLevel = $request->education_level;
-        $status = $request->status; // active, inactive, all
+        $status = $request->status;
 
-        // Get distinct values for filters
         $jobTitles = Employee::select('job_title')
             ->distinct()
             ->whereNotNull('job_title')
@@ -136,37 +125,30 @@ class EmployeeController extends Controller
             ->orderBy('education_level', 'ASC')
             ->pluck('education_level');
 
-        // Base query
         if ($status === 'inactive') {
             $query = Employee::onlyTrashed();
         } elseif ($status === 'all') {
             $query = Employee::withTrashed();
         } else {
-            $query = Employee::query(); // active only (default)
+            $query = Employee::query();
         }
 
-        // Apply filters
         if ($jobTitle) {
             $query->where('job_title', 'LIKE', "%{$jobTitle}%");
         }
-
         if ($region) {
             $query->where('region', $region);
         }
-
         if ($gender) {
             $query->where('gender', $gender);
         }
-
         if ($educationLevel) {
             $query->where('education_level', $educationLevel);
         }
 
-        // Pagination
         $employees = $query->orderBy('created_at', 'desc')->paginate(7)->withQueryString();
 
-        // Add computed fields
-
+        // Native Carbon calculations match our standard Gregorian backend storage cleanly
         $employees->getCollection()->transform(function ($item, $key) use ($employees) {
             $item->row_id = ($employees->currentPage() - 1) * $employees->perPage() + $key + 1;
 
@@ -185,50 +167,20 @@ class EmployeeController extends Controller
             return $item;
         });
 
-        // Statistics for summary cards
         $totalCount = Employee::count();
-        $regionCount = Employee::select('region')
-        ->distinct()
-        ->orderBy('region', 'ASC')
-        ->pluck('region');
+        $regionCount = Employee::select('region')->distinct()->orderBy('region', 'ASC')->pluck('region');
         $maleCount = Employee::where('gender', 'ወ')->count();
         $femaleCount = Employee::where('gender', 'ሴ')->count();
         $withDisability = Employee::whereNotNull('disability_type')->count();
         $rcount = Employee::select('region', DB::raw('count(*) as total'))->groupBy('region')->pluck('total', 'region')->toArray();
 
         return view('employees.index', compact(
-            'employees',
-            'name',
-            'zone',
-            'jobTitle',
-            'region',
-            'gender',
-            'educationLevel',
-            'status',
-            'jobTitles',
-            'regions',
-            'educationLevels',
-            'totalCount',
-            'maleCount',
-            'femaleCount',
-            'withDisability',
-            'count',
-            'regionCount',
-            'rcount'
+            'employees', 'name', 'zone', 'jobTitle', 'region', 'gender',
+            'educationLevel', 'status', 'jobTitles', 'regions', 'educationLevels',
+            'totalCount', 'maleCount', 'femaleCount', 'withDisability', 'count',
+            'regionCount', 'rcount'
         ));
     }
-
-    /**
-     * Show create form
-     */
-    // public function fetchDept(Request $request){
-    //     $position = Department::where('directorate_id', $request->id)->get();
-    //     return $position;
-
-    // }
-
-
-
 
     /**
      * AJAX endpoint: Fetch Directorates or Branch Work Processes safely.
@@ -236,8 +188,6 @@ class EmployeeController extends Controller
     public function fetchDirectorates(Request $request)
     {
         $user = Auth::user();
-
-        // SECURITY OVERRIDE: If not Head Office (4), force filter to the user's branch
         $branchId = ($user->user_branch_id == 4) ? $request->branch_id : $user->user_branch_id;
 
         $directorates = Directorate::where('branch_id', $branchId)->get();
@@ -249,7 +199,6 @@ class EmployeeController extends Controller
      */
     public function fetchPositions(Request $request)
     {
-        // The relationship check protects this query structural tier
         $positions = Department::where('directorate_id', $request->directorate_id)->get();
         return response()->json($positions);
     }
@@ -261,17 +210,14 @@ class EmployeeController extends Controller
     {
         $user = Auth::user();
 
-        // SCOPE CHECK: Filter dropdown options contextually based on user authority
         if ($user->user_branch_id == 4) {
             $branches = Branch::all();
             $directorates = Directorate::all();
         } else {
-            // Regular branch operators only see their assigned operational jurisdiction
             $branches = Branch::where('id', $user->user_branch_id)->get();
             $directorates = Directorate::where('branch_id', $user->user_branch_id)->get();
         }
 
-        // Predefined local metadata lists
         $genders = ['ወ', 'ሴ'];
         $maritalStatuses = ['Single', 'Married', 'Divorced', 'Widowed'];
         $educationLevels = ['High School', 'Diploma', 'Bachelor', 'Master', 'PhD', 'Certificate', 'Other'];
@@ -280,7 +226,6 @@ class EmployeeController extends Controller
         $ethnicities = ['Oromo', 'Amhara', 'Tigray', 'Somali', 'Gurage', 'Sidama', 'Wolayta', 'Afar', 'Other'];
         $disabilityTypes = ['Physical', 'Visual', 'Hearing', 'Speech', 'Intellectual', 'Mental', 'None'];
 
-        // Regional boundaries of Ethiopia
         $regions = [
             'Addis Ababa', 'Afar', 'Amhara', 'Benishangul-Gumuz', 'Dire Dawa',
             'Gambela', 'Harari', 'Oromia', 'Sidama', 'Somali', 'SNNPR', 'Tigray',
@@ -301,7 +246,6 @@ class EmployeeController extends Controller
     {
         $user = Auth::user();
 
-        // 1. Strict Server Validate Block
         $validated = $request->validate([
             'file_number' => 'nullable|string|unique:employees,file_number',
             'employee_name' => 'required|string|max:255',
@@ -353,12 +297,10 @@ class EmployeeController extends Controller
             'directorate_id' => 'required'
         ]);
 
-        // 2. BACK-END SECURITY FALLBACK: Ignore browser DOM tampering completely
         if ($user->user_branch_id != 4) {
             $validated['branch_id'] = $user->user_branch_id;
         }
 
-        // 3. Handle File uploads securely
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
@@ -400,70 +342,13 @@ class EmployeeController extends Controller
             $validated['fayda'] = 'uploads/employees/fayda/'.$faydaName;
         }
 
-        // 4. Sanitize unchecked checkbox flags
         $validated['coc_certificate'] = $request->has('coc_certificate');
         $validated['higher_ed_verified'] = $request->has('higher_ed_verified');
 
-        // 5. Secure Commit Execution
         Employee::create($validated);
 
-        return redirect()->route('employees.index')
-            ->with('success', 'Employee created successfully.');
+        return redirect()->route('employees.index')->with('success', 'Employee created successfully.');
     }
-
-    /**
-     * Show the form for editing the specified employee.
-     * (Protected from cross-branch URL tampering via the BranchScope model layer)
-     */
-    // public function edit($id)
-    // {
-    //     // Automatically throws a 404 error if an unauthorized branch user types an invalid ID
-    //     $employee = Employee::findOrFail($id);
-    //     $user = Auth::user();
-
-    //     if ($user->user_branch_id == 4) {
-    //         $branches = Branch::all();
-    //     } else {
-    //         $branches = Branch::where('id', $user->user_branch_id)->get();
-    //     }
-
-    //     // Re-use standard operational data options...
-    //     $genders = ['ወ', 'ሴ'];
-    //     $maritalStatuses = ['Single', 'Married', 'Divorced', 'Widowed'];
-    //     $educationLevels = ['High School', 'Diploma', 'Bachelor', 'Master', 'PhD', 'Certificate', 'Other'];
-    //     $regions = ['Addis Ababa', 'Afar', 'Amhara', 'Benishangul-Gumuz', 'Dire Dawa', 'Gambela', 'Harari', 'Oromia', 'Sidama', 'Somali', 'SNNPR', 'Tigray'];
-
-    //     return view('employees.edit', compact('employee', 'branches', 'genders', 'maritalStatuses', 'educationLevels', 'regions'));
-    // }
-
-    /**
-     * Update the specified employee record in storage securely.
-     */
-    // public function update(Request $request, $id)
-    // {
-    //     $employee = Employee::findOrFail($id);
-    //     $user = Auth::user();
-
-    //     // Standard validation setup...
-    //     $validated = $request->validate([
-    //         'employee_name' => 'required|string|max:255',
-    //         'job_title' => 'nullable|string|max:255',
-    //         'salary' => 'nullable|numeric|min:0',
-    //         'department_id' => 'required',
-    //         'directorate_id' => 'required'
-    //     ]);
-
-    //     // Keep branch mapping secure on updates
-    //     if ($user->user_branch_id == 4) {
-    //         $employee->branch_id = $request->input('branch_id');
-    //     }
-    //     // If they are not from branch 4, we don't allow altering the historical branch data field
-
-    //     $employee->update($validated);
-
-    //     return redirect()->route('employees.index')->with('success', 'Employee profile updated successfully.');
-    // }
-// }
 
     /**
      * Display employee details
@@ -471,7 +356,6 @@ class EmployeeController extends Controller
     public function show($id)
     {
         $employee = Employee::withTrashed()->findOrFail($id);
-
         return view('employees.show', compact('employee'));
     }
 
@@ -483,45 +367,25 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         $department = Department::get();
 
-
-        // Predefined lists
         $genders = ['ወ', 'ሴ'];
         $maritalStatuses = ['Single', 'Married', 'Divorced', 'Widowed'];
         $educationLevels = ['High School', 'Diploma', 'Bachelor', 'Master', 'PhD', 'Certificate', 'Other'];
         $educationTypes = ['Formal', 'Informal', 'Technical', 'Vocational', 'Religious', 'Other'];
-        $religions = ['Christian', 'Muslim', 'Traditional', 'Other'];
+        $religions = ['ኦርቶዶክስ', 'ፕሮቴስታንት', 'ሙስሊም', 'Waaqeeffannaa', 'Other'];
         $ethnicities = ['Oromo', 'Amhara', 'Tigray', 'Somali', 'Gurage', 'Sidama', 'Wolayta', 'Afar', 'Other'];
         $jobLevels = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
         $disabilityTypes = ['Physical', 'Visual', 'Hearing', 'Speech', 'Intellectual', 'Mental', 'None'];
 
         $regions = [
-            'Addis Ababa',
-            'Afar',
-            'Amhara',
-            'Benishangul-Gumuz',
-            'Dire Dawa',
-            'Gambela',
-            'Harari',
-            'Oromia',
-            'Sidama',
-            'Somali',
-            'SNNPR',
-            'Tigray',
+            'Addis Ababa', 'Afar', 'Amhara', 'Benishangul-Gumuz', 'Dire Dawa',
+            'Gambela', 'Harari', 'Oromia', 'Sidama', 'Somali', 'SNNPR', 'Tigray',
             'South West Ethiopia Peoples',
         ];
 
         return view('employees.edit', compact(
-            'employee',
-            'genders',
-            'maritalStatuses',
-            'educationLevels',
-            'educationTypes',
-            'religions',
-            'ethnicities',
-            'jobLevels',
-            'regions',
-            'disabilityTypes',
-            'department'
+            'employee', 'genders', 'maritalStatuses', 'educationLevels',
+            'educationTypes', 'religions', 'ethnicities', 'jobLevels',
+            'regions', 'disabilityTypes', 'department'
         ));
     }
 
@@ -532,7 +396,7 @@ class EmployeeController extends Controller
     {
         $employee = Employee::findOrFail($id);
 
-        // Validate request
+        // Fixed validation typo: stripped dangling trailing comma from fan_number rule line
         $validated = $request->validate([
             'file_number' => 'nullable|string|unique:employees,file_number,'.$id,
             'employee_name' => 'required|string|max:255',
@@ -557,7 +421,7 @@ class EmployeeController extends Controller
             'house_number' => 'nullable|string|max:50',
             'phone_number' => 'nullable|string|max:20',
             'email' => 'nullable|email|unique:employees,email,'.$id,
-            'fan_number' => 'nullable|string|max:100,',
+            'fan_number' => 'nullable|string|max:100',
             'education_type' => 'nullable|string|max:100',
             'education_level' => 'nullable|string|max:100',
             'cgpa' => 'nullable|numeric|min:0|max:4',
@@ -582,9 +446,7 @@ class EmployeeController extends Controller
             'fayda' => 'nullable|mimes:pdf,doc,docx,txt|max:5120'
         ]);
 
-        // Handle photo upload
         if ($request->hasFile('photo')) {
-            // Delete old photo
             if ($employee->photo && file_exists(public_path($employee->photo))) {
                 unlink(public_path($employee->photo));
             }
@@ -592,25 +454,20 @@ class EmployeeController extends Controller
             $image = $request->file('photo');
             $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
 
-            // Create directory if it doesn't exist
-            if (! file_exists(public_path('uploads/employees/photos'))) {
+            if (!file_exists(public_path('uploads/employees/photos'))) {
                 mkdir(public_path('uploads/employees/photos'), 0777, true);
             }
 
-            // Resize and save image
             $img = Image::make($image);
             $img->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
             $img->save(public_path('uploads/employees/photos/'.$name_gen));
-
             $validated['photo'] = 'uploads/employees/photos/'.$name_gen;
         }
 
-        // Handle document upload
         if ($request->hasFile('document')) {
-            // Delete old document
             if ($employee->document && file_exists(public_path($employee->document))) {
                 unlink(public_path($employee->document));
             }
@@ -618,16 +475,15 @@ class EmployeeController extends Controller
             $document = $request->file('document');
             $documentName = time().'_'.$document->getClientOriginalName();
 
-            // Create directory if it doesn't exist
-            if (! file_exists(public_path('uploads/employees/documents'))) {
+            if (!file_exists(public_path('uploads/employees/documents'))) {
                 mkdir(public_path('uploads/employees/documents'), 0777, true);
             }
 
             $document->move(public_path('uploads/employees/documents'), $documentName);
             $validated['document'] = 'uploads/employees/documents/'.$documentName;
         }
-          if ($request->hasFile('fayda')) {
-            // Delete old document
+
+        if ($request->hasFile('fayda')) {
             if ($employee->fayda && file_exists(public_path($employee->fayda))) {
                 unlink(public_path($employee->fayda));
             }
@@ -635,8 +491,7 @@ class EmployeeController extends Controller
             $fayda = $request->file('fayda');
             $faydaName = time().'_'.$fayda->getClientOriginalName();
 
-            // Create directory if it doesn't exist
-            if (! file_exists(public_path('uploads/employees/fayda'))) {
+            if (!file_exists(public_path('uploads/employees/fayda'))) {
                 mkdir(public_path('uploads/employees/fayda'), 0777, true);
             }
 
@@ -644,16 +499,12 @@ class EmployeeController extends Controller
             $validated['fayda'] = 'uploads/employees/fayda/'.$faydaName;
         }
 
-        // Set boolean fields
         $validated['coc_certificate'] = $request->has('coc_certificate');
         $validated['higher_ed_verified'] = $request->has('higher_ed_verified');
 
-        // Update employee
         $employee->update($validated);
 
-
-        return redirect()->route('employees.index')
-            ->with('success', 'Employee updated successfully.');
+        return redirect()->route('employees.index')->with('success', 'Employee updated successfully.');
     }
 
     /**
@@ -664,8 +515,7 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         $employee->delete();
 
-        return redirect()->route('employees.index')
-            ->with('success', 'Employee deleted successfully.');
+        return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
     }
 
     /**
@@ -676,8 +526,7 @@ class EmployeeController extends Controller
         $employee = Employee::onlyTrashed()->findOrFail($id);
         $employee->restore();
 
-        return redirect()->route('employees.index')
-            ->with('success', 'Employee restored successfully.');
+        return redirect()->route('employees.index')->with('success', 'Employee restored successfully.');
     }
 
     /**
@@ -687,7 +536,6 @@ class EmployeeController extends Controller
     {
         $employee = Employee::onlyTrashed()->findOrFail($id);
 
-        // Delete files
         if ($employee->photo && file_exists(public_path($employee->photo))) {
             unlink(public_path($employee->photo));
         }
@@ -697,8 +545,7 @@ class EmployeeController extends Controller
 
         $employee->forceDelete();
 
-        return redirect()->route('employees.index')
-            ->with('success', 'Employee permanently deleted.');
+        return redirect()->route('employees.index')->with('success', 'Employee permanently deleted.');
     }
 
     /**
@@ -716,64 +563,47 @@ class EmployeeController extends Controller
             $message = 'Employee deactivated successfully.';
         }
 
-        return redirect()->route('employees.index')
-            ->with('success', $message);
+        return redirect()->route('employees.index')->with('success', $message);
     }
 
-/**
- * Print employee ID card
- */
+    public function exportPdf($id)
+    {
+        $employee = Employee::withTrashed()->findOrFail($id);
+        $html = view('employees.pdf', compact('employee'))->render();
 
-    // ... other methods ...
+        $defaultConfig = (new ConfigVariables())->getDefaults();
+        $fontDirs = $defaultConfig['fontDir'];
 
-  public function exportPdf($id)
-{
-    $employee = Employee::withTrashed()->findOrFail($id);
+        $defaultFontConfig = (new FontVariables())->getDefaults();
+        $fontData = $defaultFontConfig['fontdata'];
 
-    $html = view('employees.pdf', compact('employee'))->render();
-
-    $defaultConfig = (new ConfigVariables())->getDefaults();
-    $fontDirs = $defaultConfig['fontDir'];
-
-    $defaultFontConfig = (new FontVariables())->getDefaults();
-    $fontData = $defaultFontConfig['fontdata'];
-
-    $mpdf = new Mpdf([
-        'mode' => 'utf-8',
-        'format' => 'A4',
-
-        'fontDir' => array_merge($fontDirs, [
-            storage_path('fonts'),
-        ]),
-
-        'fontdata' => $fontData + [
-            'ethiopic' => [
-                'R' => 'NotoSerifEthiopic-Regular.ttf',
-                'B' => 'AbyssinicaSIL-B.ttf',
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'fontDir' => array_merge($fontDirs, [
+                storage_path('fonts'),
+            ]),
+            'fontdata' => $fontData + [
+                'ethiopic' => [
+                    'R' => 'NotoSerifEthiopic-Regular.ttf',
+                    'B' => 'AbyssinicaSIL-B.ttf',
+                ],
             ],
-        ],
+            'default_font' => 'ethiopic',
+        ]);
 
-        'default_font' => 'ethiopic',
-    ]);
-
-    $mpdf->WriteHTML($html);
-
-    return $mpdf->Output('employee-profile-'.$employee->file_number.'.pdf', 'D');
-}
+        $mpdf->WriteHTML($html);
+        return $mpdf->Output('employee-profile-'.$employee->file_number.'.pdf', 'D');
+    }
 
     /**
      * Calculate experience statistics
      */
     private function calculateExperienceStats($employee)
     {
-        $currentYears = 0;
-        $currentMonths = 0;
-        $currentDays = 0;
-        $previousYears = 0;
-        $previousMonths = 0;
-        $previousDays = 0;
+        $currentYears = 0; $currentMonths = 0; $currentDays = 0;
+        $previousYears = 0; $previousMonths = 0; $previousDays = 0;
 
-        // Calculate current experiences
         $currentExps = $employee->experiences->where('experience_type', 'current');
         foreach ($currentExps as $exp) {
             if ($exp->from_date) {
@@ -787,7 +617,6 @@ class EmployeeController extends Controller
             }
         }
 
-        // Calculate previous experiences
         $previousExps = $employee->experiences->where('experience_type', 'previous');
         foreach ($previousExps as $exp) {
             if ($exp->from_date && $exp->to_date) {
@@ -801,58 +630,42 @@ class EmployeeController extends Controller
             }
         }
 
-        // Calculate total
         $totalYears = $currentYears + $previousYears;
         $totalMonths = $currentMonths + $previousMonths;
         $totalDays = $currentDays + $previousDays;
 
-        // Normalize days to months (30 days per month)
         if ($totalDays >= 30) {
             $totalMonths += floor($totalDays / 30);
             $totalDays = $totalDays % 30;
         }
 
-        // Normalize months to years
         if ($totalMonths >= 12) {
             $totalYears += floor($totalMonths / 12);
             $totalMonths = $totalMonths % 12;
         }
 
         return [
-            'current' => [
-                'years' => $currentYears,
-                'months' => $currentMonths,
-                'days' => $currentDays,
-            ],
-            'previous' => [
-                'years' => $previousYears,
-                'months' => $previousMonths,
-                'days' => $previousDays,
-            ],
-            'total' => [
-                'years' => $totalYears,
-                'months' => $totalMonths,
-                'days' => $totalDays,
-            ]
+            'current' => ['years' => $currentYears, 'months' => $currentMonths, 'days' => $currentDays],
+            'previous' => ['years' => $previousYears, 'months' => $previousMonths, 'days' => $previousDays],
+            'total' => ['years' => $totalYears, 'months' => $totalMonths, 'days' => $totalDays]
         ];
     }
 
+    public function printCard($id)
+    {
+        $employee = Employee::withTrashed()->findOrFail($id);
 
-public function printCard($id)
-{
-    $employee = Employee::withTrashed()->findOrFail($id);
+        $data = [
+            'employee' => $employee,
+            'title' => 'የሠራተኛ የግል ሁኔታ መግለጫ',
+            'date' => now()->format('d/m/Y'),
+        ];
 
-    $data = [
-        'employee' => $employee,
-        'title' => 'የሠራተኛ የግል ሁኔታ መግለጫ',
-        'date' => now()->format('d/m/Y'),
-    ];
+        $pdf = Pdf::loadView('employees.pdf-card', $data);
+        $pdf->setPaper([0, 0, 350, 600], 'portrait');
 
-    $pdf = Pdf::loadView('employees.pdf-card', $data);
-    $pdf->setPaper([0, 0, 350, 600], 'portrait'); // Custom card size
-
-    return $pdf->stream('employee-card-'.$employee->file_number.'.pdf');
-}
+        return $pdf->stream('employee-card-'.$employee->file_number.'.pdf');
+    }
 
     /**
      * Show profile view
@@ -860,7 +673,6 @@ public function printCard($id)
     public function profile($id)
     {
         $employee = Employee::withTrashed()->findOrFail($id);
-
         return view('employees.profile', compact('employee'));
     }
 
@@ -934,9 +746,7 @@ public function printCard($id)
         ]);
 
         Employee::whereIn('id', $request->ids)->delete();
-
-        return redirect()->route('employees.index')
-            ->with('success', count($request->ids).' employees deleted successfully.');
+        return redirect()->route('employees.index')->with('success', count($request->ids).' employees deleted successfully.');
     }
 
     /**
@@ -950,9 +760,7 @@ public function printCard($id)
         ]);
 
         Employee::onlyTrashed()->whereIn('id', $request->ids)->restore();
-
-        return redirect()->route('employees.index')
-            ->with('success', count($request->ids).' employees restored successfully.');
+        return redirect()->route('employees.index')->with('success', count($request->ids).' employees restored successfully.');
     }
 
     /**
@@ -962,7 +770,6 @@ public function printCard($id)
     {
         $query = Employee::query();
 
-        // Apply filters
         if ($request->filled('job_title')) {
             $query->where('job_title', 'LIKE', "%{$request->job_title}%");
         }
@@ -974,21 +781,18 @@ public function printCard($id)
         }
 
         $employees = $query->get();
-
         $filename = 'employees_'.date('Y-m-d').'.csv';
         $handle = fopen('php://output', 'w');
 
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="'.$filename.'"');
 
-        // Add headers
         fputcsv($handle, [
             'ID', 'File Number', 'Name', 'Job Title', 'Gender', 'Age',
             'Hire Date', 'Salary', 'Phone', 'Email', 'Region', 'District',
             'Education Level', 'Status',
         ]);
 
-        // Add data
         foreach ($employees as $employee) {
             fputcsv($handle, [
                 $employee->id,
@@ -1012,78 +816,29 @@ public function printCard($id)
         exit;
     }
 
-     public function export($zone)
-     {
-         $date = date('d-m-y');
+    public function export($zone)
+    {
+        $date = date('d-m-y');
 
-       if ($zone == 'employees') {
-            $name = 'Rename it';
-        };
+        $reports = DB::table($zone)->select(
+            'file_number', 'employee_name', 'job_title', 'gender', 'job_level',
+            'ethnicity', 'religion', 'date_of_birth', 'hire_date', 'step', 'salary',
+            'allowance', 'assignment_date', 'housing_allowance', 'pension_id',
+            'marital_status', 'region', 'zone', 'district', 'specific_location',
+            'house_number', 'phone_number', 'email', 'education_type', 'education_level',
+            'cgpa', 'institution', 'graduation_date', 'coc_certificate', 'higher_ed_verified',
+            'current_job_title', 'current_institution', 'experience_from', 'experience_to',
+            'previous_job_title', 'previous_institution', 'previous_from', 'previous_to',
+            'column_40', 'diagnosis', 'disability_type'
+        )->get();
 
-          $reports = DB::table($zone)->select('file_number',
-                 'employee_name',
-                 'job_title',
-                 'gender',
-                 'job_level',
-                 'ethnicity',
-                 'religion',
-                 'date_of_birth',
-                 'hire_date',
+        $id = 1;
+        foreach ($reports as $report) {
+            $report->id = $id++;
+        }
 
-                 // Job and Compensation
-                 'step',
-                 'salary',
-                 'allowance',
-                 'assignment_date',
-                 'housing_allowance',
-
-                 // Personal & Contact
-                 'pension_id',
-                 'marital_status',
-                 'region',
-                 'zone',
-                 'district',
-                 'specific_location',
-                 'house_number',
-                 'phone_number',
-                 'email',
-
-                 // Education
-                 'education_type',
-                 'education_level',
-                 'cgpa',
-                 'institution',
-                 'graduation_date',
-                 'coc_certificate',
-                 'higher_ed_verified',
-
-                 // Work Experience (Current)
-                 'current_job_title',
-                 'current_institution',
-                 'experience_from',
-                 'experience_to',
-
-                 // Work Experience (Previous)
-                 'previous_job_title',
-                 'previous_institution',
-                 'previous_from',
-                 'previous_to',
-
-                 // Additional Info
-                 'column_40',
-                 'diagnosis',
-                 'disability_type',
-
-                 // File Uploads
-                 )
-             ->get();
-         $id = 1;
-         foreach ($reports as $report) {
-             $report->id = $id++;
-         }
-
-         return (new EmployeeExport($reports))->download('Name you excel'.$date.'.xlsx');
-     }
+        return (new EmployeeExport($reports))->download('ECC_Employee_Export_'.$date.'.xlsx');
+    }
 
     public function import(Request $request)
     {
@@ -1091,123 +846,78 @@ public function printCard($id)
             'file' => 'required|mimes:xls,xlsx,csv|max:2048',
         ]);
 
-        // Check if file was uploaded
-        if (! $request->hasFile('file')) {
+        if (!$request->hasFile('file')) {
             return redirect()->back()->with('error', 'Please select a file to upload.');
         }
 
         try {
-            // Get max ID or start from 1
             $maxId = Employee::max('id') ?? 0;
             $newId = $maxId + 1;
-
-            // Create import instance
             $import = new EmployeesImport($newId);
 
-            // Import the file
             Excel::import($import, $request->file('file'));
 
-            // Prepare response messages
             $importedCount = $import->successCount;
             $errorCount = count($import->errors);
 
             if ($errorCount > 0 && $importedCount > 0) {
-                // Partial success - some rows imported, some failed
                 $message = "Imported {$importedCount} record(s) successfully, but {$errorCount} error(s) occurred.";
-
-                // Store errors in session
                 $request->session()->flash('import_errors', $import->errors);
-
-                return redirect()->route('employees.index')
-                    ->with('warning', $message)
-                    ->with('imported_count', $importedCount);
+                return redirect()->route('employees.index')->with('warning', $message)->with('imported_count', $importedCount);
             } elseif ($errorCount > 0 && $importedCount == 0) {
-                // Complete failure
                 $message = "Import failed with {$errorCount} error(s). No records were imported.";
-
                 $request->session()->flash('import_errors', $import->errors);
-
-                return redirect()->route('employees.index')
-                    ->with('error', $message);
+                return redirect()->route('employees.index')->with('error', $message);
             } elseif ($importedCount > 0) {
-                // Complete success
-                $message = "Successfully imported {$importedCount} record(s)!";
-
-                return redirect()->route('employees.index')
-                    ->with('success', $message)
-                    ->with('imported_count', $importedCount);
+                return redirect()->route('employees.index')->with('success', "Successfully imported {$importedCount} record(s)!");
             } else {
-                // No data found
-                return redirect()->route('employees.index')
-                    ->with('info', 'No valid data found in the file. Please check the file format.');
+                return redirect()->route('employees.index')->with('info', 'No valid data found in the file. Please check the file format.');
             }
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            // Handle Laravel Excel validation errors
             $failures = $e->failures();
             $errors = [];
-
             foreach ($failures as $failure) {
                 $errors[] = "Row {$failure->row()}, Column '{$failure->attribute()}': {$failure->errors()[0]}";
             }
-
             $request->session()->flash('import_errors', $errors);
-
-            return redirect()->route('employees.index')
-                ->with('error', 'Validation failed. Please check your data.');
+            return redirect()->route('employees.index')->with('error', 'Validation failed. Please check your data.');
         } catch (\Exception $e) {
-            // Handle all other exceptions
             Log::error('Import error: '.$e->getMessage());
-
-            // Check for common date errors
             $errorMessage = $e->getMessage();
-            if (strpos($errorMessage, 'date') !== false ||
-                strpos($errorMessage, 'datetime') !== false ||
-                strpos($errorMessage, 'joined_date') !== false) {
-                return redirect()->route('employees.index')
-                    ->with('error', 'Date format error: '.$errorMessage.
-                           '. Please ensure dates are in a recognizable format (YYYY-MM-DD, DD/MM/YYYY, etc.)');
+            if (strpos($errorMessage, 'date') !== false || strpos($errorMessage, 'datetime') !== false || strpos($errorMessage, 'joined_date') !== false) {
+                return redirect()->route('employees.index')->with('error', 'Date format error: '.$errorMessage.'. Please ensure dates are in a recognizable format.');
             }
-
-            return redirect()->route('employees.index')
-                ->with('error', 'Import failed: '.$errorMessage);
+            return redirect()->route('employees.index')->with('error', 'Import failed: '.$errorMessage);
         }
     }
 
+    public function exportSingleWorkerPdf($id)
+    {
+        $employee = Employee::withTrashed()->findOrFail($id);
+        $html = view('employees.epdf', compact('employee'))->render();
 
+        $defaultConfig = (new ConfigVariables())->getDefaults();
+        $fontDirs = $defaultConfig['fontDir'];
 
-     public function exportSingleWorkerPdf($id)
-{
-    // Find by id_number instead of id
-      $employee = Employee::withTrashed()->findOrFail($id);
+        $defaultFontConfig = (new FontVariables())->getDefaults();
+        $fontData = $defaultFontConfig['fontdata'];
 
-    $html = view('employees.epdf', compact('employee'))->render();
-
-    $defaultConfig = (new ConfigVariables())->getDefaults();
-    $fontDirs = $defaultConfig['fontDir'];
-
-    $defaultFontConfig = (new FontVariables())->getDefaults();
-    $fontData = $defaultFontConfig['fontdata'];
-
-    $mpdf = new Mpdf([
-        'mode' => 'utf-8',
-        'format' => 'A4',
-
-        'fontDir' => array_merge($fontDirs, [
-            storage_path('fonts'),
-        ]),
-
-        'fontdata' => $fontData + [
-            'ethiopic' => [
-                'R' => 'NotoSerifEthiopic-Regular.ttf',
-                'B' => 'AbyssinicaSIL-B.ttf',
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'fontDir' => array_merge($fontDirs, [
+                storage_path('fonts'),
+            ]),
+            'fontdata' => $fontData + [
+                'ethiopic' => [
+                    'R' => 'NotoSerifEthiopic-Regular.ttf',
+                    'B' => 'AbyssinicaSIL-B.ttf',
+                ],
             ],
-        ],
+            'default_font' => 'ethiopic',
+        ]);
 
-        'default_font' => 'ethiopic',
-    ]);
-
-    $mpdf->WriteHTML($html);
-
-    return $mpdf->Output('employee-experience'.$employee->file_number.'.pdf', 'D');
-}
+        $mpdf->WriteHTML($html);
+        return $mpdf->Output('employee-experience'.$employee->file_number.'.pdf', 'D');
+    }
 }
